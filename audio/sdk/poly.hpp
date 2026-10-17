@@ -15,7 +15,7 @@
 // envelope over the mixed output gates every ringing note whenever a new one
 // starts — a volume jump on the fading note and old tails riding along with
 // each new one, every step under a sequencer. That bug shipped once already;
-// see emulator/CLAUDE.md § Polyphony and docs/logs/2026-09-11.md.
+// see emulator/CLAUDE.md § Polyphony and the 2026-09-11 session log (private).
 //
 // Consequences of the split worth knowing before you write a Voice:
 //   - render() *writes* its two buffers, it does not accumulate into them.
