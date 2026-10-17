@@ -1,0 +1,6 @@
+{
+  "format": 1,
+  "kind": "engine",
+  "author": "arbtest",
+  "description": "Test box: a modulator whose outputs are side[] samples and motion[0], for exact sidechain-source tests."
+}

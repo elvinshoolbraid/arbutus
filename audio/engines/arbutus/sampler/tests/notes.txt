@@ -1,0 +1,7 @@
+# Root, a fifth up, a fourth down: the two resampling directions plus unity.
+0      on  60 0.90
+10000  on  67 0.80
+20000  on  55 1.00
+30000  off 60
+30000  off 67
+30000  off 55

@@ -1,0 +1,29 @@
+{
+ "format": 1,
+ "kind": "patch",
+ "name": "GLASS SCAN",
+ "engine": {
+  "id": "arbutus/wavetable",
+  "min_version": "1.0.0",
+  "params": {
+   "pos": 0.35,
+   "sweep": 0.725,
+   "warp": 0.6,
+   "fold": 0.15,
+   "spread": 0.533333,
+   "sub": 0.1,
+   "drift": 0.35
+  },
+  "assets": {
+   "wavetable": "synth/wavetable/harmonics.wav"
+  }
+ },
+ "env": {
+  "a": 0.06,
+  "d": 0.5,
+  "s": 0.7,
+  "r": 0.8,
+  "mode": "poly"
+ },
+ "octave": 0
+}

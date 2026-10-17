@@ -1,0 +1,12 @@
+# Hold REC, play C E G, let go, then hold C to run the pattern.
+# At 120 bpm / 48 kHz a 1/16 step is 6000 frames.
+0      key 0 1      # REC down: the next step starts a new pattern
+0      on  60 1.00
+500    off 60
+1000   on  64 1.00
+1500   off 64
+2000   on  67 1.00
+2500   off 67
+3000   key 0 0      # REC up: entry ends
+4000   on  60 1.00  # hold the root: the pattern runs from step 0
+44000  off 60       # let go: it stops and silences whatever was sounding

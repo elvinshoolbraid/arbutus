@@ -1,0 +1,10 @@
+# A held triad, then a single high note: enough to exercise allocation,
+# release tails overlapping a new note-on, and the top of the range.
+0      on  60 0.90
+0      on  64 0.75
+0      on  67 0.60
+14000  off 60
+14000  off 64
+14000  off 67
+18000  on  72 1.00
+34000  off 72

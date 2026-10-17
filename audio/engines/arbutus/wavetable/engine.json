@@ -1,0 +1,6 @@
+{
+  "format": 1,
+  "kind": "engine",
+  "author": "arbutus",
+  "description": "A wavetable scanned, phase-warped and folded, band-limited by a mip chain built at load."
+}

@@ -1,0 +1,8 @@
+# NOTE mode: a held note, a second overlapping one (retrigger, no release on
+# the first key up), both released, then a short stab.
+0      on  60 0.90
+24000  on  64 0.70
+36000  off 60
+48000  off 64
+72000  on  67 1.00
+74000  off 67

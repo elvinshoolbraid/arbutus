@@ -1,0 +1,12 @@
+# Template golden script. See tools/arbutus-run/README or --help for the format.
+# A chord, a note released under the others, and one late note that arrives
+# while the first is still in its release — the case a mixed-output envelope
+# gets wrong.
+0      on  60 0.90
+0      on  64 0.75
+0      on  67 0.60
+12000  off 60
+14000  on  72 1.00
+20000  off 64
+20000  off 67
+26000  off 72

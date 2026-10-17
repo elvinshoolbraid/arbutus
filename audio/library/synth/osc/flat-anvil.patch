@@ -1,0 +1,41 @@
+{
+ "format": 1,
+ "kind": "patch",
+ "name": "FLAT-ANVIL",
+ "engine": {
+  "id": "arbutus/osc",
+  "min_version": "1.0.0",
+  "params": {
+   "wave": 0.333333,
+   "level": 0.5
+  }
+ },
+ "env": {
+  "a": 0.002,
+  "d": 0.08,
+  "s": 0.0,
+  "r": 0.18,
+  "mode": "poly"
+ },
+ "octave": -1,
+ "fx": {
+  "format": 1,
+  "kind": "rack",
+  "name": "LOW-PASS",
+  "requires": [
+   "arbutus/biquad"
+  ],
+  "tabs": [
+   {
+    "instance": "lp",
+    "engine": "arbutus/biquad",
+    "min_version": "1.0.0",
+    "params": {
+     "cutoff": 0.749422,
+     "q": 0.052632
+    }
+   }
+  ],
+  "macros": []
+ }
+}

@@ -1,0 +1,6 @@
+{
+  "format": 1,
+  "kind": "engine",
+  "author": "arbutus",
+  "description": "Four waveshapers at 2x oversampling, with a pre-tilt, a highpass, asymmetry and supply sag."
+}

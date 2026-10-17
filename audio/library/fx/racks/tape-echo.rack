@@ -1,0 +1,63 @@
+{
+ "format": 1,
+ "kind": "rack",
+ "name": "TAPE-ECHO",
+ "requires": [
+  "arbutus/delay"
+ ],
+ "tabs": [
+  {
+   "instance": "echo",
+   "engine": "arbutus/delay",
+   "min_version": "1.0.0",
+   "params": {
+    "time": 0.75,
+    "feedback": 0.610526,
+    "tone": 0.3,
+    "mix": 0.34,
+    "ping": 0.25,
+    "wow": 0.35,
+    "drive": 0.35,
+    "duck": 0.4
+   }
+  }
+ ],
+ "macros": [
+  {
+   "slot": 0,
+   "name": "FEED",
+   "targets": [
+    {
+     "instance": "echo",
+     "param": "feedback",
+     "lo": 0.157895,
+     "hi": 0.947368,
+     "curve": "exp",
+     "depth": 1.0
+    }
+   ]
+  },
+  {
+   "slot": 1,
+   "name": "AGE",
+   "targets": [
+    {
+     "instance": "echo",
+     "param": "wow",
+     "lo": 0.05,
+     "hi": 1.0,
+     "curve": "lin",
+     "depth": 1.0
+    },
+    {
+     "instance": "echo",
+     "param": "tone",
+     "lo": 0.5,
+     "hi": 0.12,
+     "curve": "lin",
+     "depth": 1.0
+    }
+   ]
+  }
+ ]
+}

@@ -1,0 +1,27 @@
+{
+ "format": 1,
+ "kind": "patch",
+ "name": "WIRE FENCE",
+ "engine": {
+  "id": "arbutus/string",
+  "min_version": "1.0.0",
+  "params": {
+   "exc": 1.0,
+   "decay": 0.453696,
+   "damp": 0.1,
+   "pos": 0.041667,
+   "tone": 0.95,
+   "force": 0.8,
+   "body": 0.1,
+   "spread": 0.7
+  }
+ },
+ "env": {
+  "a": 0.0,
+  "d": 0.05,
+  "s": 1.0,
+  "r": 0.25,
+  "mode": "poly"
+ },
+ "octave": 0
+}

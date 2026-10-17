@@ -1,0 +1,8 @@
+{
+  "format": 1,
+  "kind": "pattern",
+  "name": "tied triad",
+  "comment": "The asset shape a stage-H2 browser will hand down (DDR-037). Shared with arbutus/endless; `root` is ignored here because this box plays absolute pitch.",
+  "root": 60,
+  "pattern": [[60, 64], "tie", [67], []]
+}

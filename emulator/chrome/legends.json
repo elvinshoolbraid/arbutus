@@ -1,0 +1,33 @@
+{
+  "_about": "The simplified legend on each key cap, for drawings of the instrument (the companion app's face-on drawing, #333). Keys by their id in keymap.json. A key is either 'lines' (one or more short words, each [text, ink]) or a 'glyph' (play, stop, rec, left, right) with its 'ink'. 'ink' is 'brown' or 'green': which of the two the element is on docs/design/reference/lookalike-model.jpg (its orange-brown is brown); the tones are the drawing's own. Icons that sit beside a word, and the A-Z letter boxes, are dropped. Keys not listed (the two note rows) carry no legend.",
+  "legends": {
+    "TEMPO":  {"lines": [["TEMPO", "green"]]},
+    "SLICE":  {"lines": [["SLICE", "green"], ["TAPE", "brown"]]},
+    "PLAY":   {"glyph": "play", "ink": "green"},
+    "STOP":   {"glyph": "stop", "ink": "green"},
+    "REC":    {"glyph": "rec", "ink": "brown"},
+    "LIFT":   {"lines": [["LIFT", "green"]]},
+    "SHIFT":  {"lines": [["SHIFT", "brown"]]},
+    "DROP":   {"lines": [["DROP", "green"]]},
+    "1":      {"lines": [["1", "green"]]},
+    "2":      {"lines": [["2", "green"]]},
+    "3":      {"lines": [["3", "green"]]},
+    "4":      {"lines": [["4", "green"]]},
+    "SYNTH":  {"lines": [["SYNTH", "green"]]},
+    "DRUM":   {"lines": [["DRUM", "green"]]},
+    "TRACK":  {"lines": [["TRACK", "green"]]},
+    "MIXER":  {"lines": [["MIXER", "green"]]},
+    "SEQ":    {"lines": [["SEQ", "green"]]},
+    "INPUT":  {"lines": [["INPUT", "green"]]},
+    "HELP":   {"lines": [["HELP", "green"]]},
+    "FILE":   {"lines": [["FILE", "green"]]},
+    "LEFT":   {"glyph": "left", "ink": "brown"},
+    "RIGHT":  {"glyph": "right", "ink": "brown"},
+    "A":      {"lines": [["IN", "brown"]]},
+    "B":      {"lines": [["OUT", "brown"]]},
+    "C":      {"lines": [["LOOP", "brown"]]},
+    "X":      {"lines": [["REV", "brown"]]},
+    "Y":      {"lines": [["SPEED", "brown"]]},
+    "Z":      {"lines": [["FILTER", "brown"]]}
+  }
+}

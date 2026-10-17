@@ -1,0 +1,6 @@
+{
+  "format": 1,
+  "kind": "engine",
+  "author": "arbutus",
+  "description": "A step modulator: up to 16 values in time, with slew, direction and a gate per step."
+}

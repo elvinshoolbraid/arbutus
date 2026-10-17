@@ -1,0 +1,6 @@
+{
+  "format": 1,
+  "kind": "engine",
+  "author": "arbtest",
+  "description": "Test box: a modulator whose two outputs are its two knobs, for exact route maths."
+}

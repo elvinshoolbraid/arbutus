@@ -1,0 +1,6 @@
+{
+  "format": 1,
+  "kind": "engine",
+  "author": "arbutus",
+  "description": "Two band-limited oscillators, a sub, noise and a four-pole resonant ladder with its own envelope."
+}

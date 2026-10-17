@@ -1,0 +1,13 @@
+# Hold REC, play C E G, let go, then hold G to run it. Absolute pitch: the
+# pattern comes back as C E G, not transposed onto G.
+# At 120 bpm / 48 kHz a 1/16 step is 6000 frames.
+0      key 0 1      # REC down
+0      on  60 1.00
+500    off 60
+1000   on  64 1.00
+1500   off 64
+2000   on  67 1.00
+2500   off 67
+3000   key 0 0      # REC up
+4000   on  67 1.00  # any key runs it
+88000  off 67

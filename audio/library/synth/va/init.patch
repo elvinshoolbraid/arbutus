@@ -1,0 +1,27 @@
+{
+ "format": 1,
+ "kind": "patch",
+ "name": "INIT",
+ "engine": {
+  "id": "arbutus/va",
+  "min_version": "1.0.0",
+  "params": {
+   "wave": 0.0,
+   "cutoff": 0.66143,
+   "res": 0.2,
+   "env": 0.675,
+   "sub": 0.25,
+   "noise": 0.0,
+   "spread": 0.266667,
+   "drive": 0.15
+  }
+ },
+ "env": {
+  "a": 0.006,
+  "d": 0.25,
+  "s": 0.75,
+  "r": 0.3,
+  "mode": "poly"
+ },
+ "octave": 0
+}

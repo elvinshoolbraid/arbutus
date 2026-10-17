@@ -1,0 +1,29 @@
+{
+ "format": 1,
+ "kind": "patch",
+ "name": "INIT",
+ "engine": {
+  "id": "arbutus/wavetable",
+  "min_version": "1.0.0",
+  "params": {
+   "pos": 0.0,
+   "sweep": 0.5,
+   "warp": 0.5,
+   "fold": 0.0,
+   "spread": 0.333333,
+   "sub": 0.2,
+   "drift": 0.15
+  },
+  "assets": {
+   "wavetable": "synth/wavetable/harmonics.wav"
+  }
+ },
+ "env": {
+  "a": 0.008,
+  "d": 0.3,
+  "s": 0.8,
+  "r": 0.35,
+  "mode": "poly"
+ },
+ "octave": 0
+}

@@ -1,0 +1,21 @@
+{
+ "format": 1,
+ "kind": "patch",
+ "name": "INIT",
+ "engine": {
+  "id": "arbutus/live-input",
+  "min_version": "1.0.0",
+  "params": {
+   "source": 0.0,
+   "gain": 0.5
+  }
+ },
+ "env": {
+  "a": 0.0,
+  "d": 0.0,
+  "s": 1.0,
+  "r": 0.0,
+  "mode": "poly"
+ },
+ "octave": 0
+}

@@ -1,0 +1,7 @@
+{
+  "format": 1,
+  "kind": "pattern",
+  "name": "init",
+  "comment": "The empty pattern. Every box folder's first item is the blank one, and for a sequencer that means no steps — a fresh SEQ slot must not arrive with someone else's tune in it.",
+  "pattern": []
+}

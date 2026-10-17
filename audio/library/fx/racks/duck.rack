@@ -1,0 +1,48 @@
+{
+ "format": 1,
+ "kind": "rack",
+ "name": "DUCK",
+ "requires": [
+  "arbutus/duck",
+  "arbutus/reverb"
+ ],
+ "tabs": [
+  {
+   "instance": "verb",
+   "engine": "arbutus/reverb",
+   "min_version": "1.0.0",
+   "params": {
+    "size": 0.7,
+    "mix": 0.4
+   }
+  },
+  {
+   "instance": "gate",
+   "engine": "arbutus/duck",
+   "min_version": "1.0.0",
+   "params": {
+    "threshold": 0.566667,
+    "depth": 0.85,
+    "attack": 0.434588,
+    "release": 0.588046
+   },
+   "sidechain": "tape:1"
+  }
+ ],
+ "macros": [
+  {
+   "slot": 0,
+   "name": "PUMP",
+   "targets": [
+    {
+     "instance": "gate",
+     "param": "depth",
+     "lo": 0.2,
+     "hi": 1.0,
+     "curve": "lin",
+     "depth": 1.0
+    }
+   ]
+  }
+ ]
+}

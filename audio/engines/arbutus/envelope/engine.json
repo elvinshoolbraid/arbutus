@@ -1,0 +1,6 @@
+{
+  "format": 1,
+  "kind": "engine",
+  "author": "arbutus",
+  "description": "An aim-anywhere ADSR, not the amp envelope: triggered by notes, by the sidechain, or free-running and looped."
+}

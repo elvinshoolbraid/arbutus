@@ -1,0 +1,158 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://arbutus.audio/schema/live-situation.json",
+  "title": "The Arbutus situation document",
+  "description": "What the Arbutus instrument is doing right now, as the live stream carries it (audio/host/PROTOCOL.md § The live stream). A program or a language model reads this document to know which page is on the screen, what is playing, which tracks have audio, and what the player is holding. It arrives whole in the reply to `live {on:true}` and then as JSON merge patches (RFC 7396) numbered by `rev`. Fields marked (host) come from the audio process, fields marked (UI) from the screen's process; a field is absent, never null, when it is not known. Times are seconds, levels are linear gain where 1.0 is unchanged, tracks and keys count from 1.",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "transport": {
+      "description": "The tape transport: whether the eight-track tape is playing or recording, where it is, and which track records.",
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "playing": {"type": "boolean", "description": "(host) True while the tape transport is rolling, recording or not."},
+        "recording": {"type": "boolean", "description": "(host) True while a take is being recorded onto the armed track."},
+        "position_s": {"type": "number", "description": "(host) Where the tape's playhead is, in seconds from the start of the tape, to a tenth of a second. It moves with SPEED, REV and the loop."},
+        "bar": {"type": "integer", "description": "(host) The bar the song clock is in, counting from 1, in 4/4 at the current tempo. It runs only while the transport rolls."},
+        "beat": {"type": "integer", "description": "(host) The beat within the bar, 1 to 4."},
+        "loop": {"type": "boolean", "description": "(host) True when the tape loops between the loop points set on TRACK (the A/B/C keys)."},
+        "speed": {"type": "number", "description": "(host) The tape's playback speed as a multiple of normal: 1.0 is normal, 0.5 half speed (an octave down), 2.0 double; from TRACK's SPEED knob or the held speed key."},
+        "reverse": {"type": "boolean", "description": "(host) True while the tape plays backwards (the REV key held)."},
+        "armed": {"type": "integer", "description": "(host) The track that records when the tape rolls, 1 to 8. Absent when no track is armed."},
+        "selected": {"type": "integer", "description": "(UI) The track TRACK's cursor is on, 1 to 8: the one REC arms. Number keys 1-4 select within the bank on screen; SHIFT+1-4 flip to the other bank."},
+        "counting_in": {"type": "boolean", "description": "(UI) True while the click counts in before a recording starts (TEMPO's COUNT-IN)."}
+      }
+    },
+    "tempo": {
+      "description": "The song's tempo and the metronome click.",
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "bpm": {"type": "number", "description": "(host) The tempo in beats per minute, to a tenth."},
+        "link": {"type": "boolean", "description": "(host) True when the tape follows the tempo (TEMPO's LINK): slowing the song slows the tape with it."},
+        "click": {
+          "description": "The metronome click (TEMPO page).",
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "on": {"type": "boolean", "description": "(host) True when the click sounds, which is when its level is above zero."},
+            "level": {"type": "number", "description": "(host) The click's level, 0.0 (off) to 1.0 (full), to two places."}
+          }
+        }
+      }
+    },
+    "tracks": {
+      "description": "The eight tape tracks, by number: \"1\" to \"8\" (an object, so a change to one track is a patch of that track alone).",
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "1": {"$ref": "#/$defs/track", "description": "Track 1."},
+        "2": {"$ref": "#/$defs/track", "description": "Track 2."},
+        "3": {"$ref": "#/$defs/track", "description": "Track 3."},
+        "4": {"$ref": "#/$defs/track", "description": "Track 4."},
+        "5": {"$ref": "#/$defs/track", "description": "Track 5."},
+        "6": {"$ref": "#/$defs/track", "description": "Track 6."},
+        "7": {"$ref": "#/$defs/track", "description": "Track 7."},
+        "8": {"$ref": "#/$defs/track", "description": "Track 8."}
+      }
+    },
+    "instruments": {
+      "description": "The two instruments, SYNTH and DRUM, and the boxes loaded into their four slots: each has an ENGINE (the sound) and a SEQ (the sequencer).",
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "front": {"type": "string", "enum": ["synth", "drum"], "description": "(host) The instrument the keys play now: the one whose page (SYNTH or DRUM) was shown last."},
+        "synth": {"$ref": "#/$defs/slots", "description": "(host) The SYNTH instrument's slots."},
+        "drum": {"$ref": "#/$defs/slots", "description": "(host) The DRUM instrument's slots."}
+      }
+    },
+    "input": {
+      "description": "The audio input: where it comes from, whether it goes to the speakers, and whether INPUT is waiting to take a sample.",
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "source": {"type": "string", "enum": ["mic", "line", "usb", "resample"], "description": "(host) Where the input comes from: the microphone, the line input, USB audio, or `resample` (the instrument's own output)."},
+        "monitor": {"type": "boolean", "description": "(host) True when the input is heard through the speakers (INPUT's MONITOR)."},
+        "listening": {"type": "boolean", "description": "(UI) True while INPUT is armed and waiting for a sound loud enough to start a sample."}
+      }
+    },
+    "flags": {
+      "description": "Warnings the instrument shows in its top strip.",
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "cpu_overload": {"type": "boolean", "description": "(host) True when the sound has glitched 3 times in the last 2 seconds because the processor could not keep up (the screen says CPU NO HAPPY)."},
+        "tape_slow": {"type": "boolean", "description": "(host) True when the memory card could not deliver tape audio in time 3 times in the last 2 seconds (the screen says HARD DRIVE SLOW)."},
+        "motion_sensor": {"type": "boolean", "description": "(host) True when the motion sensor (tilt and shake) is fitted and answering."}
+      }
+    },
+    "screen": {
+      "description": "What the instrument's screen shows.",
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "page": {"type": "string", "description": "(UI) The page on screen, named as its key is printed: SYNTH, DRUM, SEQ, TRACK, MIXER, TEMPO, INPUT, FILE or HELP."},
+        "header": {"type": "string", "description": "(UI) The top line of the screen as drawn, e.g. `SYNTH › ENV`: the page, then the subpage or the menu's place."},
+        "subpage": {"type": "string", "description": "(UI) The page's subpage, the tab number keys 1-4 choose, e.g. ENV. Absent on a page with none, or while a menu is open."},
+        "subpage_key": {"type": "integer", "description": "(UI) The number key, 1 to 4, of that subpage."},
+        "slot": {"type": "string", "enum": ["A", "B", "C", "X", "Y", "Z"], "description": "(UI) The memory slot the page is on, when it has six (A B C X Y Z): each holds a whole sound."},
+        "menu": {"type": "boolean", "description": "(UI) True while a browser menu (a list of sounds, kits, effects or files) covers the page."},
+        "help": {"type": "boolean", "description": "(UI) True while HELP is held and its overlay explains the controls."}
+      }
+    },
+    "keys": {
+      "description": "The instrument's own keys.",
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "held": {"type": "array", "items": {"type": "string", "description": "A key's name as printed or as in the keymap, e.g. SHIFT, REC, NOTE_7 (the 8th note key from the left, counting from 0)."}, "description": "(UI) The keys held down right now, by name, in alphabetical order. Notes from a MIDI keyboard are not here; they are `note` actions."}
+      }
+    },
+    "octave": {"type": "integer", "description": "(UI) The front instrument's octave shift from the ‹ › keys, in octaves: 0 is the keys' home, -1 one octave down."},
+    "project": {
+      "description": "The project that is open. The instrument is always saved: every change goes into this project's folder.",
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "id": {"type": "string", "description": "(UI) The project's id, `<date folder>/<name>`: the same id the file server's /projects routes use. A new id means another project was opened or made."},
+        "name": {"type": "string", "description": "(UI) The project's name, the last part of its id."},
+        "new": {"type": "boolean", "description": "(UI) True when this project was made by NEW (FILE › PROJECT) in this session, rather than opened by LOAD or at start-up."}
+      }
+    },
+    "power": {
+      "description": "The battery, as the instrument reads it.",
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "battery_percent": {"type": "integer", "description": "(UI) The battery's charge, 0 to 100 percent."},
+        "charging": {"type": "boolean", "description": "(UI) True while the battery is charging."},
+        "telemetry": {"type": "boolean", "description": "(UI) False when the battery cannot be read (no gauge, or a computer with none); the two fields above are then absent."}
+      }
+    }
+  },
+  "$defs": {
+    "track": {
+      "description": "One tape track.",
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "has_clip": {"type": "boolean", "description": "(host) True when the track holds any recorded audio (one clip or more)."},
+        "clips": {"type": "integer", "description": "(host) How many clips (pieces of recorded audio) are on the track."},
+        "length_s": {"type": "number", "description": "(host) Seconds from the start of the track's first clip to the end of its last, to a hundredth; 0 when it is empty."},
+        "mute": {"type": "boolean", "description": "(host) True when the track is muted on the MIXER page."},
+        "solo": {"type": "boolean", "description": "(host) True when the track is soloed on the MIXER page (any solo silences the tracks that are not)."},
+        "level": {"type": "number", "description": "(host) The track's fader on the MIXER page as linear gain, 1.0 unchanged, 0 silent, to two places."}
+      }
+    },
+    "slots": {
+      "description": "One instrument's two slots, by the box (the plug-in) loaded in each; a slot with nothing loaded is absent.",
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "engine": {"type": "string", "description": "(host) The ENGINE slot's box, `<author>/<name>`, e.g. arbutus/fm: what makes the sound."},
+        "sequencer": {"type": "string", "description": "(host) The SEQ slot's box, `<author>/<name>`, e.g. arbutus/endless: what plays notes on its own."}
+      }
+    }
+  }
+}

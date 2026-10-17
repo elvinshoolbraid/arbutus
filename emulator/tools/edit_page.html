@@ -1,0 +1,414 @@
+<!doctype html>
+<meta charset="utf-8">
+<title>Arbutus-1 — look editor</title>
+<style>
+  :root { color-scheme: dark; --bg:#141414; --panel:#1d1d1d; --line:#333;
+          --fg:#e8e6de; --dim:#8a8a86; --hot:#6cd080; }
+  * { box-sizing: border-box; }
+  body { margin:0; background:var(--bg); color:var(--fg); font:13px/1.5 ui-monospace,Menlo,monospace; }
+  header { position:sticky; top:0; z-index:5; display:flex; gap:14px; align-items:center;
+           padding:10px 16px; background:var(--panel); border-bottom:1px solid var(--line); }
+  header h1 { font-size:13px; margin:0; font-weight:600; letter-spacing:.04em; }
+  .tabs { display:flex; gap:4px; }
+  .tabs button, .btn { background:#262626; color:var(--fg); border:1px solid var(--line);
+           padding:4px 12px; border-radius:3px; cursor:pointer; font:inherit; }
+  .tabs button[aria-selected=true] { background:var(--fg); color:#111; border-color:var(--fg); }
+  .btn:hover { border-color:var(--fg); }
+  .grow { flex:1; }
+  #status { color:var(--dim); }
+  #status.ok { color:var(--hot); }
+  #status.err { color:#f26a5e; }
+  main { padding:16px; max-width:1100px; }
+  [hidden] { display:none !important; }
+
+  /* palette */
+  .group { margin-bottom:22px; }
+  .group h2 { font-size:12px; color:var(--dim); font-weight:600; margin:0 0 8px;
+              text-transform:uppercase; letter-spacing:.08em; }
+  .rows { display:grid; grid-template-columns:repeat(auto-fill,minmax(280px,1fr)); gap:6px; }
+  .row { display:flex; align-items:center; gap:8px; padding:5px 8px; background:var(--panel);
+         border:1px solid var(--line); border-radius:3px; }
+  .row.dirty { border-color:var(--hot); }
+  .row input[type=color] { width:34px; height:24px; padding:0; border:1px solid var(--line);
+         background:none; cursor:pointer; flex:none; }
+  .row .name { flex:1; overflow:hidden; text-overflow:ellipsis; }
+  .row .hex { width:74px; background:#111; color:var(--fg); border:1px solid var(--line);
+         border-radius:2px; padding:2px 4px; font:inherit; }
+  .row .undo { visibility:hidden; background:none; border:none; color:var(--dim);
+         cursor:pointer; font:inherit; padding:0 2px; }
+  .row.dirty .undo { visibility:visible; }
+
+  /* font */
+  .fontbar { display:flex; gap:12px; align-items:center; margin-bottom:14px; flex-wrap:wrap; }
+  .sheet { display:flex; flex-wrap:wrap; gap:3px; margin-bottom:18px; }
+  .sheet canvas { background:#0c0c0c; border:1px solid var(--line); border-radius:2px;
+         cursor:pointer; image-rendering:pixelated; }
+  .sheet canvas.sel { border-color:var(--fg); }
+  .sheet canvas.dirty { border-color:var(--hot); }
+  .editwrap { display:flex; gap:24px; align-items:flex-start; flex-wrap:wrap; }
+  #grid { display:grid; gap:1px; background:var(--line); border:1px solid var(--line);
+          width:max-content; user-select:none; }
+  #grid div { width:22px; height:22px; background:#0f0f0f; cursor:crosshair; }
+  #grid div.on { background:var(--fg); }
+  #grid div.pad { background:#191919; cursor:not-allowed; }
+  #grid div.pad.on { background:#4a4a46; }
+  .side { min-width:260px; }
+  .side h2 { font-size:12px; color:var(--dim); margin:0 0 8px; text-transform:uppercase;
+             letter-spacing:.08em; }
+  #preview { background:#0c0c0c; border:1px solid var(--line); image-rendering:pixelated;
+             display:block; margin-bottom:10px; max-width:100%; }
+  #sample { width:100%; background:#111; color:var(--fg); border:1px solid var(--line);
+            border-radius:2px; padding:4px 6px; font:inherit; }
+  .hint { color:var(--dim); margin-top:10px; }
+  .sep { width:1px; height:20px; background:var(--line); }
+  .num { color:var(--dim); display:flex; align-items:center; gap:5px; }
+  .num input { width:52px; background:#111; color:var(--fg); border:1px solid var(--line);
+               border-radius:2px; padding:2px 4px; font:inherit; }
+  .num input:disabled { color:var(--dim); }
+  #proof1, #proof2, #proof3 { background:#0c0c0c; border:1px solid var(--line);
+               image-rendering:pixelated; display:block; margin-bottom:4px; max-width:100%; }
+</style>
+
+<header>
+  <h1>ARBUTUS-1 LOOK EDITOR</h1>
+  <div class="tabs">
+    <button id="tab-pal" aria-selected="true">palette</button>
+    <button id="tab-font" aria-selected="false">font</button>
+  </div>
+  <span class="grow"></span>
+  <span id="status">live — edits show in the pygame window</span>
+  <button class="btn" id="save">Save to source</button>
+</header>
+
+<main>
+  <section id="pane-pal"></section>
+  <section id="pane-font" hidden>
+    <div class="fontbar">
+      <div class="tabs">
+        <button id="size-small" aria-selected="true">small 5×7</button>
+        <button id="size-large" aria-selected="false">large 8×12</button>
+      </div>
+      <span id="glyphlabel"></span>
+      <button class="btn" id="revert-glyph">Revert glyph</button>
+      <span class="sep"></span>
+      <label class="num">advance <input id="adv" type="number" min="1" max="24"></label>
+      <label class="num">digits <input id="tab" type="number" min="1" max="24"
+             title="0-9 share one advance so numeric readouts don't jitter"></label>
+      <label class="num">tracking <input id="track" type="number" min="0" max="4" value="1"></label>
+      <button class="btn" id="fit-one">Fit glyph</button>
+      <button class="btn" id="fit-all">Fit whole font</button>
+      <button class="btn" id="revert-spacing">Revert spacing</button>
+    </div>
+    <div class="sheet" id="sheet"></div>
+    <div class="editwrap">
+      <div id="grid"></div>
+      <div class="side">
+        <h2>Preview</h2>
+        <canvas id="preview" width="300" height="40"></canvas>
+        <input id="sample" value="SYNTH › ENGINE  CUTOFF 12.4k">
+        <h2 style="margin-top:18px">Spacing proof</h2>
+        <canvas id="proof1"></canvas>
+        <canvas id="proof2"></canvas>
+        <canvas id="proof3"></canvas>
+        <p class="hint">The proof strings are the standard test: judge the
+        <em>rhythm</em>, not any single pair. Even white gaps = right. Digits
+        are deliberately monospaced, so <code>111</code> and <code>888</code>
+        must occupy the same width.</p>
+        <p class="hint">Click or drag on the grid to toggle pixels. Dark cells are
+        the advance padding — they can never carry ink.</p>
+      </div>
+    </div>
+  </section>
+</main>
+
+<script>
+const $ = s => document.querySelector(s);
+let S = null;                 // /api/state
+let GLYPHS = {};              // size -> {ch: grid}
+let size = "small", cur = "A";
+
+const api = (path, body) => fetch(path, body === undefined ? {} : {
+  method: "POST", headers: {"Content-Type": "application/json"},
+  body: JSON.stringify(body)
+}).then(async r => {
+  const j = await r.json();
+  if (!r.ok) throw new Error(j.error || r.status);
+  return j;
+});
+
+function status(msg, cls) {
+  const el = $("#status"); el.textContent = msg; el.className = cls || "";
+}
+function fail(e) { status(String(e.message || e), "err"); }
+
+const hex = ([r,g,b]) => "#" + [r,g,b].map(v => v.toString(16).padStart(2,"0")).join("");
+const unhex = h => [1,3,5].map(i => parseInt(h.slice(i,i+2),16));
+
+// --- palette --------------------------------------------------------------
+function buildPalette() {
+  const pane = $("#pane-pal"); pane.innerHTML = "";
+  // #334: one table per mode; the swatches edit the one on screen
+  const bar = document.createElement("div"); bar.className = "tabs";
+  for (const m of (S.modes || [])) {
+    const b = document.createElement("button");
+    b.textContent = m; b.setAttribute("aria-selected", String(m === S.mode));
+    b.addEventListener("click", () => api("/api/mode", {mode: m})
+      .then(d => { Object.assign(S, d); buildPalette(); }).catch(fail));
+    bar.appendChild(b);
+  }
+  pane.appendChild(bar);
+  for (const g of S.groups) {
+    const sec = document.createElement("div"); sec.className = "group";
+    sec.innerHTML = `<h2>${g.title}</h2>`;
+    const rows = document.createElement("div"); rows.className = "rows";
+    for (const name of g.names) {
+      const row = document.createElement("label");
+      row.className = "row"; row.dataset.name = name;
+      row.innerHTML = `<input type="color"><span class="name">${name}</span>
+                       <input class="hex" spellcheck="false">
+                       <button class="undo" title="revert to source">↺</button>`;
+      const [col, , tx, undo] = row.children;
+      const value = hex(S.colors[name]);
+      col.value = tx.value = value;
+      let pending = null;
+      const push = rgb => {
+        S.colors[name] = rgb;
+        clearTimeout(pending);
+        pending = setTimeout(() => api("/api/color", {name, rgb})
+          .then(markDirty).catch(fail), 25);
+      };
+      col.addEventListener("input", () => { tx.value = col.value; push(unhex(col.value)); });
+      tx.addEventListener("change", () => {
+        if (!/^#[0-9a-f]{6}$/i.test(tx.value)) { tx.value = col.value; return; }
+        col.value = tx.value.toLowerCase(); push(unhex(col.value));
+      });
+      undo.addEventListener("click", e => {
+        e.preventDefault();
+        api("/api/revert-color", {name}).then(refresh).catch(fail);
+      });
+      rows.appendChild(row);
+    }
+    sec.appendChild(rows); pane.appendChild(sec);
+  }
+  markDirty();
+}
+
+function markDirty(d) {
+  if (d) { S.paletteDirty = d.paletteDirty; S.fontDirty = d.fontDirty;
+           if (d.paletteDirtyAll !== undefined) S.paletteDirtyAll = d.paletteDirtyAll; }
+  const dirty = new Set(S.paletteDirty);
+  for (const row of document.querySelectorAll(".row"))
+    row.classList.toggle("dirty", dirty.has(row.dataset.name));
+  const fd = new Set(S.fontDirty.map(([s,c]) => s + c));
+  for (const c of document.querySelectorAll("#sheet canvas"))
+    c.classList.toggle("dirty", fd.has(size + c.dataset.ch));
+  const n = (S.paletteDirtyAll ?? S.paletteDirty.length) + S.fontDirty.length + (S.spacingDirty ? 1 : 0);
+  $("#save").textContent = n ? `Save ${n} change${n>1?"s":""} to source` : "Save to source";
+}
+
+// --- font -----------------------------------------------------------------
+const G = ch => (GLYPHS[size][ch] || GLYPHS[size]["?"]);
+const gridOf = ch => G(ch).grid;
+const advOf = ch => G(ch).adv;
+
+function paint(canvas, grid, scale, fg) {
+  const [rows, cols] = [grid.length, grid[0].length];
+  canvas.width = cols * scale; canvas.height = rows * scale;
+  const ctx = canvas.getContext("2d");
+  ctx.fillStyle = fg || "#e8e6de";
+  for (let y = 0; y < rows; y++) for (let x = 0; x < cols; x++)
+    if (grid[y][x]) ctx.fillRect(x*scale, y*scale, scale, scale);
+}
+
+function buildSheet() {
+  const sheet = $("#sheet"); sheet.innerHTML = "";
+  for (const ch of S.charset[size]) {
+    const c = document.createElement("canvas");
+    c.dataset.ch = ch; c.title = ch;
+    paint(c, gridOf(ch), 3);
+    c.addEventListener("click", () => select(ch));
+    sheet.appendChild(c);
+  }
+}
+
+function select(ch) {
+  cur = ch;
+  for (const c of document.querySelectorAll("#sheet canvas"))
+    c.classList.toggle("sel", c.dataset.ch === ch);
+  $("#glyphlabel").textContent = `editing  '${ch}'`;
+  buildGrid();
+}
+
+function buildGrid() {
+  const grid = gridOf(cur);
+  const [inkRows, inkCols] = S.ink[size];
+  const el = $("#grid");
+  el.style.gridTemplateColumns = `repeat(${grid[0].length}, 22px)`;
+  el.innerHTML = "";
+  grid.forEach((row, y) => row.forEach((v, x) => {
+    const d = document.createElement("div");
+    d.className = (v ? "on " : "") + (y >= inkRows || x >= inkCols ? "pad" : "");
+    d.dataset.y = y; d.dataset.x = x;
+    el.appendChild(d);
+  }));
+  drawAll();
+}
+
+let painting = null;
+$("#grid").addEventListener("pointerdown", e => {
+  const d = e.target.closest("div[data-x]");
+  if (!d || d.classList.contains("pad")) return;
+  painting = !d.classList.contains("on");
+  e.target.setPointerCapture(e.pointerId);
+  toggle(d);
+});
+$("#grid").addEventListener("pointerover", e => {
+  if (painting === null) return;
+  const d = document.elementFromPoint(e.clientX, e.clientY);
+  if (d && d.dataset && d.dataset.x && !d.classList.contains("pad")) toggle(d);
+});
+addEventListener("pointerup", () => {
+  if (painting === null) return;
+  painting = null;
+  api("/api/glyph", {ch: cur, size, grid: gridOf(cur)})
+    .then(r => { GLYPHS[size][cur].ink = inkWidth(gridOf(cur)); markDirty(r); })
+    .catch(fail);
+});
+
+function toggle(d) {
+  const y = +d.dataset.y, x = +d.dataset.x;
+  if (gridOf(cur)[y][x] === (painting ? 1 : 0)) return;
+  gridOf(cur)[y][x] = painting ? 1 : 0;
+  d.classList.toggle("on", painting);
+  paint([...document.querySelectorAll("#sheet canvas")]
+        .find(c => c.dataset.ch === cur), gridOf(cur), 3);
+  drawAll();
+}
+
+const inkWidth = g => {
+  let w = 0;
+  for (const row of g) for (let x = 0; x < row.length; x++) if (row[x]) w = Math.max(w, x+1);
+  return w;
+};
+
+// Same walk the renderer does: blit, then step by this glyph's advance.
+function drawText(canvas, text, scale) {
+  const rows = S.cell[size][0];
+  let total = 0;
+  for (const ch of text) total += advOf(ch);
+  canvas.width = Math.max(1, total * scale);
+  canvas.height = rows * scale;
+  const ctx = canvas.getContext("2d");
+  ctx.fillStyle = hex(S.colors.INK);
+  let cx = 0;
+  for (const ch of text) {
+    const g = gridOf(ch);
+    for (let y = 0; y < g.length; y++) for (let x = 0; x < g[0].length; x++)
+      if (g[y][x]) ctx.fillRect((cx+x)*scale, y*scale, scale, scale);
+    cx += advOf(ch);
+  }
+}
+
+function drawAll() {
+  const scale = size === "small" ? 4 : 3;
+  drawText($("#preview"), $("#sample").value, scale);
+  drawText($("#proof1"), "HHOHOO HAHOHV", scale);
+  drawText($("#proof2"), "nnonoo nanovo", scale);
+  drawText($("#proof3"), "111 888 000 190", scale);
+  const digit = S.tabular[size] === null ? S.default[size] : S.tabular[size];
+  $("#tab").value = digit;
+  const isDigit = S.tabularChars.includes(cur);
+  $("#adv").value = advOf(cur);
+  $("#adv").disabled = isDigit;
+  $("#adv").title = isDigit
+    ? "digits move together — use the digits field"
+    : `ink ${G(cur).ink}px · default ${S.default[size]}px`;
+}
+$("#sample").addEventListener("input", drawAll);
+
+$("#revert-glyph").addEventListener("click", () =>
+  api("/api/revert-glyph", {ch: cur, size}).then(refresh).catch(fail));
+
+// --- spacing --------------------------------------------------------------
+const tracking = () => Math.max(0, +$("#track").value || 0);
+
+function applyGlyphs(j) {         // response carrying a fresh glyph table
+  if (j.glyphs) GLYPHS[size] = j.glyphs;
+  Object.assign(S, j);
+  buildSheet(); select(cur); markDirty();
+}
+
+$("#adv").addEventListener("change", () => {
+  const v = +$("#adv").value;
+  api("/api/advance", {ch: cur, size, adv: v}).then(r => {
+    G(cur).adv = v; Object.assign(S, r); drawAll(); markDirty();
+  }).catch(e => { fail(e); drawAll(); });
+});
+
+$("#tab").addEventListener("change", () => {
+  const v = +$("#tab").value;
+  api("/api/tabular", {size, adv: v}).then(r => {
+    Object.assign(S, r);
+    for (const ch of S.tabularChars) if (GLYPHS[size][ch]) GLYPHS[size][ch].adv = v;
+    drawAll(); markDirty();
+  }).catch(e => { fail(e); drawAll(); });
+});
+
+$("#fit-one").addEventListener("click", () =>
+  api("/api/autofit", {size, tracking: tracking(), only: [cur]})
+    .then(j => { applyGlyphs(j); status(`fitted '${cur}'`, "ok"); }).catch(fail));
+
+$("#fit-all").addEventListener("click", () =>
+  api("/api/autofit", {size, tracking: tracking()})
+    .then(j => { applyGlyphs(j); status(`fitted ${j.moved} glyphs — check the proof`, "ok"); })
+    .catch(fail));
+
+$("#revert-spacing").addEventListener("click", () =>
+  api("/api/revert-spacing", {size})
+    .then(j => { applyGlyphs(j); status("spacing back to source", "ok"); }).catch(fail));
+
+// --- shell ----------------------------------------------------------------
+function setSize(s) {
+  size = s;
+  $("#size-small").ariaSelected = s === "small";
+  $("#size-large").ariaSelected = s === "large";
+  loadGlyphs(s).then(() => {
+    buildSheet();
+    select(S.charset[s].includes(cur) ? cur : S.charset[s][0]);
+    markDirty();
+  });
+}
+$("#size-small").onclick = () => setSize("small");
+$("#size-large").onclick = () => setSize("large");
+
+function tab(which) {
+  $("#tab-pal").ariaSelected = which === "pal";
+  $("#tab-font").ariaSelected = which === "font";
+  $("#pane-pal").hidden = which !== "pal";
+  $("#pane-font").hidden = which !== "font";
+}
+$("#tab-pal").onclick = () => tab("pal");
+$("#tab-font").onclick = () => tab("font");
+
+const loadGlyphs = s => fetch(`/api/glyphs?size=${s}`).then(r => r.json())
+  .then(g => { GLYPHS[s] = g; });
+
+$("#save").addEventListener("click", () => api("/api/save", {}).then(j => {
+  const n = j.saved.palette.length + j.saved.font.length + (j.saved.spacing ? 1 : 0);
+  Object.assign(S, j);
+  markDirty();
+  status(n ? `saved ${n} change${n>1?"s":""} to palette.py / font.py` : "nothing to save", "ok");
+}).catch(fail));
+
+function refresh() {
+  return fetch("/api/state").then(r => r.json()).then(j => {
+    S = j;
+    return loadGlyphs(size);
+  }).then(() => {
+    buildPalette(); buildSheet();
+    select(S.charset[size].includes(cur) ? cur : S.charset[size][0]);
+    markDirty();
+  });
+}
+refresh().then(() => status("live — edits show in the pygame window"));
+</script>

@@ -1,0 +1,6 @@
+{
+  "format": 1,
+  "kind": "engine",
+  "author": "arbutus-test",
+  "description": "Test fixture (#626): with NAN set it puts one NaN in its output on purpose, so arbutus-run can be proved to refuse it, golden or not. Never built into the box tree, never offered to the instrument."
+}

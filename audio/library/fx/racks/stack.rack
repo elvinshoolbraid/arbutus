@@ -1,0 +1,79 @@
+{
+ "format": 1,
+ "kind": "rack",
+ "name": "STACK",
+ "requires": [
+  "arbutus/drive",
+  "arbutus/eq3"
+ ],
+ "tabs": [
+  {
+   "instance": "amp",
+   "engine": "arbutus/drive",
+   "min_version": "1.0.0",
+   "params": {
+    "mode": 1.0,
+    "drive": 0.55,
+    "tone": 0.62,
+    "mix": 1.0,
+    "bias": 0.25,
+    "hp": 0.569059,
+    "sag": 0.45,
+    "out": 0.527778
+   }
+  },
+  {
+   "instance": "cab",
+   "engine": "arbutus/eq3",
+   "min_version": "1.0.0",
+   "params": {
+    "low": 0.416667,
+    "mid": 0.638889,
+    "high": 0.166667,
+    "mid_f": 0.705391,
+    "low_f": 0.488084,
+    "high_f": 0.544068,
+    "mid_q": 0.327409,
+    "out": 0.5
+   }
+  }
+ ],
+ "macros": [
+  {
+   "slot": 0,
+   "name": "GAIN",
+   "targets": [
+    {
+     "instance": "amp",
+     "param": "drive",
+     "lo": 0.12,
+     "hi": 0.95,
+     "curve": "exp",
+     "depth": 1.0
+    }
+   ]
+  },
+  {
+   "slot": 1,
+   "name": "SIZE",
+   "targets": [
+    {
+     "instance": "cab",
+     "param": "mid",
+     "lo": 0.5,
+     "hi": 0.722222,
+     "curve": "lin",
+     "depth": 1.0
+    },
+    {
+     "instance": "cab",
+     "param": "low",
+     "lo": 0.277778,
+     "hi": 0.555556,
+     "curve": "lin",
+     "depth": 1.0
+    }
+   ]
+  }
+ ]
+}

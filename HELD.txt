@@ -1,0 +1,18 @@
+# Files held back from this repo, each with its reason. A check that finds one
+# missing reads this list (audio/engines/op1r/check_vendored.cmake).
+audio/library/drum/drum/South_808/  op1.fun drum kit, no licence
+audio/library/drum/drum/TR_707/  op1.fun drum kit, no licence
+audio/library/drum/drum/TR_909/  op1.fun drum kit, no licence
+audio/library/drum/drum/lofi_2/  op1.fun drum kit, no licence
+audio/library/synth/sampler/80s_bass.wav  op1.fun-style origin, no licence
+audio/library/synth/sampler/adams_piano.wav  op1.fun-style origin, no licence
+audio/library/synth/sampler/alicekeys.wav  op1.fun-style origin, no licence
+audio/library/synth/sampler/cute_flute.wav  op1.fun-style origin, no licence
+audio/library/synth/sampler/funky_bass.wav  op1.fun-style origin, no licence
+audio/library/synth/sampler/rhodes.wav  op1.fun-style origin, no licence
+audio/library/synth/sampler/synthy_bass.wav  op1.fun-style origin, no licence
+audio/library/synth/sampler/vibraphone.wav  op1.fun-style origin, no licence
+audio/third_party/op1r-src/synth_sdk/plugins/reverb/kalireverb.svg  the Kali art, no licence
+audio/third_party/op1r-src/synth_sdk/plugins/reverb/kali-reverb.svg  the Kali art's source, no licence
+audio/third_party/op1r-src/synth_sdk/display/reverb_preview.png  a picture of the Kali art
+audio/engines/op1r/op1r-verb/screen/kali.npz  the Kali art, rasterised

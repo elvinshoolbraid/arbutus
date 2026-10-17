@@ -1,0 +1,2 @@
+# #626: a negative event time must be refused, not wrapped into a 2^32-frame run.
+-100 on 60 0.9

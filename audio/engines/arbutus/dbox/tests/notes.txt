@@ -1,0 +1,15 @@
+# One bar of the stock kit: pads 0-5 are KICK SNARE TOM HAT CLAP RIM in
+# tests/golden/kit.json, and the hats overlap so the choke is in the golden.
+0      on  53 1.00
+6000   on  56 0.70
+6000   on  57 0.60
+12000  on  54 0.90
+18000  on  56 0.70
+18000  on  55 0.80
+24000  on  53 1.00
+24000  on  58 0.75
+30000  on  56 0.60
+36000  on  54 0.85
+36000  on  59 0.65
+42000  on  56 0.70
+42000  on  56 0.70

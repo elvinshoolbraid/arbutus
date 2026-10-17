@@ -1,0 +1,6 @@
+{
+  "format": 1,
+  "kind": "engine",
+  "author": "arbtest",
+  "description": "Test box: every ABI 2 entry and flag, and a tripwire for stale ctl_out."
+}

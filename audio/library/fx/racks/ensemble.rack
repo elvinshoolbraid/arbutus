@@ -1,0 +1,49 @@
+{
+ "format": 1,
+ "kind": "rack",
+ "name": "ENSEMBLE",
+ "requires": [
+  "arbutus/chorus"
+ ],
+ "tabs": [
+  {
+   "instance": "ens",
+   "engine": "arbutus/chorus",
+   "min_version": "1.0.0",
+   "params": {
+    "rate": 0.467892,
+    "depth": 0.5,
+    "delay": 0.875236,
+    "mix": 0.5,
+    "feedback": 0.5,
+    "spread": 0.833333,
+    "voices": 1.0,
+    "tone": 0.58
+   }
+  }
+ ],
+ "macros": [
+  {
+   "slot": 0,
+   "name": "WIDTH",
+   "targets": [
+    {
+     "instance": "ens",
+     "param": "depth",
+     "lo": 0.12,
+     "hi": 0.85,
+     "curve": "lin",
+     "depth": 1.0
+    },
+    {
+     "instance": "ens",
+     "param": "mix",
+     "lo": 0.2,
+     "hi": 0.6,
+     "curve": "lin",
+     "depth": 1.0
+    }
+   ]
+  }
+ ]
+}

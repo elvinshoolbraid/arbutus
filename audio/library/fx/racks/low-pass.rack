@@ -1,0 +1,20 @@
+{
+ "format": 1,
+ "kind": "rack",
+ "name": "LOW-PASS",
+ "requires": [
+  "arbutus/biquad"
+ ],
+ "tabs": [
+  {
+   "instance": "lp",
+   "engine": "arbutus/biquad",
+   "min_version": "1.0.0",
+   "params": {
+    "cutoff": 0.749422,
+    "q": 0.052632
+   }
+  }
+ ],
+ "macros": []
+}

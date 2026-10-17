@@ -1,0 +1,23 @@
+{
+ "image": "docs/design/reference/lookalike-model.jpg",
+ "image_size": [
+  5120,
+  2880
+ ],
+ "rect": [
+  1711.4,
+  845.4,
+  640.0,
+  480.0
+ ],
+ "corner_radius": 39.0,
+ "px_per_mm": 11.15,
+ "shell": [
+  1207,
+  711,
+  2707,
+  1457
+ ],
+ "shell_radius": 125,
+ "shell_rim": 24
+}

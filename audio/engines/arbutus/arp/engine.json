@@ -1,0 +1,6 @@
+{
+  "format": 1,
+  "kind": "engine",
+  "author": "arbutus",
+  "description": "Arpeggiator: hold a chord, it plays the notes one at a time."
+}

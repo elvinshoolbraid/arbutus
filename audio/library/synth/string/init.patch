@@ -1,0 +1,27 @@
+{
+ "format": 1,
+ "kind": "patch",
+ "name": "INIT",
+ "engine": {
+  "id": "arbutus/string",
+  "min_version": "1.0.0",
+  "params": {
+   "exc": 0.0,
+   "decay": 0.68288,
+   "damp": 0.35,
+   "pos": 0.416667,
+   "tone": 0.6,
+   "force": 0.5,
+   "body": 0.3,
+   "spread": 0.3
+  }
+ },
+ "env": {
+  "a": 0.002,
+  "d": 0.05,
+  "s": 1.0,
+  "r": 0.6,
+  "mode": "poly"
+ },
+ "octave": 0
+}

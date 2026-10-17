@@ -1,0 +1,6 @@
+# Held past the sample's length so the loop has to carry it, released, then a
+# second note a fifth up that is released inside its first pass.
+0      on  60 0.90
+36000  off 60
+40000  on  67 0.80
+44000  off 67

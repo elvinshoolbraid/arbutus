@@ -1,0 +1,10 @@
+# A held triad, then a single high note: allocation, release tails overlapping
+# the next note-on, and the top of the range through the ladder.
+0      on  48 0.90
+0      on  55 0.75
+0      on  60 0.60
+14000  off 48
+14000  off 55
+14000  off 60
+18000  on  72 1.00
+34000  off 72

@@ -1,0 +1,9 @@
+{
+  "format": 1,
+  "kind": "pattern",
+  "name": "penta 5",
+  "comment": "5 steps of A minor pentatonic at 1/16, descending. Five against sixteen resolves every 5 bars; fast enough that a long sample overlaps into a wash.",
+  "root": 57,
+  "named_params": {"DIV": "1/16", "SWING": 50, "DIR": "fwd"},
+  "pattern": [[69], [67], [64], [62], [60]]
+}

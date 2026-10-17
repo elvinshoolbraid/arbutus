@@ -1,0 +1,6 @@
+{
+  "format": 1,
+  "kind": "engine",
+  "author": "arbtest",
+  "description": "Test box: a PolyHost voice that renders its pitch offset in semitones as DC."
+}

@@ -1,0 +1,6 @@
+{
+  "format": 1,
+  "kind": "engine",
+  "author": "arbutus",
+  "description": "Step sequencer: a fixed grid of steps at the pitch they were written."
+}

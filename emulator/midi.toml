@@ -1,0 +1,30 @@
+# MIDI input for the desktop emulator (emulator-spec §3).
+# Read once at boot by drivers/desktop/midi_in.py. Hot-plug is not supported.
+
+# Substring of the input port name. "" = first port offered by the system.
+# Override at runtime with:  python3 main.py --midi "Keystation"
+device = ""
+
+# 0..15 to listen on one channel, -1 for omni.
+channel = -1
+
+# MIDI note number that lands on chromatic key 0 (the low F).
+# 53 = F3, matching app/keys.py NOTE_BASE_MIDI. Notes outside the 24-key
+# range still play the active instrument; the ‹ › octave keys transpose.
+note_offset = 53
+
+# false = every note plays at full level.
+velocity = true
+
+[cc]
+# Relative (endless) encoder CCs — one per hardware encoder.
+enc1 = 16
+enc2 = 17
+enc3 = 18
+enc4 = 19
+
+# How the controller encodes a relative turn:
+#   "twos-complement" 1..63 = +1..+63, 65..127 = -63..-1   (Arturia, Novation)
+#   "offset-64"       64 = no move, 65 = +1, 63 = -1        (many DAW modes)
+#   "signmag"         bit 6 = direction, bits 0..5 = amount (Akai, "signed bit")
+encoding = "twos-complement"

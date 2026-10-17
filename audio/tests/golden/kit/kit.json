@@ -1,0 +1,10 @@
+{
+  "format": 1,
+  "kind": "kit",
+  "name": "TEST-KIT",
+  "pads": {
+    "0": "kick.wav",
+    "1": "snare.wav",
+    "2": "hat.wav"
+  }
+}

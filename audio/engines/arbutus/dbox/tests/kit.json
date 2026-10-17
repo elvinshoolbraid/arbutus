@@ -1,0 +1,14 @@
+{
+  "format": 1,
+  "kind": "kit",
+  "name": "DBOX-TEST",
+  "pads": {
+    "0": {"params": {"mode": 0.0}},
+    "1": {"params": {"mode": 0.2, "tune": 0.5}},
+    "2": {"params": {"mode": 0.4, "tune": 0.6}},
+    "3": {"params": {"mode": 0.6, "tone": 0.7}},
+    "4": {"params": {"mode": 0.8}},
+    "5": {"params": {"mode": 1.0}},
+    "6": {"params": {"mode": 0.6, "decay": 0.55, "tone": 0.55}}
+  }
+}

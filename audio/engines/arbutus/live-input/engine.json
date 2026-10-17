@@ -1,0 +1,6 @@
+{
+  "format": 1,
+  "kind": "engine",
+  "author": "arbutus",
+  "description": "The live input as an instrument: mic, line, USB or the master resample."
+}

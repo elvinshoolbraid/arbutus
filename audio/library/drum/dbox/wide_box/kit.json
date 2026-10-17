@@ -1,0 +1,295 @@
+{
+ "format": 1,
+ "kind": "kit",
+ "name": "WIDE BOX",
+ "pads": {
+  "0": {
+   "params": {
+    "mode": 0.0,
+    "tune": 0.458333,
+    "decay": 0.736354,
+    "snap": 0.35,
+    "tone": 0.2,
+    "drive": 0.05,
+    "level": 0.85,
+    "pan": 0.5
+   }
+  },
+  "1": {
+   "params": {
+    "mode": 0.0,
+    "tune": 0.5625,
+    "decay": 0.666667,
+    "snap": 0.5,
+    "tone": 0.3,
+    "drive": 0.1,
+    "level": 0.75,
+    "pan": 0.5
+   }
+  },
+  "2": {
+   "params": {
+    "mode": 0.2,
+    "tune": 0.4375,
+    "decay": 0.704428,
+    "snap": 0.3,
+    "tone": 0.35,
+    "drive": 0.05,
+    "level": 0.8,
+    "pan": 0.5
+   }
+  },
+  "3": {
+   "params": {
+    "mode": 0.2,
+    "tune": 0.541667,
+    "decay": 0.620451,
+    "snap": 0.35,
+    "tone": 0.5,
+    "drive": 0.1,
+    "level": 0.7,
+    "pan": 0.5
+   }
+  },
+  "4": {
+   "params": {
+    "mode": 1.0,
+    "tune": 0.458333,
+    "decay": 0.644845,
+    "snap": 0.4,
+    "tone": 0.35,
+    "drive": 0.05,
+    "level": 0.7,
+    "pan": 0.65
+   }
+  },
+  "5": {
+   "params": {
+    "mode": 0.8,
+    "tune": 0.458333,
+    "decay": 0.76401,
+    "snap": 0.0,
+    "tone": 0.35,
+    "drive": 0.05,
+    "level": 0.75,
+    "pan": 0.35
+   }
+  },
+  "6": {
+   "params": {
+    "mode": 0.6,
+    "tune": 0.416667,
+    "decay": 0.686407,
+    "snap": 0.0,
+    "tone": 0.4,
+    "drive": 0.05,
+    "level": 0.6,
+    "pan": 0.7
+   }
+  },
+  "7": {
+   "params": {
+    "mode": 0.6,
+    "tune": 0.375,
+    "decay": 0.973524,
+    "snap": 0.0,
+    "tone": 0.45,
+    "drive": 0.05,
+    "level": 0.55,
+    "pan": 0.7
+   }
+  },
+  "8": {
+   "params": {
+    "mode": 0.4,
+    "tune": 0.3125,
+    "decay": 0.788404,
+    "snap": 0.3,
+    "tone": 0.25,
+    "drive": 0.1,
+    "level": 0.75,
+    "pan": 0.3
+   }
+  },
+  "9": {
+   "params": {
+    "mode": 0.4,
+    "tune": 0.458333,
+    "decay": 0.76401,
+    "snap": 0.3,
+    "tone": 0.3,
+    "drive": 0.1,
+    "level": 0.75,
+    "pan": 0.5
+   }
+  },
+  "10": {
+   "params": {
+    "mode": 0.4,
+    "tune": 0.604167,
+    "decay": 0.736354,
+    "snap": 0.3,
+    "tone": 0.35,
+    "drive": 0.1,
+    "level": 0.75,
+    "pan": 0.7
+   }
+  },
+  "11": {
+   "params": {
+    "mode": 0.6,
+    "tune": 0.5,
+    "decay": 0.560869,
+    "snap": 0.0,
+    "tone": 0.55,
+    "drive": 0.05,
+    "level": 0.55,
+    "pan": 0.7
+   }
+  },
+  "12": {
+   "params": {
+    "mode": 0.0,
+    "tune": 0.354167,
+    "decay": 0.864564,
+    "snap": 0.25,
+    "tone": 0.15,
+    "drive": 0.05,
+    "level": 0.8,
+    "pan": 0.5
+   }
+  },
+  "13": {
+   "params": {
+    "mode": 0.0,
+    "tune": 0.666667,
+    "decay": 0.592795,
+    "snap": 0.65,
+    "tone": 0.45,
+    "drive": 0.2,
+    "level": 0.7,
+    "pan": 0.5
+   }
+  },
+  "14": {
+   "params": {
+    "mode": 0.2,
+    "tune": 0.333333,
+    "decay": 0.799602,
+    "snap": 0.25,
+    "tone": 0.3,
+    "drive": 0.1,
+    "level": 0.75,
+    "pan": 0.5
+   }
+  },
+  "15": {
+   "params": {
+    "mode": 0.2,
+    "tune": 0.625,
+    "decay": 0.523108,
+    "snap": 0.4,
+    "tone": 0.65,
+    "drive": 0.2,
+    "level": 0.65,
+    "pan": 0.5
+   }
+  },
+  "16": {
+   "params": {
+    "mode": 1.0,
+    "tune": 0.583333,
+    "decay": 0.592795,
+    "snap": 0.5,
+    "tone": 0.5,
+    "drive": 0.05,
+    "level": 0.65,
+    "pan": 0.75
+   }
+  },
+  "17": {
+   "params": {
+    "mode": 0.8,
+    "tune": 0.354167,
+    "decay": 0.829965,
+    "snap": 0.0,
+    "tone": 0.3,
+    "drive": 0.1,
+    "level": 0.7,
+    "pan": 0.25
+   }
+  },
+  "18": {
+   "params": {
+    "mode": 0.6,
+    "tune": 0.583333,
+    "decay": 0.476892,
+    "snap": 0.0,
+    "tone": 0.7,
+    "drive": 0.05,
+    "level": 0.5,
+    "pan": 0.75
+   }
+  },
+  "19": {
+   "params": {
+    "mode": 0.6,
+    "tune": 0.291667,
+    "decay": 1.0,
+    "snap": 0.0,
+    "tone": 0.35,
+    "drive": 0.05,
+    "level": 0.5,
+    "pan": 0.25
+   }
+  },
+  "20": {
+   "params": {
+    "mode": 0.4,
+    "tune": 0.208333,
+    "decay": 0.847986,
+    "snap": 0.25,
+    "tone": 0.2,
+    "drive": 0.15,
+    "level": 0.75,
+    "pan": 0.25
+   }
+  },
+  "21": {
+   "params": {
+    "mode": 0.4,
+    "tune": 0.729167,
+    "decay": 0.686407,
+    "snap": 0.35,
+    "tone": 0.45,
+    "drive": 0.1,
+    "level": 0.7,
+    "pan": 0.75
+   }
+  },
+  "22": {
+   "params": {
+    "mode": 0.0,
+    "tune": 0.8125,
+    "decay": 0.496632,
+    "snap": 0.8,
+    "tone": 0.55,
+    "drive": 0.35,
+    "level": 0.65,
+    "pan": 0.5
+   }
+  },
+  "23": {
+   "params": {
+    "mode": 0.2,
+    "tune": 0.770833,
+    "decay": 0.430677,
+    "snap": 0.5,
+    "tone": 0.8,
+    "drive": 0.25,
+    "level": 0.6,
+    "pan": 0.5
+   }
+  }
+ }
+}

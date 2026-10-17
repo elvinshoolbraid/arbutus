@@ -1,0 +1,6 @@
+{
+  "format": 1,
+  "kind": "engine",
+  "author": "op1r",
+  "description": "op1r's reverb for the OP-1, run unmodified through the OP-1 adapter: the Elements reverb as op1r's pcppcp ported it to fixed point (original by Emilie Gillet). TIME, TONE, DIFF, MIX. GPL-3.0-or-later."
+}

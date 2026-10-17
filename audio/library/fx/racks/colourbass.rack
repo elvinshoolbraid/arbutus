@@ -1,0 +1,84 @@
+{
+ "format": 1,
+ "kind": "rack",
+ "name": "COLOURBASS",
+ "requires": [
+  "arbutus/reverb",
+  "arbutus/satcomb"
+ ],
+ "tabs": [
+  {
+   "instance": "sat_a",
+   "engine": "arbutus/satcomb",
+   "min_version": "1.0.0",
+   "params": {
+    "tune": 0.25,
+    "feedback": 0.86,
+    "damp": 0.4,
+    "drive": 0.506422,
+    "mix": 0.7
+   }
+  },
+  {
+   "instance": "sat_b",
+   "engine": "arbutus/satcomb",
+   "min_version": "1.0.0",
+   "params": {
+    "tune": 0.395833,
+    "feedback": 0.84,
+    "damp": 0.5,
+    "drive": 0.403056,
+    "mix": 0.55
+   }
+  },
+  {
+   "instance": "verb",
+   "engine": "arbutus/reverb",
+   "min_version": "1.0.0",
+   "params": {
+    "size": 0.3,
+    "mix": 0.12
+   }
+  }
+ ],
+ "macros": [
+  {
+   "slot": 0,
+   "name": "GRIT",
+   "targets": [
+    {
+     "instance": "sat_a",
+     "param": "drive",
+     "lo": 0.218104,
+     "hi": 0.909479,
+     "curve": "exp",
+     "depth": 1.0
+    },
+    {
+     "instance": "sat_b",
+     "param": "drive",
+     "lo": 0.14789,
+     "hi": 0.781896,
+     "curve": "exp",
+     "depth": 1.0
+    },
+    {
+     "instance": "sat_a",
+     "param": "feedback",
+     "lo": 0.7,
+     "hi": 0.95,
+     "curve": "lin",
+     "depth": 1.0
+    },
+    {
+     "instance": "sat_b",
+     "param": "feedback",
+     "lo": 0.65,
+     "hi": 0.92,
+     "curve": "lin",
+     "depth": 1.0
+    }
+   ]
+  }
+ ]
+}

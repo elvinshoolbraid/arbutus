@@ -1,0 +1,49 @@
+{
+ "format": 1,
+ "kind": "rack",
+ "name": "VOICE-EQ",
+ "requires": [
+  "arbutus/eq3"
+ ],
+ "tabs": [
+  {
+   "instance": "eq",
+   "engine": "arbutus/eq3",
+   "min_version": "1.0.0",
+   "params": {
+    "low": 0.375,
+    "mid": 0.597222,
+    "high": 0.638889,
+    "mid_f": 0.725247,
+    "low_f": 0.462607,
+    "high_f": 0.69897,
+    "mid_q": 0.462756,
+    "out": 0.458333
+   }
+  }
+ ],
+ "macros": [
+  {
+   "slot": 0,
+   "name": "PRESENCE",
+   "targets": [
+    {
+     "instance": "eq",
+     "param": "mid",
+     "lo": 0.5,
+     "hi": 0.75,
+     "curve": "lin",
+     "depth": 1.0
+    },
+    {
+     "instance": "eq",
+     "param": "high",
+     "lo": 0.5,
+     "hi": 0.777778,
+     "curve": "lin",
+     "depth": 1.0
+    }
+   ]
+  }
+ ]
+}

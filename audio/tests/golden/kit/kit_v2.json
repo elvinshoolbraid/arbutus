@@ -1,0 +1,10 @@
+{
+  "format": 1,
+  "kind": "kit",
+  "name": "TEST-KIT-V2",
+  "pads": {
+    "0": {"file": "kick.wav", "params": {"pitch": 0.291667, "level": 1.0, "pan": 0.25}},
+    "1": {"file": "snare.wav", "params": {"rev": 1.0, "pan": 0.8, "choke": 0.25}},
+    "2": {"file": "hat.wav", "params": {"play": 1.0, "end": 0.5, "choke": 0.25}}
+  }
+}

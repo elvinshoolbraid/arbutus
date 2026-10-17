@@ -1,0 +1,3 @@
+# Just hold the root: the pattern comes from the `pattern` asset, not entry.
+0      on  60 1.00
+44000  off 60

@@ -1,0 +1,29 @@
+{
+ "format": 1,
+ "kind": "patch",
+ "name": "OPEN VOWEL",
+ "engine": {
+  "id": "arbutus/wavetable",
+  "min_version": "1.0.0",
+  "params": {
+   "pos": 0.15,
+   "sweep": 0.675,
+   "warp": 0.375,
+   "fold": 0.0,
+   "spread": 0.266667,
+   "sub": 0.35,
+   "drift": 0.5
+  },
+  "assets": {
+   "wavetable": "synth/wavetable/vowel.wav"
+  }
+ },
+ "env": {
+  "a": 0.12,
+  "d": 0.4,
+  "s": 0.85,
+  "r": 0.6,
+  "mode": "poly"
+ },
+ "octave": 0
+}

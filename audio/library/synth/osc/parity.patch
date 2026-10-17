@@ -1,0 +1,51 @@
+{
+ "format": 1,
+ "kind": "patch",
+ "name": "PARITY",
+ "engine": {
+  "id": "arbutus/osc",
+  "min_version": "1.0.0",
+  "params": {
+   "wave": 0.0,
+   "level": 0.5
+  }
+ },
+ "env": {
+  "a": 0.012,
+  "d": 0.2,
+  "s": 0.8,
+  "r": 0.34,
+  "mode": "poly"
+ },
+ "octave": 0,
+ "fx": {
+  "format": 1,
+  "kind": "rack",
+  "name": "PARITY",
+  "requires": [
+   "arbutus/biquad",
+   "arbutus/reverb"
+  ],
+  "tabs": [
+   {
+    "instance": "lp",
+    "engine": "arbutus/biquad",
+    "min_version": "1.0.0",
+    "params": {
+     "cutoff": 0.847464,
+     "q": 0.052632
+    }
+   },
+   {
+    "instance": "verb",
+    "engine": "arbutus/reverb",
+    "min_version": "1.0.0",
+    "params": {
+     "size": 0.5,
+     "mix": 0.25
+    }
+   }
+  ],
+  "macros": []
+ }
+}

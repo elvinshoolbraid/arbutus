@@ -1,0 +1,6 @@
+{
+  "format": 1,
+  "kind": "engine",
+  "author": "arbutus",
+  "description": "The IMU as four sources: tilt on two axes, a decaying shake, and spin."
+}

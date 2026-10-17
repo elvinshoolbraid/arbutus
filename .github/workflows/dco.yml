@@ -1,0 +1,34 @@
+# The DCO check (CONTRIBUTING.md § Sign off every commit): a pull request fails if any of its
+# commits (merges aside) lacks a `Signed-off-by:` line naming that commit's author.
+name: DCO
+on: pull_request
+permissions:
+  contents: read
+jobs:
+  sign-off:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Every commit is signed off by its author
+        env:
+          BASE: ${{ github.event.pull_request.base.sha }}
+          HEAD: ${{ github.event.pull_request.head.sha }}
+        run: |
+          bad=0
+          for c in $(git rev-list --no-merges "$BASE..$HEAD"); do
+            author=$(git log -1 --format='%an <%ae>' "$c")
+            if git log -1 --format='%(trailers:key=Signed-off-by,valueonly)' "$c" \
+                | grep -qixF -- "$author"; then
+              echo "ok       ${c:0:10}  $author"
+            else
+              echo "::error::commit ${c:0:10} has no 'Signed-off-by: $author' line"
+              bad=1
+            fi
+          done
+          if [ "$bad" = 1 ]; then
+            echo "Sign off with 'git commit -s'; to fix commits already made:"
+            echo "  git rebase --signoff $BASE && git push --force-with-lease"
+          fi
+          exit $bad

@@ -1,0 +1,15 @@
+# Tied notes (§15.4): hold the keys and press REST -- the step is held over the
+# next one instead of retriggering. Here C is tied across one step, then E.
+# At 120 bpm / 48 kHz a 1/16 step is 6000 frames.
+0      key 0 1      # REC down
+0      on  60 1.00
+500    key 1 1      # REST with 60 still held = a tie
+500    key 1 0
+600    off 60
+1000   on  64 1.00
+1500   off 64
+2000   key 1 1      # nothing held: an ordinary rest
+2000   key 1 0
+3000   key 0 0      # REC up
+4000   on  60 1.00  # hold the root
+44000  off 60

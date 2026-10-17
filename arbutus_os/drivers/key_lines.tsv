@@ -1,0 +1,60 @@
+# The ATmega's event lines (docs/hubs/uart-protocol.md § Events) and what a key
+# reader must make of each (#1020). Both readers run every row: the Python one
+# (drivers/uart_input.py, which keys_service.py subclasses) in
+# arbutus_os/tests/test_uart_input.py, the C++ one (audio/host/keys_reader.cpp)
+# in audio/tests/test_keys_reader.cpp. A parser change that moves one row fails
+# both suites, so the two cannot drift apart unnoticed.
+#
+# One row: <line> TAB <outcome>. The line is sent with "\n" appended; in it
+# \r \t \\ and \xNN are escapes. Outcomes:
+#   key R C down|up   a key event for (R, C); positions here are named ones
+#   enc I D           an encoder event (the range check is the UI's, later)
+#   malformed         a KP:/KR:/EN: line that did not parse: counted, dropped
+#   ignored           not input (informational, or not ours): no event, no count
+#   pong              the watchdog's answer
+#   ready             the ATmega's boot banner (a reset)
+# A field is an optional sign and 1-6 ASCII digits, nothing else; the line is
+# stripped of ASCII whitespace at both ends first (Python's bytes.strip()).
+
+KP:00:00	key 0 0 down
+KR:00:00	key 0 0 up
+KP:03:04	key 3 4 down
+KR:04:10	key 4 10 up
+KP:3:4	key 3 4 down
+KP:+3:00	key 3 0 down
+KP:000003:00	key 3 0 down
+KP:03:00\r	key 3 0 down
+ \tKP:03:00 \r	key 3 0 down
+KP:03:00\x0b\x0c	key 3 0 down
+EN:00:+002	enc 0 2
+EN:01:-001	enc 1 -1
+EN:03:+012	enc 3 12
+EN:07:+001	enc 7 1
+EN:00:+000	enc 0 0
+EN:00:00-1	malformed
+KP:xx:00	malformed
+EN:01	malformed
+KR:00	malformed
+KP::	malformed
+KP:	malformed
+KP:03:	malformed
+KP::03	malformed
+KP:00:00:00	malformed
+KP: 3:00	malformed
+KP:3 :00	malformed
+KP:1_0:00	malformed
+KP:0000003:00	malformed
+KP:+-3:00	malformed
+KP:-:00	malformed
+KP:03:0\xff	malformed
+PONG	pong
+PONG\r	pong
+KEYBOARD_READY	ready
+KEYBOARD_READY\r	ready
+KP:0KEYBOARD_READY	ready
+BL:128	ignored
+MCP:OK	ignored
+V1.5	ignored
+kp:00:00	ignored
+KP00:00	ignored
+\r	ignored

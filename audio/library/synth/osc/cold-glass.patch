@@ -1,0 +1,88 @@
+{
+ "format": 1,
+ "kind": "patch",
+ "name": "COLD-GLASS",
+ "engine": {
+  "id": "arbutus/osc",
+  "min_version": "1.0.0",
+  "params": {
+   "wave": 1.0,
+   "level": 0.6
+  }
+ },
+ "env": {
+  "a": 0.004,
+  "d": 0.35,
+  "s": 0.25,
+  "r": 1.2,
+  "mode": "poly"
+ },
+ "octave": 0,
+ "fx": {
+  "format": 1,
+  "kind": "rack",
+  "name": "WET-IRON",
+  "requires": [
+   "arbutus/biquad",
+   "arbutus/reverb"
+  ],
+  "tabs": [
+   {
+    "instance": "lp",
+    "engine": "arbutus/biquad",
+    "min_version": "1.0.0",
+    "params": {
+     "cutoff": 0.806773,
+     "q": 0.094737
+    }
+   },
+   {
+    "instance": "verb",
+    "engine": "arbutus/reverb",
+    "min_version": "1.0.0",
+    "params": {
+     "size": 0.45,
+     "mix": 0.22
+    }
+   }
+  ],
+  "macros": [
+   {
+    "slot": 0,
+    "name": "TONE",
+    "targets": [
+     {
+      "instance": "lp",
+      "param": "cutoff",
+      "lo": 0.383041,
+      "hi": 0.926619,
+      "curve": "lin",
+      "depth": 1.0
+     }
+    ]
+   },
+   {
+    "slot": 1,
+    "name": "SPACE",
+    "targets": [
+     {
+      "instance": "verb",
+      "param": "size",
+      "lo": 0.15,
+      "hi": 0.9,
+      "curve": "lin",
+      "depth": 1.0
+     },
+     {
+      "instance": "verb",
+      "param": "mix",
+      "lo": 0.05,
+      "hi": 0.6,
+      "curve": "lin",
+      "depth": 1.0
+     }
+    ]
+   }
+  ]
+ }
+}

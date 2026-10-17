@@ -1,0 +1,6 @@
+{
+  "format": 1,
+  "kind": "engine",
+  "author": "arbutus-test",
+  "description": "Test fixture (#631): a sequencer whose events depend on the host's block size on purpose, so ragged_events.sh can be proved to refuse it. Never built into the box tree, never offered to the instrument."
+}

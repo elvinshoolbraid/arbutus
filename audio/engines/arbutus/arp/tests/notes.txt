@@ -1,0 +1,8 @@
+# The chord arrives together but out of order (G, C, E) so ORDER and UP differ.
+# Held for half the run, then let go. 1/16 at 120 bpm / 48 kHz = 6000 frames.
+0      on  67 1.00
+0      on  60 1.00
+0      on  64 1.00
+23000  off 67
+23000  off 60
+23000  off 64

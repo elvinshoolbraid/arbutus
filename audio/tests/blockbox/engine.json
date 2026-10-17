@@ -1,0 +1,6 @@
+{
+  "format": 1,
+  "kind": "engine",
+  "author": "arbutus-test",
+  "description": "Test fixture (#56): its output depends on the host's block size on purpose, so ragged.sh can be proved to refuse it. Never built into the box tree, never offered to the instrument."
+}

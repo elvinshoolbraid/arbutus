@@ -1,0 +1,20 @@
+{
+  "name": "reverb",
+  "author": "pcppcp",
+  "kind": "fx",
+  "order": 3,
+  "symbol": "FX_reverb",
+  "sources": [
+    "reverb.c"
+  ],
+  "defaults": [
+    16000,
+    20000,
+    16384,
+    12000
+  ],
+  "screen": {
+    "svg": "kalireverb.svg",
+    "symbol": "SCREEN_reverb"
+  }
+}

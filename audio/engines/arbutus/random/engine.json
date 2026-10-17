@@ -1,0 +1,6 @@
+{
+  "format": 1,
+  "kind": "engine",
+  "author": "arbutus",
+  "description": "Deterministic randomness: stepped S&H, a smooth DRIFT and a Brownian WALK, tempo-synced or free."
+}

@@ -1,0 +1,63 @@
+{
+ "format": 1,
+ "kind": "rack",
+ "name": "HANDHELD",
+ "requires": [
+  "arbutus/crusher",
+  "arbutus/eq3"
+ ],
+ "tabs": [
+  {
+   "instance": "cheap",
+   "engine": "arbutus/crusher",
+   "min_version": "1.0.0",
+   "params": {
+    "bits": 0.357143,
+    "rate": 0.555505,
+    "drive": 0.208333,
+    "mix": 1.0,
+    "tone": 0.695319,
+    "jitter": 0.18
+   }
+  },
+  {
+   "instance": "box",
+   "engine": "arbutus/eq3",
+   "min_version": "1.0.0",
+   "params": {
+    "low": 0.25,
+    "mid": 0.611111,
+    "high": 0.305556,
+    "mid_f": 0.659597,
+    "low_f": 0.691199,
+    "high_f": 0.60206,
+    "mid_q": 0.433711,
+    "out": 0.5625
+   }
+  }
+ ],
+ "macros": [
+  {
+   "slot": 0,
+   "name": "CHEAP",
+   "targets": [
+    {
+     "instance": "cheap",
+     "param": "bits",
+     "lo": 0.714286,
+     "hi": 0.071429,
+     "curve": "lin",
+     "depth": 1.0
+    },
+    {
+     "instance": "cheap",
+     "param": "rate",
+     "lo": 0.840262,
+     "hi": 0.437521,
+     "curve": "log",
+     "depth": 1.0
+    }
+   ]
+  }
+ ]
+}

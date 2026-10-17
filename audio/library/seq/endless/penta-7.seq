@@ -1,0 +1,9 @@
+{
+  "format": 1,
+  "kind": "pattern",
+  "name": "penta 7",
+  "comment": "7 steps of A minor pentatonic at 1/8. Seven against a bar of eight precesses one eighth per bar and comes back round after 8 bars — the polymeter is the whole point, so leave it running.",
+  "root": 57,
+  "named_params": {"DIV": "1/8", "SWING": 50, "DIR": "fwd"},
+  "pattern": [[57], [64], [60], [], [67], [62], [69]]
+}

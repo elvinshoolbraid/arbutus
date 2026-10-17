@@ -1,0 +1,22 @@
+{
+ "format": 1,
+ "kind": "patch",
+ "name": "INIT",
+ "engine": {
+  "id": "arbutus/fm",
+  "min_version": "1.0.0",
+  "params": {
+   "ratio": 0.142857,
+   "index": 0.366667,
+   "level": 0.8
+  }
+ },
+ "env": {
+  "a": 0.012,
+  "d": 0.2,
+  "s": 0.8,
+  "r": 0.34,
+  "mode": "poly"
+ },
+ "octave": 0
+}

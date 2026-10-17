@@ -1,0 +1,27 @@
+{
+ "format": 1,
+ "kind": "patch",
+ "name": "GLASS REED",
+ "engine": {
+  "id": "arbutus/va",
+  "min_version": "1.0.0",
+  "params": {
+   "wave": 0.333333,
+   "cutoff": 0.833105,
+   "res": 0.55,
+   "env": 0.275,
+   "sub": 0.1,
+   "noise": 0.18,
+   "spread": 0.6,
+   "drive": 0.05
+  }
+ },
+ "env": {
+  "a": 0.02,
+  "d": 0.6,
+  "s": 0.6,
+  "r": 0.5,
+  "mode": "poly"
+ },
+ "octave": 0
+}

@@ -1,0 +1,175 @@
+/* "reverb" - fixed-point port of the Mutable Instruments Elements reverb (elements/dsp/fx/reverb.h):
+ * Griesinger topology from the Dattorro paper, 4 input allpasses (the first one smeared by an LFO) into a loop
+ * of 2 x (2 allpasses + low-pass + delay), long delay modulated by a slow LFO. Delay lengths scaled from
+ * 32 kHz to 44.1 kHz so the room keeps its size. Mono: both loop outputs are summed.
+ *   knob 0 (blue)  : time       decay, 0.35 .. 0.98 loop gain (Elements: 0.35 .. 0.95)
+ *   knob 1 (green) : tone       loop low-pass 0.3 (dark) .. 0.95 (bright) (Elements: 0.7 .. 0.9)
+ *   knob 2 (white) : diffusion  allpass gain 0.5 .. 0.75 (Elements: 0.55 .. 0.7)
+ *   knob 3 (red)   : mix        dry .. wet          (green / red swapped in op1r 24)
+ * Memory: 32 Ki int16 (64 KB, 16-bit like Elements) in this FX position's scratch buffer.
+ * Original code (c) 2014 Emilie Gillet, MIT license. */
+#include "op1_plugin.h"
+
+#define RV_SIZE 32768
+#define RV_MASK (RV_SIZE - 1)
+/* ap1..ap4, dap1a, dap1b, del1, dap2a, dap2b, del2 (Elements lengths * 44100 / 32000) */
+static const int16_t rv_len[10] = { 207, 295, 440, 726, 3007, 3707, 6203, 3480, 3028, 8698 };
+
+typedef struct {
+    int16_t *buf;
+    int32_t wp, base[10];
+    int32_t lp1, lp2;
+    int32_t lfo_iir[2], lfo_y0[2], lfo_y1[2], lfo[2];    /* stmlib CosineOscillator (approximate), Q29; lfo Q15 0..1 */
+} reverb_t;
+
+static reverb_t rv[3];                                    /* synth, drum, master */
+
+static inline int32_t c17(int32_t x) { return x < -65535 ? -65535 : (x > 65535 ? 65535 : x); }
+/* |b| <= 32767: fits 32 bit. Truncates towards zero: >> alone biases the loop into a DC limit cycle and
+ * rounding into a low-level one, magnitude truncation lets the tail die out */
+static inline int32_t m15(int32_t a, int32_t b) { int32_t x = c17(a) * b; return x >= 0 ? x >> 15 : -(-x >> 15); }
+static inline int16_t sat(int32_t x) { return (int16_t)(x < -32768 ? -32768 : (x > 32767 ? 32767 : x)); }
+#define RV(i, off) r->buf[(r->wp + r->base[i] + (off)) & RV_MASK]
+#define TAIL(i) RV(i, rv_len[i] - 1)
+
+/* Interpolate(line, offset + amp * lfo) */
+static inline int32_t interp(reverb_t *r, int i, int32_t off, int32_t amp, int32_t lfo)
+{
+    int32_t pos = (off << 15) + amp * lfo;                /* Q15 samples */
+    int32_t k = pos >> 15, f = pos & 32767;
+    int32_t a = RV(i, k), b = RV(i, k + 1);
+    return a + m15(b - a, f);
+}
+
+/* allpass stage: Read(TAIL, g) then WriteAllPass(line, -g) */
+static inline int32_t allpass(reverb_t *r, int i, int32_t acc, int32_t g)
+{
+    int32_t prev = TAIL(i);
+    acc += m15(prev, g);
+    RV(i, 0) = sat(acc);
+    return m15(acc, -g) + prev;
+}
+
+static void reverb_init(int pos)
+{
+    reverb_t *r = &rv[pos % 3];
+    r->buf = (int16_t *)op1_fx_scratch(pos);
+    if (!r->buf) return;
+    for (int i = 0; i < RV_SIZE; i++) r->buf[i] = 0;
+    for (int i = 0, b = 0; i < 10; i++) { r->base[i] = b; b += rv_len[i] + 1; }
+    r->wp = 0; r->lp1 = r->lp2 = 0;
+    for (int k = 0; k < 2; k++) {                          /* 0.5 Hz, 0.3 Hz, as clouds_dsp.c */
+        int64_t f = ((int64_t)(k ? 3 : 5) * 32 << 29) / (10LL * 44100);
+        int64_t fr = (1LL << 27) - f;
+        r->lfo_iir[k] = (int32_t)((16 * fr * ((1LL << 29) - 2 * fr)) >> 29);
+        r->lfo_y1[k] = r->lfo_iir[k] / 4;
+        r->lfo_y0[k] = 1 << 28;
+        r->lfo[k] = (r->lfo_y1[k] + (1 << 28)) >> 14;
+    }
+}
+
+static void reverb_render(int pos, int16_t *buf, const int16_t *p)
+{
+    reverb_t *r = &rv[pos % 3];
+    if (!r->buf) return;
+    int32_t krt = 11469 + (op1_fx_param_q15(p, 0) * 20644 >> 15);      /* 0.35 .. 0.98 */
+    int32_t amount = op1_fx_param_q15(p, 3);
+    int32_t kap = 16384 + (op1_fx_param_q15(p, 2) * 8192 >> 15);       /* 0.5 .. 0.75 */
+    int32_t klp = 9830 + (op1_fx_param_q15(p, 1) * 21299 >> 15);       /* 0.3 .. 0.95 */
+    const int32_t gain = 16384;                       /* input 0.5 (Elements 0.2 on L + R): wet ~-20 dB at 0.2 */
+
+    int32_t peak = 0;
+    for (int t = 0; t < OP1_FX_BLOCK; t++) {
+        if (--r->wp < 0) r->wp += RV_SIZE;
+        if ((r->wp & 31) == 0)                                         /* FxEngine: LFOs every 32 samples */
+            for (int k = 0; k < 2; k++) {
+                int32_t y = r->lfo_y0[k];
+                r->lfo_y0[k] = (int32_t)(((int64_t)r->lfo_iir[k] * y) >> 29) - r->lfo_y1[k];
+                r->lfo_y1[k] = y;
+                r->lfo[k] = (y + (1 << 28)) >> 14;
+            }
+        int32_t in = buf[t], acc, apout, wet;
+        /* smear AP1 inside the loop */
+        RV(0, 138) = sat(interp(r, 0, 14, 110, r->lfo[0]));
+        acc = m15(in, gain);
+        acc = allpass(r, 0, acc, kap);
+        acc = allpass(r, 1, acc, kap);
+        acc = allpass(r, 2, acc, kap);
+        acc = allpass(r, 3, acc, kap);
+        apout = acc;
+        /* loop half 1 */
+        acc = apout + m15(interp(r, 9, 8550, 138, r->lfo[1]), krt);
+        r->lp1 += m15(acc - r->lp1, klp); acc = r->lp1;
+        acc = allpass(r, 4, acc, -kap);
+        acc = allpass(r, 5, acc, kap);
+        RV(6, 0) = sat(acc);
+        wet = acc;                                                     /* Write(del1, 2.0): *2, halved below */
+        /* loop half 2 */
+        acc = apout + m15(TAIL(6), krt);
+        r->lp2 += m15(acc - r->lp2, klp); acc = r->lp2;
+        acc = allpass(r, 7, acc, kap);
+        acc = allpass(r, 8, acc, -kap);
+        RV(9, 0) = sat(acc);
+        wet = (wet + acc) * 2;                                         /* mono: 2 L + 2 R, + 6 dB makeup */
+        int32_t o = sat(in + m15(wet - in, amount));
+        buf[t] = (int16_t)o;
+        if (o < 0) o = -o;
+        if (o > peak) peak = o;
+    }
+    volatile int16_t *m = op1_fx_meter(pos);
+    int32_t mv = (*m * 0xfe00) >> 16;
+    *m = (int16_t)(peak > mv ? peak : mv);
+}
+
+const op1_fx_t FX_reverb = { reverb_init, reverb_render };
+
+/* ======================= screen (GUI thread) =======================
+ * display/kalireverb.svg (Kali artwork, display/gen_kali_svg.py from display/src/kali-reverb.svg). Knobs as the
+ * stock screens see them (op1_fx_knobs_live):
+ *   blue  (time)      1..6 arms visible (karm1..6: lower pair first, then middle, then upper) + TIME needle
+ *   green (tone)      fire ring and flames fade in (0 = hidden, then kfire1..5) + TONE needle (green)
+ *   white (diffusion) brightness of the skull necklace (one of kskull1..5) + DIFFUSION needle
+ *   red   (mix)       lights 0..10 lines of the right-hand scale from the bottom (kmix9 = bottom) in red
+ * Only group visibility (node +0x50) and needle rotations change; no raster lines. */
+#include "kali_geom.h"
+static void *k_arm[6], *k_skull[KALI_LEVELS], *k_fire[KALI_LEVELS], *k_mix[KALI_MIX_LINES], *k_needle[3];
+
+static void kali_screen_init(void *scr)
+{
+    char id[8] = { 'k', 0 };
+    for (int i = 0; i < 6; i++) { id[1] = 'a'; id[2] = 'r'; id[3] = 'm'; id[4] = (char)('1' + i); id[5] = 0; k_arm[i] = op1_find_node(scr, id); }
+    for (int i = 0; i < KALI_LEVELS; i++) {
+        static const char sk[] = "kskull1", fi[] = "kfire1";
+        char a[8], b[8];
+        for (int j = 0; j < 8; j++) { a[j] = sk[j]; b[j] = j < 7 ? fi[j] : 0; }
+        a[6] = (char)('1' + i); b[5] = (char)('1' + i);
+        k_skull[i] = op1_find_node(scr, a); k_fire[i] = op1_find_node(scr, b);
+    }
+    for (int i = 0; i < KALI_MIX_LINES; i++) { char m[6] = { 'k', 'm', 'i', 'x', (char)('0' + i), 0 }; k_mix[i] = op1_find_node(scr, m); }
+    k_needle[0] = op1_find_node(scr, "ktime"); k_needle[1] = op1_find_node(scr, "kdiff"); k_needle[2] = op1_find_node(scr, "ktone");
+}
+
+static void kali_screen_update(void *scr, int dt)
+{
+    int16_t k[4];
+    op1_fx_knobs_live(k);
+    int arms = 1 + (k[0] * 5 + 16383) / 32767;                         /* 1..6 */
+    for (int i = 0; i < 6; i++) if (k_arm[i]) op1_node_set_visible(k_arm[i], i < arms);
+    int lit = (k[3] * KALI_MIX_LINES + 16383) / 32767;                 /* 0..10 lines, from the bottom */
+    for (int i = 0; i < KALI_MIX_LINES; i++) if (k_mix[i]) op1_node_set_visible(k_mix[i], i >= KALI_MIX_LINES - lit);
+    int sk = (k[2] * (KALI_LEVELS - 1) + 16383) / 32767;               /* 0..4: always one level shown */
+    int fi = (k[1] * KALI_LEVELS + 16383) / 32767;                     /* 0 = none, 1..5 */
+    for (int i = 0; i < KALI_LEVELS; i++) {
+        if (k_skull[i]) op1_node_set_visible(k_skull[i], i == sk);
+        if (k_fire[i]) op1_node_set_visible(k_fire[i], i == fi - 1);
+    }
+    static const int32_t px[3] = { KALI_TIME_X, KALI_DIFF_X, KALI_TONE_X }, py[3] = { KALI_TIME_Y, KALI_DIFF_Y, KALI_TONE_Y };
+    static const uint8_t kn[3] = { 0, 2, 1 };                          /* time blue, diffusion white, tone green */
+    for (int i = 0; i < 3; i++) if (k_needle[i]) {                     /* needle points left at 0, right at max */
+        int32_t a = k[kn[i]] * 4096 >> 15;                             /* 0..180 deg (8192 = full turn) */
+        op1_node_rotate(k_needle[i], px[i], py[i], OP1_SINE_TABLE[a & 8191], OP1_SINE_TABLE[(a + 2048) & 8191]);
+    }
+    op1_screen_draw(scr, dt);
+}
+
+const op1_screen_t SCREEN_reverb = { kali_screen_init, kali_screen_update };

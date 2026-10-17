@@ -1,0 +1,6 @@
+{
+  "format": 1,
+  "kind": "engine",
+  "author": "arbutus",
+  "description": "24 pads on chromatic keys from a kit.json. One-shot per pad."
+}

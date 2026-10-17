@@ -1,0 +1,36 @@
+# cmake -DDIR=<audio/third_party/op1r-src> [-DHELD=<HELD.txt> -DREL=<DIR from the repo root>]
+#       -P check_vendored.cmake
+# Fails unless every file SHA256SUMS lists has that hash: the op1r code the
+# boxes build is the pinned commit's, unmodified (#1230). CMake's own SHA256,
+# so a Mac and the Pi check it the same way. In the public repo a file the
+# export held back (its HELD.txt, #1299) may be missing; never modified.
+file(STRINGS "${DIR}/SHA256SUMS" _lines)
+set(_held "")
+if(HELD AND EXISTS "${HELD}")
+  file(STRINGS "${HELD}" _held REGEX "^[^#]")
+endif()
+set(_bad 0)
+foreach(_line IN LISTS _lines)
+  string(REGEX MATCH "^([0-9a-f]+)  (.+)$" _m "${_line}")
+  set(_want "${CMAKE_MATCH_1}")
+  set(_file "${CMAKE_MATCH_2}")
+  if(NOT EXISTS "${DIR}/${_file}" AND "${_held}" MATCHES "(^|;)${REL}/${_file}  ")
+    message(STATUS "held by the export (HELD.txt): ${_file}")
+    continue()
+  endif()
+  if(NOT EXISTS "${DIR}/${_file}")
+    message(SEND_ERROR "missing: ${_file}")
+    math(EXPR _bad "${_bad} + 1")
+    continue()
+  endif()
+  file(SHA256 "${DIR}/${_file}" _got)
+  if(NOT _got STREQUAL _want)
+    message(SEND_ERROR "modified: ${_file} (sha256 ${_got}, pinned ${_want})")
+    math(EXPR _bad "${_bad} + 1")
+  endif()
+endforeach()
+list(LENGTH _lines _n)
+if(_bad)
+  message(FATAL_ERROR "op1r_vendored: ${_bad} of ${_n} files differ from the pinned commit")
+endif()
+message(STATUS "op1r_vendored: ${_n} files as pinned")

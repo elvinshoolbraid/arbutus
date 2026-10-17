@@ -1,0 +1,6 @@
+{
+  "format": 1,
+  "kind": "engine",
+  "author": "arbutus",
+  "description": "One WAV played chromatically. The sample arrives as an asset."
+}

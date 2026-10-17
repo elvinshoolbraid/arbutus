@@ -1,0 +1,10 @@
+# F3 kick, F#3 snare, G3 hat -- a bar of eighths at 120 bpm (12000 frames a
+# beat at 48 kHz). Note-offs are deliberately absent: a pad is a one-shot.
+0      on  53 1.00
+6000   on  55 0.70
+12000  on  54 0.90
+18000  on  55 0.70
+24000  on  53 1.00
+30000  on  55 0.60
+36000  on  54 0.90
+42000  on  55 0.70

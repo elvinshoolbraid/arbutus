@@ -1,0 +1,24 @@
+# pygame-ce, not upstream pygame: only the CE fork exposes
+# pygame.Window(allow_high_dpi=True), which is what makes the window Retina-
+# native on the MacBook (emulator/notes/chrome-and-input.md § Chrome, "Device pixels").
+pygame-ce>=2.5.5
+sounddevice>=0.4.6
+numpy>=1.24.0
+
+# MIDI keyboard / encoder input (drivers/desktop/midi_in.py; absence is safe)
+mido>=1.3.0
+python-rtmidi>=1.5.0
+
+# optional — PNG fallback if pygame is unavailable in CI
+# Pillow>=10.0.0
+
+# feature scripts for tools/verify.py (.claude/skills/verify-arbutus)
+pyyaml>=6.0
+
+# The device's UART driver talks to the ATmega through pyserial, and
+# `arbutus_os/tests/test_uart_input.py::AgainstARealPort` drives the real
+# pyserial code path over a pty -- the contract test that catches P23's
+# `read(256)` bug (#127). It skipped itself everywhere but the Pi, so the
+# one guard on that bug ran only on the machine the gate visits least
+# (#118). Pure Python, no board, no device node.
+pyserial>=3.5

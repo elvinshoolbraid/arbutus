@@ -1,0 +1,4 @@
+# One key holds the rhythm; the pitch is the key's. Let go at 100000, which is
+# 16 steps of 1/16 at 120 bpm / 48 kHz (6000 frames a step) and change.
+0       on  60 1.00
+100000  off 60

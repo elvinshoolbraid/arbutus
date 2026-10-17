@@ -1,0 +1,14 @@
+# Two overlapping plucks low down, then a chord and a high note: the delay
+# line at its longest, release tails overlapping, and the top of the range.
+0      on  40 0.95
+6000   on  47 0.70
+20000  off 40
+20000  off 47
+22000  on  60 0.85
+22000  on  64 0.70
+22000  on  67 0.60
+36000  off 60
+36000  off 64
+36000  off 67
+38000  on  79 1.00
+44000  off 79

@@ -1,0 +1,6 @@
+{
+  "format": 1,
+  "kind": "engine",
+  "author": "arbutus",
+  "description": "Envelope follower on the sidechain: smoothed level, a fast one, its inverse and a gate with hold."
+}

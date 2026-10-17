@@ -1,0 +1,6 @@
+{
+  "format": 1,
+  "kind": "engine",
+  "author": "arbutus",
+  "description": "Endless sequencer: hold REC, play a phrase, hold a key to run it."
+}

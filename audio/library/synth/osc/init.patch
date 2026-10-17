@@ -1,0 +1,21 @@
+{
+ "format": 1,
+ "kind": "patch",
+ "name": "INIT",
+ "engine": {
+  "id": "arbutus/osc",
+  "min_version": "1.0.0",
+  "params": {
+   "wave": 0.0,
+   "level": 0.7
+  }
+ },
+ "env": {
+  "a": 0.012,
+  "d": 0.2,
+  "s": 0.8,
+  "r": 0.34,
+  "mode": "poly"
+ },
+ "octave": 0
+}

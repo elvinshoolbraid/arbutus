@@ -1,0 +1,8 @@
+{
+  "format": 1,
+  "kind": "pattern",
+  "name": "tied triad",
+  "comment": "The asset shape a stage-H2 browser will hand down (DDR-037): a step is a list of MIDI notes, [] is a rest and \"tie\" holds the step before it.",
+  "root": 60,
+  "pattern": [[60, 64], "tie", [67], []]
+}

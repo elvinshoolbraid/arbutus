@@ -1,0 +1,7 @@
+# RETRIG NOTE and FADE-IN: a note at the start, a retrigger mid-block, a
+# release that must not retrigger, and a second note a bar later.
+0      on  60 0.90
+30000  off 60
+30100  on  64 0.70
+60000  off 64
+72000  on  67 1.00

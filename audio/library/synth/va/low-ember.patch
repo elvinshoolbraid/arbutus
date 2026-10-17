@@ -1,0 +1,27 @@
+{
+ "format": 1,
+ "kind": "patch",
+ "name": "LOW EMBER",
+ "engine": {
+  "id": "arbutus/va",
+  "min_version": "1.0.0",
+  "params": {
+   "wave": 0.666667,
+   "cutoff": 0.330942,
+   "res": 0.42,
+   "env": 0.775,
+   "sub": 0.6,
+   "noise": 0.0,
+   "spread": 0.133333,
+   "drive": 0.4
+  }
+ },
+ "env": {
+  "a": 0.002,
+  "d": 0.35,
+  "s": 0.45,
+  "r": 0.18,
+  "mode": "mono"
+ },
+ "octave": 0
+}

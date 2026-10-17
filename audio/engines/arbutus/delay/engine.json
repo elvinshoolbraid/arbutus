@@ -1,0 +1,6 @@
+{
+  "format": 1,
+  "kind": "engine",
+  "author": "arbutus",
+  "description": "Tempo-following echo: note-value or free TIME, a filtered and saturated feedback loop, ping-pong, wow and ducking."
+}

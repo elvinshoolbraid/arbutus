@@ -1,0 +1,6 @@
+{
+  "format": 1,
+  "kind": "engine",
+  "author": "arbutus",
+  "description": "Four shapes off one phase: SINE, TRI, SQR, S&H. Tempo-synced or free RATE, retrigger on note."
+}

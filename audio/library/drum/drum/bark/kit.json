@@ -1,0 +1,55 @@
+{
+ "format": 1,
+ "kind": "kit",
+ "name": "BARK",
+ "pads": {
+  "0": {
+   "file": "01.wav",
+   "params": {}
+  },
+  "1": {
+   "file": "02.wav",
+   "params": {}
+  },
+  "2": {
+   "file": "03.wav",
+   "params": {}
+  },
+  "3": {
+   "file": "04.wav",
+   "params": {}
+  },
+  "4": {
+   "file": "05.wav",
+   "params": {}
+  },
+  "5": {
+   "file": "06.wav",
+   "params": {}
+  },
+  "6": {
+   "file": "07.wav",
+   "params": {}
+  },
+  "7": {
+   "file": "08.wav",
+   "params": {}
+  },
+  "8": {
+   "file": "09.wav",
+   "params": {}
+  },
+  "9": {
+   "file": "10.wav",
+   "params": {}
+  },
+  "10": {
+   "file": "11.wav",
+   "params": {}
+  },
+  "11": {
+   "file": "12.wav",
+   "params": {}
+  }
+ }
+}

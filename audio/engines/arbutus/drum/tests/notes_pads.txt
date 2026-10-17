@@ -1,0 +1,11 @@
+# kit_v2.json: kick -5 st panned left, snare REV panned right in choke group 1,
+# hat LOOP over its first half in the same group. The hat loops while held,
+# stops on release, and its second hit chokes the ringing snare.
+0      on  53 1.00
+6000   on  55 0.80
+9000   off 55
+12000  on  54 0.90
+14000  on  55 0.80
+15000  off 55
+24000  on  53 1.00
+30000  on  54 0.70

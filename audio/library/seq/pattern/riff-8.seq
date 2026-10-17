@@ -1,0 +1,8 @@
+{
+  "format": 1,
+  "kind": "pattern",
+  "name": "riff 8",
+  "comment": "Eight steps of A minor at 1/16, absolute pitch — this box does not transpose onto the key you hold, so the riff is this riff wherever you start it. Two rests in the middle leave room for a kick.",
+  "named_params": {"DIV": "1/16"},
+  "pattern": [[57], [60], [], [64], [62], [], [60], [57]]
+}
