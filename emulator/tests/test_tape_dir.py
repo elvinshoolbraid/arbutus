@@ -1,6 +1,6 @@
 """C1 step 3b, the UI half (#297): the tape lives in the open project.
 
-Elfy's answer on #157 was (a): SAVE moves the tape files into the project
+Elvin's answer on #157 was (a): SAVE moves the tape files into the project
 folder and recording carries on there, and SAVE means "save the project I have
 open". So these tests read the **files**, not the UI's opinion of them:
 

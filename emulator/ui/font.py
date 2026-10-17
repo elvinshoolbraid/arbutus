@@ -1,4 +1,4 @@
-"""Bitmap pixel fonts for the Arbutus-1 UI.
+"""Bitmap pixel fonts for the Arbutus UI.
 
 Two hand-authored fonts, embedded as Python data:
   small: 5x7 glyph in a 6x8 cell (1 px tracking)

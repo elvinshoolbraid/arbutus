@@ -1,19 +1,19 @@
 ---
-tags: [emulator, TBD-Elfy, decisions]
+tags: [emulator, TBD, Elvin's call, decisions]
 status: active
-read_when: you change how a page draws or what a gesture does (record the choice here), or gather the open choices for Elfy's play test
+read_when: you change how a page draws or what a gesture does (record the choice here), or gather the open choices for Elvin's play test
 index: emulator/CLAUDE.md
 ---
 
-# UI choices no spec settled: Elfy's to confirm, and runs' own calls
+# UI choices no spec settled: Elvin's to confirm, and runs' own calls
 
 > Moved verbatim from `emulator/CLAUDE.md` on 2026-10-08 (#440), headings unchanged, so a `§ <name>` citing that file finds its section here. The index of this folder's notes is `emulator/CLAUDE.md` § Read by task.
 
 ## Native audio becomes the architecture
 
-### `[TBD-Elfy]` — every drawing and gesture decision made here
+### `[TBD, Elvin's call]` — every drawing and gesture decision made here
 
-The spec names the *behaviour*; the look is Elfy's. Each of these is one edit
+The spec names the *behaviour*; the look is Elvin's. Each of these is one edit
 away from being something else, and the file and line are named so it is one
 edit.
 
@@ -21,34 +21,34 @@ edit.
 |---|---|---|---|
 | 1 | §6.1 "the tab-count indicator is required, its form is not specified" | a row of 16×9 boxes under the header: `M`, then `1..n`, then `+` for the empty tab; the current one filled | `pages/rack.py` `_draw_tabs` |
 | 2 | DDR-038 "a rack with one engine shows *no* tabs" | no boxes and no count at all — one dim `›` at the right end of the header rule | `pages/rack.py` `render`, `solo` |
-| 3 | §6.3 "highlight and copy `[TBD-Elfy]`" | a 1 px ring in `palette.GREEN` around every turnable param cell; `Param.highlight`, read only by `ui/frame.py` | `pages/rack.py` `_engine_slots`, `ui/frame.py` |
+| 3 | §6.3 "highlight and copy `[TBD, Elvin's call]`" | a 1 px ring in `palette.GREEN` around every turnable param cell; `Param.highlight`, read only by `ui/frame.py` | `pages/rack.py` `_engine_slots`, `ui/frame.py` |
 | 4 | §6.3 strip copy | the spec's own words, verbatim: `TURN A PARAM TO COPY ITS ADDRESS`, `TURN A KNOB TO PASTE` | `pages/rack.py` `COPY_STRIP` |
-| 5 | §6.4 "a gesture on a bound slot `[TBD-Elfy]` opens the range popup" | **SHIFT + DROP** on the master tab, acting on the macro last turned. SHIFT+DROP was the one unused combination on those two keys | `pages/rack.py` `_open_range` |
+| 5 | §6.4 "a gesture on a bound slot `[TBD, Elvin's call]` opens the range popup" | **SHIFT + DROP** on the master tab, acting on the macro last turned. SHIFT+DROP was the one unused combination on those two keys | `pages/rack.py` `_open_range` |
 | 6 | §6.4 the popup itself | plain: name, `INST.PARAM`, a LO..HI span bar in the macro's encoder colour with a red marker at the live position, `SHIFT+DROP CLOSES` | `pages/rack.py` `_draw_range` |
 | 7 | §6.4 "‹ › steps through targets" | ‹ › while the popup is open | `pages/rack.py` `key` |
-| 8 | §6.8 CPU-flag copy | **settled by D103** (Elfy, Play date 1, #843): `CPU UNHAPPY: OVERLOAD`, the app's words, as a 3 s flash in the dynamic strip (DDR-031); short form `CPU UNHAPPY` (*run's call, 2026-10-14*: the app's first two words); was `CPU NO HAPPY — EFFECT TOO BIG` | `app/native_audio.py` `XRUN_LONG` |
-| 8b | the tape's own alarms (C1 step 7, `tape-streaming-design.md` § 3.7) | **Elfy's words, § 7 answered 2026-09-23**: `HARD DRIVE SLOW` (not the note's `TAPE LATE`) in the same slot, on the same 3-in-2-s edge, because the host sends the flag and one alarm rule covers both; and **two** words for a take that ended — `CARD STALLED` for a card that stopped answering, `TAPE FULL` for a card with no room and for the medium's own end. A reason this build does not know reads as `TAPE FULL`, the half that never tells a player to try again. `tape_full` is said **every** time: it is a take that ended, not a rate | `app/native_audio.py` `LATE_LONG`, `TAPE_FULL_WORDS` |
+| 8 | §6.8 CPU-flag copy | **settled by D103** (Elvin, Play date 1, #843): `CPU UNHAPPY: OVERLOAD`, the app's words, as a 3 s flash in the dynamic strip (DDR-031); short form `CPU UNHAPPY` (*run's call, 2026-10-14*: the app's first two words); was `CPU NO HAPPY — EFFECT TOO BIG` | `app/native_audio.py` `XRUN_LONG` |
+| 8b | the tape's own alarms (C1 step 7, `tape-streaming-design.md` § 3.7) | **Elvin's words, § 7 answered 2026-09-23**: `HARD DRIVE SLOW` (not the note's `TAPE LATE`) in the same slot, on the same 3-in-2-s edge, because the host sends the flag and one alarm rule covers both; and **two** words for a take that ended — `CARD STALLED` for a card that stopped answering, `TAPE FULL` for a card with no room and for the medium's own end. A reason this build does not know reads as `TAPE FULL`, the half that never tells a player to try again. `tape_full` is said **every** time: it is a take that ended, not a rate | `app/native_audio.py` `LATE_LONG`, `TAPE_FULL_WORDS` |
 | 8c | **a ninth row on FILE › SYSTEM** — `TAPE BUFFER`, read-only, after `DATE / TIME` | § FILE › SYSTEM's sketch names eight rows and design § 3.7 says `tape.pool` is "for the FILE › SYSTEM page and the bench", so the row is a deviation from the sketch's list and not from the design. It reads `<resident>/<ranges>` with a note that is the write backlog if there is one, else the late-block count, else `NOTHING HAS BEEN READ LATE`; with no window (`ranges` 0, which is every host until the medium moves onto storage, and an older host with no `pool` at all) it says `ALL IN RAM`. A row and not a meter: the number a player acts on is the flag in the strip, and this is where it can be read afterwards | `pages/file.py` `_tape_cells` |
 | 9 | not in the spec | which tab the FX page opens on: one engine → that engine, more than one → master, none → the empty tab. Re-settles when a different rack loads, keeps your place otherwise (DDR-028) | `pages/rack.py` `settle` |
 | 10 | not in the spec | the ENGINE scope. The UI no longer sees samples, so it draws a **peak history** from the `meters` push instead of a waveform | `app/app.py` `_native_meters` |
 | 11 | not in the spec | an unbound macro slot renders `—` like any empty slot, and becomes turnable only in paste mode | `pages/rack.py` `_macro_slots` |
-| 12 | §3.6 "label length `[TBD-Elfy]`" | the descriptor's labels go in the key strip unclipped; `REC REST UNDO CLEAR` fit an 80 px cell | `pages/seq.py` `strip_labels` |
+| 12 | §3.6 "label length `[TBD, Elvin's call]`" | the descriptor's labels go in the key strip unclipped; `REC REST UNDO CLEAR` fit an 80 px cell | `pages/seq.py` `strip_labels` |
 | 13 | DDR-053 "SUS/REL greyed" | named and **locked** — drawn dim, value `—`, the encoder does nothing. A blank cell reads as "not built yet"; a named dead cell reads as "a drum voice has no sustain" | `app/params.py` `Param.locked`, `pages/drum.py` `_build_static_params` |
-| 14 | DDR-053 "drawn visibly unlike the synth ADSR `[TBD-Elfy]`" | one filled decay from the attack peak to zero, scaled across the AD's **whole range** so a short hit stays visibly short — not the synth's four-segment line across the box | `pages/drum.py` `_render_ad` |
+| 14 | DDR-053 "drawn visibly unlike the synth ADSR `[TBD, Elvin's call]`" | one filled decay from the attack peak to zero, scaled across the AD's **whole range** so a short hit stays visibly short — not the synth's four-segment line across the box | `pages/drum.py` `_render_ad` |
 | 15 | §15.3 "LIFT on a pad then DROP on another" | **held**, not latched: hold LIFT and hit a pad, hold DROP and hit another. The gesture eats the note, so a pad you are addressing does not fire | `pages/drum.py` `on_note_key` |
 | 16 | not in the spec | DRUM's ATK/DEC slots reach **2 s / 8 s** where SYNTH's stop at 2 s. The host hands DRUM `a 0 / d 4` and clamps neither, so the ceiling is a UI choice; 8 s puts the default at mid-bar | `pages/drum.py` `_build_static_params` |
-| 17 | modulation-spec §9 ghost glyph `[TBD-Elfy]` | a one-pixel off-white vertical rule over the coloured knob bar; the bar and numeric label remain the authored knob value | `app/params.py` `Param.ghost`, `ui/frame.py` `_draw_param_cell` |
-| 18 | modulation-spec §10 output-copy drawing `[TBD-Elfy]` | the four bottom cells become the descriptor's output names, ringed green; the main-area output list writes bipolar as `+/-` because the pixel font has no `±` | `pages/rack.py` `_modulator_slots`, `_draw_engine` |
+| 17 | modulation-spec §9 ghost glyph `[TBD, Elvin's call]` | a one-pixel off-white vertical rule over the coloured knob bar; the bar and numeric label remain the authored knob value | `app/params.py` `Param.ghost`, `ui/frame.py` `_draw_param_cell` |
+| 18 | modulation-spec §10 output-copy drawing `[TBD, Elvin's call]` | the four bottom cells become the descriptor's output names, ringed green; the main-area output list writes bipolar as `+/-` because the pixel font has no `±` | `pages/rack.py` `_modulator_slots`, `_draw_engine` |
 | 19 | modulation-spec §6.3 route range popup | the FX popup's plain framed layout reused for one route; SHIFT+DROP opens/closes, ‹ › step routes, live target value is an off-white rule. **Deviation:** LO/HI edits do not park the target at the bound; `meters.mod` is read-only and the protocol has no non-destructive target-audition message | `pages/rack.py` `_draw_range` |
 | 20 | modulation-spec §2.2 route move | lifting a route removes it immediately (undropped = delete); DROP then turning a row reinserts the complete route at that row | `pages/rack.py` `_lift_route`, `_paste_route` |
 
 ## E2 — the tape UI
 
-### `[TBD-Elfy]` — E2's drawing and gesture choices
+### `[TBD, Elvin's call]` — E2's drawing and gesture choices
 
 | # | Spec | What was done | Where |
 |---|---|---|---|
-| 21 | DDR-060 "a bank glyph appears once bank B holds a clip `[TBD-Elfy]`" | one letter, `A` or `B`, in the ruler's gutter under lane 4 — the only column on TRACK that is never tape — in the selected track's encoder colour, drawn once bank B holds a clip or you are standing in it | `pages/track.py` `_render_bank_glyph` |
+| 21 | DDR-060 "a bank glyph appears once bank B holds a clip `[TBD, Elvin's call]`" | one letter, `A` or `B`, in the ruler's gutter under lane 4 — the only column on TRACK that is never tape — in the selected track's encoder colour, drawn once bank B holds a clip or you are standing in it | `pages/track.py` `_render_bank_glyph` |
 | 22 | §2.3 "sub-bar ticks are unlabelled but taller on the beat" | 6 px on the bar, 5 px on the beat, 3 px between; whole-bar rungs are 4 px and carry a thinned bar number | `pages/track.py` `_render_ruler` |
 | 23 | §2.3 "1 s → 100 ms → 10 ms → 1 ms → samples once the window is under ~250 ms" | **Deviation:** the time rungs are **1-2-5 per decade** (which contains the spec's four) down to one sample, and they take over where the *musical* rungs run out (1/32 bar, ~62 ms at 120 BPM) rather than at a fixed 250 ms. Bare decades step by 10 and a fixed crossover leaves a window where neither ladder can keep 8-16 ticks, which is the rule DDR-058 actually states. One seam remains at ~0.35 s, where the 2.5 step gives ~7 ticks | `app/tape.py` `TIME_RUNGS`, `tick_ladder` |
 | 24 | §2.1 "MERGE DROP: strip hints `SHIFT+DROP = MERGE` while such a buffer is held, if it fits" | the ticker is posted whenever the buffer holds more than one clip, long form `SHIFT+DROP = MERGE`, short `SH+DROP=MRG` | `pages/track.py` `tickers` |
@@ -59,7 +59,7 @@ edit.
 
 ## F2 — the mixer UI
 
-### `[TBD-Elfy]` — F2's drawing and gesture choices
+### `[TBD, Elvin's call]` — F2's drawing and gesture choices
 
 | # | Spec | What was done | Where |
 |---|---|---|---|
@@ -70,16 +70,16 @@ edit.
 | 33 | DDR-060 / § MIXER "SHIFT+‹ › = bank" | the bank is `tape.selected // 4`, so moving it on MIXER moves the selection with it and TRACK stays in step. One fact, one home — the same call E2 made | `pages/mixer.py` `_step_bank` |
 | 34 | § MIXER "8 narrow columns aligned with MIX, the selected one highlighted, its curve drawn" | the curve fills the panel and the eight cells sit under it on MIX's 40 px pitch; the selected cell is inverted and a track whose EQ is not flat carries a rule in its encoder colour | `pages/mixer.py` `_render_eq` |
 | 35 | DDR-062 "HP/LP are per-track filter cutoffs" | at 20 Hz / 20 kHz the cell reads `OFF`, not a frequency — flat is bit-exact bypass in the host and a number there would read as a filter doing nothing | `pages/mixer.py` `_eq_slots` |
-| 36 | § MIXER "signal-path screen … with sidechain and route arrows `[TBD-Elfy]`" | three chained rows of names in `PROTOCOL.md` § The mixer strip order, a stage that is currently bypass drawn dim (with the legend saying so), and the sidechain sources listed as one line rather than drawn as arrows — at 5×7 an arrow between two rows is three pixels of ambiguity | `pages/mixer.py` `_signal_rows`, `_render_signal_path` |
+| 36 | § MIXER "signal-path screen … with sidechain and route arrows `[TBD, Elvin's call]`" | three chained rows of names in `PROTOCOL.md` § The mixer strip order, a stage that is currently bypass drawn dim (with the legend saying so), and the sidechain sources listed as one line rather than drawn as arrows — at 5×7 an arrow between two rows is three pixels of ambiguity | `pages/mixer.py` `_signal_rows`, `_render_signal_path` |
 | 37 | not in the spec | MASTER prints `REL 0.12s` and `GR %` but promises nothing about milliseconds: F1's COMP REL coefficient runs once per block, so the labelled time is approximate | `pages/mixer.py` `_render_master` |
 
 ## G — the live input
 
-### `[TBD-Elfy]` — G's drawing and gesture choices
+### `[TBD, Elvin's call]` — G's drawing and gesture choices
 
 | # | Spec | What was done | Where |
 |---|---|---|---|
-| 38 | screen-sketches § SYNTH › ENGINE: "`LIVE INPUT` … main = live waveform + **tuner readout**" | the waveform is `App.scope`, the peak history the ENGINE scope already draws (the UI sees no samples, `[TBD-Elfy]` #10), with the source name top-left and the current peak in dB at the right. **Deviation: there is no tuner.** §8.2 hands up no pitch estimate, and a detector written in `emulator/` would be DSP in the wrong folder — it belongs in the box, and the box has no way to report it | `pages/synth.py` `_draw_live_input` |
+| 38 | screen-sketches § SYNTH › ENGINE: "`LIVE INPUT` … main = live waveform + **tuner readout**" | the waveform is `App.scope`, the peak history the ENGINE scope already draws (the UI sees no samples, `[TBD, Elvin's call]` #10), with the source name top-left and the current peak in dB at the right. **Deviation: there is no tuner.** §8.2 hands up no pitch estimate, and a detector written in `emulator/` would be DSP in the wrong folder — it belongs in the box, and the box has no way to report it | `pages/synth.py` `_draw_live_input` |
 | 39 | `tape-sampling-workflow.md` §1: "Params: THRESH · LENGTH · GAIN · MONITOR … Slots 4–7 stay empty so SHIFT fine-tunes each" | SOURCE takes **slot 4**, so SHIFT+ENC1 is SOURCE rather than fine THRESH; 5–7 stay empty and SHIFT still fine-tunes LENGTH and GAIN. THRESH is the one knob whose whole range is 0.01–0.50 and reads to two places already | `pages/input.py` `slots` |
 | 40 | § MIXER signal path (F2's `_signal_rows`) | the input is a **fourth row, drawn first**: `INPUT › <SOURCE> › LIVE INPUT › MONITOR`, each stage bright only when it is doing something. It is not a chain like the other three — MONITOR is a second door, not a later stage — but a diagram of where the input can go is the question the row answers | `pages/mixer.py` `_signal_rows` |
 | 41 | not in the spec | the engine menu gained a folder at index **1** (`fm · live-input · noise · osc · sampler`), so the three feature scripts that scroll it by `delta` moved with it. Any box added to `audio/library/synth/` does the same | `features/scripts/*.yaml` |
@@ -90,7 +90,7 @@ the `live-input` verify feature (7 shots) is the user path end to end.
 
 ## H2 — patterns as assets, SEQ and TEMPO
 
-### `[TBD-Elfy]` — H2's drawing and gesture choices
+### `[TBD, Elvin's call]` — H2's drawing and gesture choices
 
 | # | Spec | What was done | Where |
 |---|---|---|---|
@@ -104,7 +104,7 @@ the `live-input` verify feature (7 shots) is the user path end to end.
 
 ## J1 — project files
 
-### `[TBD-Elfy]` — J1's drawing and gesture choices
+### `[TBD, Elvin's call]` — J1's drawing and gesture choices
 
 | # | Spec | What was done | Where |
 |---|---|---|---|
@@ -118,7 +118,7 @@ the `live-input` verify feature (7 shots) is the user path end to end.
 
 ## J2 — the browser, the system pages, the battery (the last stage)
 
-### `[TBD-Elfy]` — J2's drawing and gesture choices
+### `[TBD, Elvin's call]` — J2's drawing and gesture choices
 
 | # | Spec | What was done | Where |
 |---|---|---|---|
@@ -131,7 +131,7 @@ the `live-input` verify feature (7 shots) is the user path end to end.
 | 62 | screen-sketches § FILE › SYSTEM: "a scrolling list (ENC1 selects, ENC2 changes)" | exactly that: two Params whose *formatters* are the selected row's label and value, so the eight-cell param bar describes a list of any length. ENC3/ENC4 stay empty and the SHIFT row with them | `pages/file.py` `_system_slots`, `_render_system` |
 | 63 | § FILE › SYSTEM lists `KEY VEL (fixed / motion — hidden without an IMU)` | **conditional since #116, not hidden for ever.** It was hidden unconditionally, so a P3 with a working sensor said it had none; the host now reports `motion_sensor` on `hello` and in every state document and `_system_rows` is **keyed rather than numbered** (`SYS_VEL`… are strings and the cursor is a key), because the list is not seven long any more. Without a sensor nothing moved: the same seven rows and the same `KEY VEL HIDDEN: NO IMU FITTED` under MIDI VEL CURVE, because a row that is absent explains nothing. **With** one the row appears between MIDI VEL CURVE and POWER-OFF, locked at `FIXED` with `MOTION VELOCITY NOT BUILT` — DDR-048's inference exists in no code (#117) and a settable option that changes nothing is worse than a named one that says so | `pages/file.py` `_system_rows`, `_row_index`, `NO_IMU`, `KEY_VEL_UNBUILT` |
 | 63b | modulation-spec § 3.2: "Absent IMU → outputs 0, page says `NO SENSOR`" | drawn nowhere until #116. The MOD rack's engine tab heads `arbutus/motion`'s four outputs with `NO SENSOR` and dims them when the host reports no sensor. It is the *page's* job and not the box's — the box already reads `motion[6]` as zero and has no way to know why | `pages/rack.py` `ModRackView.outputs_heading`, `_draw_engine` |
-| 63c | modulation-spec § 3.2: `arbutus/keys` is "always present as tab **K** on the master row and not counted in the four" | **built nowhere until #68.** The host resolved `keys.VEL` and `keys.NOTE` (`audio/host/rack.cpp` `resolve_route`) and the ABI carried `set_voice_mod`, but the MOD rack's tab row stopped at the empty tab, so no route from the player's own keys could be made on the device — a built capability with no door. `K` is now the last box in that row. `[TBD-Elfy]` in it: the box is the **same box in the same row**, labelled `K`, set off by one wider gap (§ 3.2 says it is not one of the four, and five equal boxes would say it was); SHIFT+› reaches it from the last tab and SHIFT+‹ comes back; its page names the two outputs exactly as a modulator tab names its own and reads `HOST SOURCE - NO PARAMS`, because § 3.2 gives `keys` no params and an empty bottom row otherwise reads as a page that failed to load. It has no bypass (nothing of the player's to bypass) and holds no engine, so SHIFT+4 on it does what SHIFT+4 on the master tab does — it opens on tab 1 (§ 2.1) | `pages/rack.py` `MOD_KEYS`, `KEYS_OUTPUTS`, `ModRackView.tab_outputs`, `_keys_slots`, `_draw_keys`, `_draw_tabs` |
+| 63c | modulation-spec § 3.2: `arbutus/keys` is "always present as tab **K** on the master row and not counted in the four" | **built nowhere until #68.** The host resolved `keys.VEL` and `keys.NOTE` (`audio/host/rack.cpp` `resolve_route`) and the ABI carried `set_voice_mod`, but the MOD rack's tab row stopped at the empty tab, so no route from the player's own keys could be made on the device — a built capability with no door. `K` is now the last box in that row. `[TBD, Elvin's call]` in it: the box is the **same box in the same row**, labelled `K`, set off by one wider gap (§ 3.2 says it is not one of the four, and five equal boxes would say it was); SHIFT+› reaches it from the last tab and SHIFT+‹ comes back; its page names the two outputs exactly as a modulator tab names its own and reads `HOST SOURCE - NO PARAMS`, because § 3.2 gives `keys` no params and an empty bottom row otherwise reads as a page that failed to load. It has no bypass (nothing of the player's to bypass) and holds no engine, so SHIFT+4 on it does what SHIFT+4 on the master tab does — it opens on tab 1 (§ 2.1) | `pages/rack.py` `MOD_KEYS`, `KEYS_OUTPUTS`, `ModRackView.tab_outputs`, `_keys_slots`, `_draw_keys`, `_draw_tabs` |
 | 64 | § FILE › SYSTEM lists `POWER-OFF` among rows ENC2 changes | read as an **idle timeout** (`OFF / 5 / 10 / 30 / 60 MIN`), not a button: it is in a list of settings and the sketch says ENC2 changes the selected one. Stored and honoured by the device runtime; this process does not sleep a laptop. **Honoured since #176 and not before** — it was stored and drawn here and read by nothing anywhere, so a player who set a 10-minute auto-off got nothing, silently. The *rule* is `App.idle_power_off_due` (device-os-spec § 7.2 row 3, § 7.4.1) and lives here because every fact it is made of but one is this App's: the idle clock (`App.note_input`, moved by a key or an encoder and by **nothing else** — not a render, not a sequencer step playing to nobody), the transport rolling, a take recording, a count-in. The exception is "no client on the network sockets", which is another process's listener and arrives as an argument. **Nothing here powers anything off**: `arbutus_os/main.py`'s `PowerPump` is what sends `poweroff`, and on a laptop `app.powering_off` is `None` for ever | `app/app.py` `note_input`, `idle_seconds`, `idle_power_off_due`, `powering_off`; `pages/file.py` `_system_rows` |
 | 65 | § FILE › SYSTEM lists `DATE / TIME`, `BRIGHTNESS`, `WIFI (status)`, `FORGET PHONES` | `DATE / TIME` is the host clock, read-only (this program does not set a Mac's clock). `BRIGHTNESS` is stored but there is no backlight here, and dimming the framebuffer would change every screenshot. `WIFI` and `FORGET PHONES` are the device OS's and are named, dim and inert | same |
 | 66 | DDR-064 "SYSTEM › RESET asks 1-2-3-4 and then again" | J1's confirm with a **round counter** on it: `FilePage._rounds` is 2 for RESET and 1 for everything else, the first full run resets the walk instead of firing, and the strip keeps saying `CONFIRM` while the ticker says `AGAIN`. Moving ENC1 off the row puts the gun down | `pages/file.py` `_arm`, `_confirm_press` |
@@ -142,7 +142,7 @@ the `live-input` verify feature (7 shots) is the user path end to end.
 
 ## Audit Q1 — 2026-09-18 (#31)
 
-### `[TBD-Elfy]` — choices the audit found unrecorded
+### `[TBD, Elvin's call]` — choices the audit found unrecorded
 
 | # | Spec | What was done | Where |
 |---|---|---|---|
@@ -154,7 +154,7 @@ the `live-input` verify feature (7 shots) is the user path end to end.
 
 ## D5b — the `.fw` line on FILE › USB (2026-09-20, #103)
 
-### `[TBD-Elfy]` — D5b's one gesture choice
+### `[TBD, Elvin's call]` — D5b's one gesture choice
 
 **`DISMISS` is behind the same `1 2 3 4` as `RESTART` and `INSTALL`.** § 10.5 says the
 rollback line stands "until dismissed" and does not say what dismisses it. The two
@@ -177,7 +177,7 @@ now two lines in `FwPump.pump`, not a mechanism.
 
 ## S14 — entering a stepmod pattern (2026-09-23, #60)
 
-### `[TBD-Elfy]` — S14's drawing and gesture choices
+### `[TBD, Elvin's call]` — S14's drawing and gesture choices
 
 | Thing | Choice |
 |---|---|
@@ -190,11 +190,11 @@ now two lines in `FwPump.pump`, not a mechanism.
 
 ## #69 — TRACK's ENC3 is the song tempo while LINK is on (2026-09-24)
 
-### `[TBD-Elfy]` — #69's one choice
+### `[TBD, Elvin's call]` — #69's one choice
 
 | # | Spec | What was done | Where |
 |---|---|---|---|
-| 82 | #69: "what ENC3's readout shows while LINK is on — the BPM, or the resulting speed ratio `[TBD-Elfy]`" | the **BPM**, whole, `{:.0f}`, the same format TEMPO's ENC1 wears. The simplest rule is that a cell reads what its knob moves; the speed ratio is derivable and is not what the turn sets. The aesthetic pass (E1, #9) can settle it | `pages/track.py` `p_bpm`, `slots` |
+| 82 | #69: "what ENC3's readout shows while LINK is on — the BPM, or the resulting speed ratio `[TBD, Elvin's call]`" | the **BPM**, whole, `{:.0f}`, the same format TEMPO's ENC1 wears. The simplest rule is that a cell reads what its knob moves; the speed ratio is derivable and is not what the turn sets. The aesthetic pass (E1, #9) can settle it | `pages/track.py` `p_bpm`, `slots` |
 
 **The proof** (`tests/test_tape_ui.py`, four new tests, all through the input
 seam and a real offline host). LINK on: ENC3 +10 makes `app.bpm` 130, the host's
@@ -220,7 +220,7 @@ written where the next reader of that test will meet it.
 
 ## #297 — the tape lives in the open project (C1 step 3b, the UI half, 2026-10-03)
 
-### `[TBD-Elfy]` — #297's one gesture
+### `[TBD, Elvin's call]` — #297's one gesture
 
 | # | Spec | What was done | Where |
 |---|---|---|---|
@@ -243,7 +243,7 @@ written where the next reader of that test will meet it.
 | 9 | The setting is `system.appearance` in `settings.json`, not a new file | it is the device's, not the song's: J2's settings document is where the device remembers things |
 | 10 | The host holds the last mode and pushes a change to **every** client | the UI is not a `feed` subscriber; a UI that restarts can ask |
 | 11 | `ARB_APPEARANCE` pins a run and writes nothing | screenshots must not depend on what a player last pressed |
-| 12 | Dark shots: contact sheet only, no second tracked set | 300 more PNGs to move on every UI change; the light set is the regression record, the sheet is for Elfy's eye |
+| 12 | Dark shots: contact sheet only, no second tracked set | 300 more PNGs to move on every UI change; the light set is the regression record, the sheet is for Elvin's eye |
 | 13 | `V` toggles and **remembers**; `--appearance` is this run only | `V` stands in for the phone, which is remembered; a flag is for screenshots |
 
 **Left open.** The recovery screen (`arbutus_os/recovery.py`) draws in whatever
@@ -268,14 +268,14 @@ them should move so a knob means one colour on both.
   the open project's offload and a bounce: a job stops the audio, and a take cut by a phone
   across the room is the worse surprise.
 - **The question is drawn in HELP's overlay shape**, its first line red, answers on key
-  cells 1 and 2. Shots: `docs/logs/assets/821-*.png`.
+  cells 1 and 2. Shots: screenshots (private).
 
 ## #818 — menus: turn to act, the name menu, the red key, the push (2026-10-13)
 
 ### Run's calls, 2026-10-13
 
 - **`›` for `▸`** on a turn-to-act cell (`NEW ›`): the font has no `▸` and `ui/font.py` is
-  not a run's to edit; `›` is the nearest glyph it draws. Elfy may draw `▸` (ui-aesthetic § 4).
+  not a run's to edit; `›` is the nearest glyph it draws. Elvin may draw `▸` (ui-aesthetic § 4).
 - **The red key is the one under the turned cell**: `1 PICK` for NEW, `2 OPEN` for LOAD,
   `3 PICK` for RENAME. The spec names the red key but not which; under the knob just turned
   keeps the hand on one column.
@@ -358,6 +358,3 @@ them should move so a knob means one colour on both.
 - **COPY mode (LIFT) draws the usual rack page**, so its copy line is there to read; the
   screen comes back when the mode ends.
 
-## Session History
-
-- [[logs/2026-10-16-06-05]] — #1255: OP1R-VERB's page is op1r's Kali reverb screen, rasterised once, 88-93 % pixel-identical to op1r's preview

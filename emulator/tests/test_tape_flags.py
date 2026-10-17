@@ -2,7 +2,7 @@
 
 The host's half is `audio/tests/host_tapefull.py`; this is the UI's — the
 strip's words and the FILE › SYSTEM read-out, which is all step 7 puts on a
-screen (`tape-streaming-design.md` § 3.7, and Elfy's § 7 answers of
+screen (`tape-streaming-design.md` § 3.7, and Elvin's § 7 answers of
 2026-09-23: `HARD DRIVE SLOW`, and two words for `TAPE FULL`).
 
 `_absorb_pushes` is driven on a stand-in rather than on a live `NativeAudio`,
@@ -72,7 +72,7 @@ def said_for(*pushes):
 
 class TestTapeLateFlag(unittest.TestCase):
     def test_the_flag_says_hard_drive_slow(self):
-        """Elfy, § 7 q2: the words are `HARD DRIVE SLOW`, not `TAPE LATE`."""
+        """Elvin, § 7 q2: the words are `HARD DRIVE SLOW`, not `TAPE LATE`."""
         s = said_for({"type": "tape_late", "count": 4, "flag": True,
                       "total": 4, "tracks": 1, "window_s": 2.0})
         self.assertEqual(s.said, [(NA.LATE_LONG, NA.LATE_SHORT)])
@@ -136,7 +136,7 @@ class TestXrunReachesTheStrip(unittest.TestCase):
 
 class TestTapeFullWords(unittest.TestCase):
     def test_two_words_not_one(self):
-        """Elfy, § 7 q3: `CARD STALLED` when the card stopped answering,
+        """Elvin, § 7 q3: `CARD STALLED` when the card stopped answering,
         `TAPE FULL` when there is genuinely no more room."""
         self.assertEqual(said_for({"type": "tape_full", "reason": "stall"}).said,
                          [(NA.CARD_STALLED_LONG, NA.CARD_STALLED_SHORT)])

@@ -1,4 +1,4 @@
-# audio/ — the C++20 audio side of Arbutus-1 (engine-spec.md §8, §9).
+# audio/ — the C++20 audio side of Arbutus (engine-spec.md §8, §9).
 # Stage 1: SDK, template engine, stock boxes, the arbutus-run test client.
 # Stage 2: arbutus-audio, the audio process -- pipeline, rack, tape, protocol,
 # live audio through miniaudio and an --offline mode that needs no device.

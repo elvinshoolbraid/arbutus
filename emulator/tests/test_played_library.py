@@ -4,7 +4,7 @@ Playing `python3 -m arbutus_os.mock` writes into the checkout's own
 `audio/library/`: a `settings.json` (in dark mode, say), a project under
 `projects/`, new patches and samples, none of them tracked by git. The tests
 used to copy that folder whole, or read it in place, so the player's state
-became the test's: 12 emulator tests red on Elfy's Mac clone (2026-10-12) on a
+became the test's: 12 emulator tests red on Elvin's Mac clone (2026-10-12) on a
 commit a clean worktree passed.
 
 The tests' library is now what the checkout ships: the files git tracks under

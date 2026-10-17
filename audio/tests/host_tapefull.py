@@ -16,7 +16,7 @@ fail is not evidence (#56):
     same window, the same playback** goes late at most once — the first block,
     before a horizon has been planned from a playhead that has not moved yet.
     That pair is the whole mechanism's *before* switch.
-  * **a scrub is silent and uncounted** (Elfy, § 7 question 2). Dragging the
+  * **a scrub is silent and uncounted** (Elvin, § 7 question 2). Dragging the
     cursor over five ranges that are not resident adds nothing to the count;
     *playing* those same five ranges adds ~194. Without the control the first
     half would pass on a host that had stopped counting altogether.

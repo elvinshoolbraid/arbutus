@@ -91,7 +91,7 @@ def _draw_param_cell(fb, col: int, slot, fallback, shifted: bool):
             draw.fill_rect(fb, bx, by, filled, 3, enc)
         ghost = getattr(slot, "ghost", None)
         if ghost is not None:
-            # `[TBD-Elfy]`: a one-pixel off-white rule is deliberately less
+            # `[TBD, Elvin's call]`: a one-pixel off-white rule is deliberately less
             # weight than the coloured knob bar, but remains legible at both
             # ends of the range.
             pos = int(round(max(0.0, min(1.0, float(ghost))) * (bw - 1)))

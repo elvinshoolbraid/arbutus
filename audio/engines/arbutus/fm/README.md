@@ -4,7 +4,7 @@ Two-operator FM on `PolyHost<Voice, 8>`. The DSP is
 `emulator/engines/fm_synth.py` unchanged; **the descriptor is the deliverable.**
 `caps: audio_out, events_in`. `honours_env: true`.
 
-Elfy on the Python one:
+Elvin on the Python one:
 
 > initial parameters are completely unlistenable, index and ratio ranges are so
 > large with such small bliss points that finding them is difficult, and the
@@ -38,7 +38,7 @@ An **index envelope** (a falling β per note) is what turns this from a warm
 sustained tone into a struck electric piano or a bell, and it is the obvious
 next parameter. It is not here because the Python has none and adding one would
 have put the conformance golden out of reach without a second hidden switch.
-`[TBD-Elfy]`: worth a fourth slot?
+`[TBD, Elvin's call]`: worth a fourth slot?
 
 ## Tests
 

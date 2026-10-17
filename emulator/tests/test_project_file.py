@@ -866,7 +866,7 @@ class TestOpenProject(ProjectCase):
         self.assertEqual(date, PF.date_folder())
 
     def test_a_second_save_keeps_it(self):
-        """#297: SAVE means the project that is open (Elfy, (a) on #157)."""
+        """#297: SAVE means the project that is open (Elvin, (a) on #157)."""
         self.record_a_clip()
         self.do("SAVE")
         first = self.app.open_project

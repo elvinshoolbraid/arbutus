@@ -37,7 +37,7 @@ SOURCES = ("mic", "line", "usb", "resample")
 LFO_SHAPES = ["SINE", "TRI", "SQR", "RAND"]
 LFO_DESTS = ["OFF", "AMP", "FILT"]
 
-#: What a turn on a dead ENV cell says in the strip (S11, #53). `[TBD-Elfy]`:
+#: What a turn on a dead ENV cell says in the strip (S11, #53). `[TBD, Elvin's call]`:
 #: the ticket suggested `NO ENV · dbox`; this names the box the way the ENGINE
 #: header does, so the sentence works for `live-input` as well as a drum box.
 NO_ENV_TICKER = "NO ENV · %s"
@@ -323,7 +323,7 @@ class SynthPage(Page):
         if self._bend_dir:
             # a momentary gesture, so it reads before the octave. What it shows
             # is the *range* it is bending to, which is the thing SHIFT+‹ ›
-            # cannot otherwise tell you (`[TBD-Elfy]`).
+            # cannot otherwise tell you (`[TBD, Elvin's call]`).
             sign = "+" if self._bend_dir > 0 else "-"
             st = f"{sign}{int(self.p_bend.value)}ST"
             out.append((4, f"BEND {st}", f"BND{st}"))
@@ -406,7 +406,7 @@ class SynthPage(Page):
                 self._start_bend(direction)      # DDR-052
             else:
                 # the octave is a performance gesture, like the bend, and not
-                # an edit (#152, Elfy 2026-09-23): it records no step of its
+                # an edit (#152, Elvin 2026-09-23): it records no step of its
                 # own, so SHIFT+STOP after a move undoes whatever was edited
                 # before it. It rides in the page's snapshot all the same, so
                 # the entry already open is moved on with it — otherwise that
@@ -992,7 +992,7 @@ class SynthPage(Page):
         if not self._undo.undo():
             # the tape's undo says nothing when it has nothing, but there the
             # screen is the clip list and you can see it; here the sound would
-            # simply not change. `[TBD-Elfy]`
+            # simply not change. `[TBD, Elvin's call]`
             self.app.flash("NOTHING TO UNDO", "NO UNDO")
             return False
         self.app.flash("UNDO · %s" % self.instrument.engine_name, "UNDO")

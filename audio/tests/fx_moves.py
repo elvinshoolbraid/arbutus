@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """#630: what the FX boxes' goldens cannot see — a knob that moves, a centred source.
 
-The code review of the effect boxes (`docs/logs/findings/2026-10-06-m-engines-fx.md`)
+The code review of the effect boxes (a code review (private))
 found four bugs that every golden missed, because each golden renders one
 static setting from a mono input. This renders each case with arbutus-run
 (`--at` moves a knob mid-render) and measures it:
@@ -176,7 +176,7 @@ def main():
                       % diff)
 
         # ---- delay HOLD: FDBK's top keeps the repeats for ever (#779) -----
-        # Elfy, on D92: "infinite at same volume is a feature". 60 s of
+        # Elvin, on D92: "infinite at same volume is a feature". 60 s of
         # repeats of one burst at 1/8, 120 BPM (240 passes), WOW at its
         # default, at DRIVE 0 and 1, PING 0 and 1, TONE on both sides of
         # centre (the hold takes the lowpass and the highpass out of the

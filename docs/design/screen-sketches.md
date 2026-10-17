@@ -4,7 +4,7 @@ status: active
 related: [[control-inventory]], [[ui-aesthetic]], [[parameter-framework]], [[tape-sampling-workflow]], [[design-decisions]]
 ---
 
-# Screen Sketches — Arbutus-1
+# Screen Sketches — Arbutus
 
 Per-page layout, encoder bindings, key-strip contents, menus. Rewritten 2026-09-08 from grill session.
 Extended 2026-09-16 for v1 (DDR-045…064): MOD, DRUM › ENV, 8-track TRACK, the full MIXER, TEMPO, FILE, LIVE INPUT, browser file ops. Pages marked **(v1)** are not in the Hollyhock demo.
@@ -48,7 +48,7 @@ Subpages on 1–4: `ENGINE · ENV · FX · MOD`. Slots A B C X Y Z recall snapsh
 
 ### SYNTH › ENGINE
 Main: engine-specific visual (sampler: waveform with start/end/loop markers; osc: scope). Engine name + patch name as first line of main. Natively the waveform comes from the host's `waveform` message.
-Params: engine's slots 0–7. Sampler v1: `START · END · LOOP-IN · LOOP-OUT` / SHIFT `ROOT · TUNE · REV · FADE`. `LIVE INPUT` (v1): `SOURCE (mic/line/usb/resample) · GAIN · — · —`, main = live waveform (DDR-063; the tuner readout is cut from v1, Elfy 2026-10-02, #54).
+Params: engine's slots 0–7. Sampler v1: `START · END · LOOP-IN · LOOP-OUT` / SHIFT `ROOT · TUNE · REV · FADE`. `LIVE INPUT` (v1): `SOURCE (mic/line/usb/resample) · GAIN · — · —`, main = live waveform (DDR-063; the tuner readout is cut from v1, Elvin 2026-10-02, #54).
 
 *As built, 2026-09-17 (stage G):* the live waveform is the ENGINE scope's peak history — the UI sees no samples — with the source named top-left and the current peak in dB at the right. **There is no tuner readout:** §8.2 hands up no pitch estimate and a detector written in the UI would be DSP in the wrong folder. It belongs in the box, and the box has no way to report a number that is not a parameter. GAIN is the box's own trim, −24…+24 dB, printed by its `format_param`.
 SHIFT+1 → engine menu. A modulated slot draws a ghost marker (DDR-051).
@@ -82,11 +82,11 @@ Identical structure to SYNTH. Param edits target the **last-hit key**; main area
 Drum sampler: kit = `kit.json` pad map. Per-pad params (`per_note`, ABI 2): `START · END · PITCH · LEVEL` / SHIFT `PLAY (one-shot/gate/loop) · REV · PAN · CHOKE (off/1–4)`. LIFT on a pad, DROP on another = copy.
 
 ### DRUM › ENV (v1)
-Per-pad AD (DDR-053): `ATK · DEC · — · —`, SUS/REL greyed; main = a short AD curve for the last-hit pad, drawn visibly unlike the synth ADSR `[TBD-Elfy]`.
+Per-pad AD (DDR-053): `ATK · DEC · — · —`, SUS/REL greyed; main = a short AD curve for the last-hit pad, drawn visibly unlike the synth ADSR `[TBD, Elvin's call]`.
 
 ## TRACK (bg: recording)
 
-1–4 = track select within the shown bank (strip: `TRK1 TRK2 TRK3 TRK4` or `TRK5 … TRK8`, selected inverted, rec-armed shown red); **SHIFT+1–4 flips bank and selects** (DDR-060). No subpages. A bank glyph near the gutter shows the other bank has content `[TBD-Elfy]`.
+1–4 = track select within the shown bank (strip: `TRK1 TRK2 TRK3 TRK4` or `TRK5 … TRK8`, selected inverted, rec-armed shown red); **SHIFT+1–4 flips bank and selects** (DDR-060). No subpages. A bank glyph near the gutter shows the other bank has content `[TBD, Elvin's call]`.
 
 ```
 │ TRACK                                  │
@@ -135,12 +135,11 @@ go to issues (`docs/design/audit-2026-09-18.md`), not to an as-built rewrite.
   exactly as it is on TEMPO (`pages/track.py` `on_encoder` / `slots`).
 - **The LEVEL tick.** Line "LEVEL is also drawn as a tick on the playhead, always" and the
   paragraph "Playhead: 1 px off-white normally … the only arming/level indicator TRACK
-  needs" disagree with each other; the build is the second one (input peak as a foot, armed
-  or rolling only; `docs/logs/2026-09-12.md` § 2). Nothing draws ENC4's value.
+  needs" disagree with each other; the build is the second one. Nothing draws ENC4's value.
 
 ## MIXER (bg: recording)
 
-Subpages `MIX · EQ · FX · MASTER`. SHIFT+MIXER (held) = the **signal-path screen** (v1): instrument → MOD/FX racks → tape → per-track EQ → mixer → master rack → drive → comp → out, with sidechain and route arrows `[TBD-Elfy]`.
+Subpages `MIX · EQ · FX · MASTER`. SHIFT+MIXER (held) = the **signal-path screen** (v1): instrument → MOD/FX racks → tape → per-track EQ → mixer → master rack → drive → comp → out, with sidechain and route arrows `[TBD, Elvin's call]`.
 
 ### MIXER › MIX
 Main: **8 columns** (v1; 4 in demo), level bar with real-time peak meter behind it, pan marker, dB readout; the shown bank's four drawn bright, muted columns dim, soloed marked.
@@ -162,7 +161,7 @@ Params: `LEVEL · COMP · DRIVE · BAL` / SHIFT `COMP REL · DRIVE TONE · — �
 - **Mute and solo are the host's** (`mixer {track, mute|solo}`, §15.13) and the page draws `state.tape.tracks[i]` back. Solo wins over mute and the gate is on the mix only — that is H7 as built, and the UI holds no second opinion.
 - **SHIFT+`‹ ›` moves the bank and the selection together**, because the shown bank is `selected // 4` (DDR-060). MIXER and TRACK therefore always show the same four.
 - **The EQ page keeps no ranges**: the host's reply carries the clamped block and the cells print that. HP at 20 Hz and LP at 20 kHz read `OFF`, not a frequency, because flat is bit-exact bypass.
-- **The signal-path screen's `[TBD-Elfy]` arrows** are three chained rows of stage names in the §15.5 order with a stage that is currently bypass drawn dim, and the sidechain sources listed as one line rather than drawn as arrows — at 5×7 an arrow between two rows is three pixels of ambiguity.
+- **The signal-path screen's `[TBD, Elvin's call]` arrows** are three chained rows of stage names in the §15.5 order with a stage that is currently bypass drawn dim, and the sidechain sources listed as one line rather than drawn as arrows — at 5×7 an arrow between two rows is three pixels of ambiguity.
 
 ## SEQ (bg: recording)
 
@@ -234,7 +233,7 @@ where clips exist, and MASTER FX is the host's `master_fx`, whose rack latency
 the host compensates offline. MIDI, USB and SYSTEM are stage J2 and are named
 placeholders.
 
-*Decided 2026-10-12 (Elfy, Play date 1's grill; D97–D98), superseding the J1 note above where
+*Decided 2026-10-12 (Elvin, Play date 1's grill; D97–D98), superseding the J1 note above where
 they differ:* the params read **`NEW ▸ · LOAD ▸ · RENAME ▸ · BOUNCE ▸`** and **nothing is
 armed**: a turn right acts, since the instrument is always saved (`device-os-spec.md` § 7.3)
 and none of the four can lose work. `▸` marks every turn-to-act cell on the instrument.
@@ -259,7 +258,7 @@ always one). NEW, LOAD and BOUNCE still arm and ask `1 2 3 4` until #818.
 
 *As built (#818, 2026-10-13), D98's half:* the four cells read `NEW › · LOAD › · RENAME › ·
 BOUNCE ›` and a turn right acts (a turn left does nothing). **`›` stands in for `▸`**: the
-font has no `▸` and `ui/font.py` is not a run's to edit; Elfy may draw the glyph (§ 4 of
+font has no `▸` and `ui/font.py` is not a run's to edit; Elvin may draw the glyph (§ 4 of
 `ui-aesthetic.md`). Each cell's value line says what the turn opens (`PICK NAME`, `PROJECTS`,
 `TO WAV`). **The red key is the one under the turned cell**: `1 PICK` for NEW, `2 OPEN` for
 LOAD, `3 PICK` for RENAME, so the key to press sits below the knob just turned. In the name
@@ -434,20 +433,3 @@ is a folder with media in it and moves whole, the way a kit does.
 
 ---
 
-## Session History
-- [[logs/2026-09-19-21-17]] — FILE › USB: the fourth cell is **`UPDATE`**, not `—` (#103). The `.fw` line needs a control and § 10.4 asks for its `1 2 3 4` on this page; in this instrument a confirm is an armed action and arming is an encoder turn. Two rows join it (`SLOTS`, `UPDATE`) and the foot of the page carries § 10's own sentences instead of J2's one placeholder. The J2 *as built* paragraph's "not built" is corrected in place
-- [[logs/2026-03-27]] — created, 5 ASCII drafts
-- [[logs/2026-09-08]] — full rewrite: layout zones fixed, all demo pages, menus, key-strip contents
-- [[logs/2026-09-11]] — TRACK: audible scrub grain, zoom down to 20 ms, ms/seconds readouts, loop frames once, timeline clears the gutter
-- [[logs/2026-09-12]] — TRACK: lane-number gutter + tape head at sample 0, hot playhead (arming + input level), take drawn while it rolls
-- [[logs/2026-09-16]] — session 2: v1 pages — MOD rack, DRUM › ENV, 8-track TRACK + tick ladder, full MIXER (EQ per track, master rack, MASTER), TEMPO with LINK/COUNT-IN/SYNC, FILE › PROJECT/MIDI/USB/SYSTEM, INPUT vs LIVE INPUT, browser file ops
-- [[logs/2026-09-17]] — stage F2: § MIXER as built — `1`-`4` as tap-subpage / hold-solo / SHIFT-mute (DDR-001), SHIFT+3 on FX as the effect browser, mute/solo read from the host (H7 as built), the bank moving the selection with it, the EQ keeping no ranges and reading `OFF` at the filter ends, and what the signal path's `[TBD-Elfy]` arrows became
-- [[logs/2026-09-17]] — stage G as-built: § SYNTH › ENGINE's `LIVE INPUT` (live waveform, **no tuner readout**) and § INPUT's SHIFT-row SOURCE
-- [[logs/2026-09-18]] — stage H2 as-built: § SEQ's row is the box's descriptor and ACTIVE is a header badge; § TEMPO's eight cells, COUNT-IN as a delayed punch and SYNC `midi` locking the BPM controls
-- [[logs/2026-09-18]] — FILE › PROJECT as built (stage J1): the four actions as arm switches, the 1-2-3-4 confirm on all four, LOAD's browser as a chooser not a live-apply, MASTER FX on BOUNCE
-- [[logs/2026-09-18]] — stage J2 as built: § FILE's MIDI / USB / SYSTEM (the MIDI clock that unlocks SYNC, DDR-021's force-save, the settings list, RESET twice, and every control this host cannot honour named and locked); § Menus' file ops (LIFT straight to `.trash/`, SHIFT+DROP for a new folder, stock as a manifest); § HELP's battery and the fact that no hardware measures one yet
-- [[logs/2026-09-18]] — audit Q1 (#31): as-built corrections and audit notes; findings in `docs/design/audit-2026-09-18.md`
-- [[logs/2026-09-20-01-25]] — cloud routine (#97): § FILE › USB's `PAIR` and § FILE › SYSTEM's `WIFI` / `FORGET PHONES` gain *As built* notes — J2's three inert cells are live where `net.sock` answers, the pairing code is the only `LARGE` thing on FILE › USB, `WIFI` stays a read-out and `FORGET PHONES` asks `1 2 3 4` once. `device-os-spec.md` § 9.8 is the full as-built
-- [[logs/2026-09-24-05-34]] — cloud routine (#74, C1 step 7): § FILE › SYSTEM gains an *As built* note for a **ninth row** — read-only `TAPE BUFFER` after `DATE / TIME`, the tape's RAM-window numbers, which `tape-streaming-design.md` § 3.7 puts on this page. The flag it belongs to is **`HARD DRIVE SLOW`** in the dynamic strip, where `CPU NO HAPPY` is drawn and on the same 3-in-2-s rule
-- [[logs/2026-09-24-13-14]] — cloud routine (#69): § TRACK's first audit-Q1 note is fixed — ENC3 reads `BPM` and moves the song tempo while `LINK` is on, `SPEED` with it off; the as-built sits under the struck note
-- [[logs/2026-10-13-02-22]] — FILE › PROJECT acts on the turn; one name menu (places), one red key under the knob, push or red key commits

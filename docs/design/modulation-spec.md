@@ -6,13 +6,13 @@ related: [[engine-spec]], [[parameter-framework]], [[control-inventory]], [[scre
 
 # Modulation Spec — the MOD rack
 
-Produced 2026-09-16 from the OP-1 gap grill (`docs/logs/2026-09-16.md`, session 2;
+Produced 2026-09-16 from the OP-1 gap grill (the 2026-09-16 session log (private), session 2;
 audit: `op1-gap-audit.md`). This is the contract for everything that *moves a
 parameter without a hand on the knob*. It sits beside `engine-spec.md`, which owns
 the ABI and the FX rack; the two share one rack mechanism and one LIFT/DROP grammar.
 
-Where this doc names a screen it names the behaviour; the drawing is Elfy's and
-marked `[TBD-Elfy]`.
+Where this doc names a screen it names the behaviour; the drawing is Elvin's and
+marked `[TBD, Elvin's call]`.
 
 ---
 
@@ -83,7 +83,7 @@ Four rows, one per route, vertical:
 ```
 
 - Each row shows source.output, target, signed depth, curve, and a small live meter
-  of the source `[TBD-Elfy]`.
+  of the source `[TBD, Elvin's call]`.
 - ENC n turns route n's depth; the row is drawn in ENC n's colour. Routes are limited
   to four **on purpose**: it is what four encoders can own, and it makes the master
   tab a page rather than a list.
@@ -125,7 +125,7 @@ the *shape*. All rates that can sync are bipolar RATE knobs (§3.3).
 | `arbutus/lfo` | SINE ±, TRI ±, SQR ±, S&H ± | `RATE · SHAPE-MORPH · PHASE · RETRIG` / `FADE-IN · SYM · — · —` | RETRIG ∈ {FREE, NOTE}. All four shapes run from one phase, so they are usable together (quadrature via PHASE). |
 | `arbutus/follower` | ENV +, FAST +, INV ±, GATE + | `ATTACK · RELEASE · GAIN · THRESH` / `HOLD · — · — · —` | Sidechain source selector per §4. GATE is a 0/1 above THRESH. |
 | `arbutus/random` | S&H ±, DRIFT ±, WALK ±, — | `RATE · SLEW · RANGE · SEED` / `— · — · — · —` | SEED is an INTEGER so a patch can be deterministic. |
-| `arbutus/envelope` | ENV +, INV ±, — , — | `ATTACK · DECAY · SUSTAIN · RELEASE` / `TRIG · LOOP · CURVE · —` | TRIG ∈ {NOTE, GATE-IN (sidechain follower), FREE}. **Drawn smaller and in a different style than the amp ENV page** so nobody mistakes the two `[TBD-Elfy]`. |
+| `arbutus/envelope` | ENV +, INV ±, — , — | `ATTACK · DECAY · SUSTAIN · RELEASE` / `TRIG · LOOP · CURVE · —` | TRIG ∈ {NOTE, GATE-IN (sidechain follower), FREE}. **Drawn smaller and in a different style than the amp ENV page** so nobody mistakes the two `[TBD, Elvin's call]`. |
 | `arbutus/motion` | TILT-X ±, TILT-Y ±, SHAKE +, SPIN ± | `SMOOTH · SHAKE-SENS · SPIN-SENS · —` / `— · — · — · —` | Reads the IMU (§13). Absent IMU → outputs 0, page says `NO SENSOR`. |
 | `arbutus/stepmod` | STEP ±, GATE +, — , — | `STEPS · DIV · SLEW · DIR` / `RANGE · STEP · VALUE · —` | Values are entered on **two encoder parameters of the UI's own** (#60, 2026-09-23, replacing "hold SHIFT, turn ENC1, › to step"): `STEP` scrolls which step is selected, 1 … STEPS, and latches there; `VALUE` sets that step, ±1. A modulator with a sequencer's gestures — it declares soft-keys? **No** (DDR-041), and it needs none. |
 | `arbutus/keys` | VEL +, NOTE ± | *(none)* | Host-provided source, always present as tab **K** on the master row and not counted in the four. Its VEL output is the one per-voice source (§8). |
@@ -267,7 +267,7 @@ business or v2.
 
 - A modulated parameter's cell shows the **knob value** as its label and a **ghost
   marker** on the bar at the live modulated position (DDR-051). The bar moves; the
-  number does not. `[TBD-Elfy]` for the glyph.
+  number does not. `[TBD, Elvin's call]` for the glyph.
 - A `per_voice`-routed param shows the ghost at the last note's value.
 - The dynamic strip carries the lift payload while binding (DDR-024): `LIFTED: LFO.SINE`,
   short `LIFT LFO.SINE`.
@@ -428,12 +428,12 @@ resolved both. What is built:
   pressing 4 on K does nothing (DDR-049 is about modulators); K holds no engine,
   so SHIFT+4 on it opens the browser on tab 1, as it does from the master tab
   (§2.1).
-* The drawing choices above are `[TBD-Elfy]` and are listed in
+* The drawing choices above are `[TBD, Elvin's call]` and are listed in
   `emulator/notes/as-built.md` § #68 with the rest.
 
 ## 14. Unresolved
 
-1. `[TBD-Elfy]` drawings: master-tab rows and meters; the ghost glyph; the small
+1. `[TBD, Elvin's call]` drawings: master-tab rows and meters; the ghost glyph; the small
    `envelope` box page; copy-mode relabelled cells.
 2. Default depth 0.25 and the S&H/DRIFT ranges — by ear.
 3. Whether `keys` should also expose aftertouch when a MIDI keyboard sends it (cheap;
@@ -442,9 +442,3 @@ resolved both. What is built:
 
 ---
 
-## Session History
-- [[logs/2026-09-16]] — created from the OP-1 gap grill (session 2); DDR-045…051
-- [[logs/2026-09-17]] — stage G: §4's `input` source is `input_source`, `resample` included
-- [[logs/2026-09-18]] — audit Q1 (#31): as-built corrections and audit notes; findings in `docs/design/audit-2026-09-18.md`
-- [[logs/2026-09-22-23-27]] — S14 (#60): §3.2's stepmod row rewritten and §3.2.1 added — the entry gesture is two UI-side encoder parameters, STEP and VALUE, editing the `pattern` asset
-- [[logs/2026-10-14-08-31]] — Tilt frame in modulation-spec §13; host maps IMU axes per board (P3 bottom-side default, --imu-mount); bring-up 9.4

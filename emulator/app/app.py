@@ -186,7 +186,7 @@ class App:
         self.usb_exported = False
 
         #: the ENGINE scope: a peak history, one entry per `meters` push. The
-        #: UI cannot see samples any more — `[TBD-Elfy]`, and the one place a
+        #: UI cannot see samples any more — `[TBD, Elvin's call]`, and the one place a
         #: native screen differs from the Python one for a reason that is not
         #: the rack.
         self.scope = np.zeros(160, dtype=np.float32)
@@ -279,7 +279,7 @@ class App:
 
         The scope is the one casualty: the UI no longer sees samples, so
         SYNTH › ENGINE draws a **peak history** rather than a waveform —
-        `[TBD-Elfy]`, and the one place a native screen differs from a Python
+        `[TBD, Elvin's call]`, and the one place a native screen differs from a Python
         one for a reason that is not a rack.
         """
         inst = m.get("instrument") or [0.0, 0.0]
@@ -503,7 +503,7 @@ class App:
 
         The **other** trigger § 3.8 names — the head passing *k* × ruler — is
         deliberately not built: a medium cannot exceed the ruler, so *k* can
-        only be 1 and the state it watches for does not exist (#168, Elfy's).
+        only be 1 and the state it watches for does not exist (#168, Elvin's).
         """
         doc = self.native.state.get("tape") or {}
         if not int((doc.get("pool") or {}).get("ranges", 0) or 0):
@@ -1427,7 +1427,7 @@ class App:
                     return
                 # SHIFT+STOP = 1-level undo, and only that: it never stops
                 # the transport or commits a take (#932). What it should mean
-                # on the pages that have no edits of their own is Elfy's
+                # on the pages that have no edits of their own is Elvin's
                 # (desk M5); until then it is the tape's undo there too.
                 self.tape.undo()
                 return

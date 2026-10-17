@@ -1,4 +1,4 @@
-# Writing an Arbutus-1 engine
+# Writing an Arbutus engine
 
 This folder is a working engine and the documentation at the same time. Copy it,
 rename it, replace `Voice`, and you have a box. If you are an agent handed this

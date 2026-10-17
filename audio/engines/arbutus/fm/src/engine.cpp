@@ -1,7 +1,7 @@
 // arbutus/fm — two-operator FM, re-ranged so it is playable (DDR-044).
 //
 // The DSP is emulator/engines/fm_synth.py, unchanged; the *descriptor* is the
-// deliverable. Elfy on the Python one:
+// deliverable. Elvin on the Python one:
 //
 //   "initial parameters are completely unlistenable, index and ratio ranges
 //    are so large with such small bliss points that finding them is difficult,

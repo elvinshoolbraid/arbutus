@@ -1,4 +1,4 @@
-"""Every physical control on the Arbutus-1 (control-inventory.md).
+"""Every physical control on the Arbutus (control-inventory.md).
 
 52 keys + 4 encoders. Key enum members are stable string ids so scripts,
 keymap.json and MIDI config can name them.

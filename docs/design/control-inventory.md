@@ -4,7 +4,7 @@ status: active
 related: [[design-decisions]], [[screen-sketches]], [[emulator-spec]], [[ui-vision-dump-2026-09-07]]
 ---
 
-# Control Inventory — Arbutus-1
+# Control Inventory — Arbutus
 
 Every physical input, its gestures, and its global meaning. Per-page meanings live in `screen-sketches.md`.
 Ground truth: `reference/lookalike-model.jpg` (printed look-alike, Sep 2026). Photo wins over any table here.
@@ -42,8 +42,8 @@ Matrix wiring (5×11) is a firmware concern — see `specs/io-map.md`. Not all m
 - Relative (delta) input. 1 detent = 1 step of the slot's range. No acceleration.
 - SHIFT + turn = slot 4–7. Where an engine leaves slot 4–7 empty, SHIFT + turn = fine-tune of slot 0–3.
 - ~~No push. Menus need no confirm (live-apply).~~ *2026-10-14, #935 (review I1): stale since D98 (§ Menus below).* A menu that waits for its commit (FILE › PROJECT's LOAD browser, the name menu) commits on the **push of the encoder just turned** or on its red key; the sound and module browsers (SHIFT+1/3/4, SHIFT + slot key) still apply live as you scroll and need no commit (`pages/file.py`, `app/name_menu.py`, `pages/synth.py` `open_patch_menu`).
-- ~~On-screen colour = bright pastel of the cap colour (see `ui-aesthetic.md`).~~ The cap colours and the on-screen shades, light and dark, are `ui-aesthetic.md` § 3.2's (Elfy, 2026-10-03: blue, green, red, orange; ENC3 was cream). *2026-10-13, #633 (finding m-emu-ui-drivers #11): this table had kept the old caps (navy, forest green, warm beige, red-brown); text only, the palette was already right.*
-- ~~**Push: nothing in v1**~~ **Push: the commit inside a menu, nothing elsewhere** (Elfy, 2026-09-23, #88; D98, 2026-10-12). The Alps EC11J1525402 has a push contact and P3 wires all four as matrix keys on COL11 × ROW0–3 (work-order § 4.6, D9) as a hedge; `App.on_key` ignores `ENC1_PUSH`…`ENC4_PUSH`. A press is not a gesture on any page until this line changes. *2026-10-14, #935 (review I1): it changed with D98 (2026-10-12): inside a menu that waits for a commit the push is the commit (§ Menus). Outside a menu, as built, a push still does nothing on any page. **[TBD-Elfy]** what the push does outside a menu is desk meeting M5's question (`docs/strategy/desk.md`, the whole-system review § 5 G1); until he answers, this line holds outside menus only.*
+- ~~On-screen colour = bright pastel of the cap colour (see `ui-aesthetic.md`).~~ The cap colours and the on-screen shades, light and dark, are `ui-aesthetic.md` § 3.2's (Elvin, 2026-10-03: blue, green, red, orange; ENC3 was cream). *2026-10-13, #633 (finding m-emu-ui-drivers #11): this table had kept the old caps (navy, forest green, warm beige, red-brown); text only, the palette was already right.*
+- ~~**Push: nothing in v1**~~ **Push: the commit inside a menu, nothing elsewhere** (Elvin, 2026-09-23, #88; D98, 2026-10-12). The Alps EC11J1525402 has a push contact and P3 wires all four as matrix keys on COL11 × ROW0–3 (work-order § 4.6, D9) as a hedge; `App.on_key` ignores `ENC1_PUSH`…`ENC4_PUSH`. A press is not a gesture on any page until this line changes. *2026-10-14, #935 (review I1): it changed with D98 (2026-10-12): inside a menu that waits for a commit the push is the commit (§ Menus). Outside a menu, as built, a push still does nothing on any page. **[TBD, Elvin's call]** what the push does outside a menu is desk meeting M5's question; until he answers, this line holds outside menus only.*
 
 ## Page keys (×8) — top level, one tap each
 
@@ -80,9 +80,9 @@ on the `RESET` row arms it and the run is `1 2 3 4` **twice** — the first full
 walk instead of firing, the key strip keeps saying `CONFIRM` and the dynamic strip says
 `AGAIN`. Moving ENC1 off the row puts it down, as does any wrong key in either round. The run
 is also kept, **once**, for `FORGET PHONES` and the firmware line's actions
-(`pages/file.py`'s header; `v1-spec-package.md` § `[TBD-Elfy]`, both decided as built). Which
+(`pages/file.py`'s header; `v1-spec-package.md` § `[TBD, Elvin's call]`, both decided as built). Which
 of the instrument's confirm shapes stays the rule is desk meeting M5's question
-(`docs/strategy/desk.md`; the whole-system review § 5 G1).
+.
 
 ## Subpage / track keys 1–4
 
@@ -99,7 +99,7 @@ of the instrument's confirm shapes stays the rule is desk meeting M5's question
 - From **stopped** only. While already rolling, REC on its own is still the punch-in / punch-out.
 - A bare REC tap is unchanged: arm / punch, per the transport table.
 
-## Menus: one next input (Elfy, Play date 1's grill, 2026-10-12; D98)
+## Menus: one next input (Elvin, Play date 1's grill, 2026-10-12; D98)
 
 - **A turn-to-act cell** carries `▸` after its label (`NEW ▸`) and acts on a turn right; no arming
   when nothing can be lost.
@@ -260,20 +260,3 @@ live sections say only what holds now.
 
 ---
 
-## Session History
-- #935 (2026-10-14, autist; the whole-system review of 2026-10-13, I1–I4) — the push commits a menu (D98), nothing outside one (M5's question, `[TBD-Elfy]`); SHIFT+SYNTH's paragraph rewritten for the name menu, #819 not built yet; the 1-2-3-4 confirm keeps RESET's run; the old texts moved to a new § History; P3 has a gauge (the ADS1115)
-- [[logs/2026-09-23-15-12]] — cloud routine (#152): the SHIFT+STOP paragraph loses the octave from its list of steps — a move is a performance gesture like the bend (Elfy, 2026-09-23)
-- [[logs/2026-03-27]] — created with 5×11 scaffold
-- [[logs/2026-04-26]] — encoder colours, SHIFT fine-tune
-- [[logs/2026-04-27]] — MEMO removed, matrix 5×10
-- [[logs/2026-09-08]] — full rewrite from look-alike photo + 4-round grill; TAPE→TRACK, slot letters, tape keys, HELP modifier, autosave
-- [[logs/2026-09-09]] — page-key count corrected 9→8 (TEMPO is left-block); keymap.json named as source for counts/topology only; pitch confirmed uniform 16mm
-- [[logs/2026-09-11]] — patches (SHIFT+SYNTH/DRUM promote a slot, SHIFT+slot browses whole sounds); REC as a modifier for grid-locked takes
-- [[logs/2026-09-15]] — SHIFT+‹ › on FX = rack tabs; SEQ 1–4 = sequencer-engine soft-keys; LIFT/DROP on rack pages bind macros (DDR-038…041)
-- [[logs/2026-09-16]] — session 2: LFO→MOD; TRACK/MIXER banks; bypass on second press; bend on SHIFT+‹ ›; STOP+‹ › jumps; tick stepping; mute/solo; TEMPO nudge; FILE subpages; four LIFT/DROP payload types; no key velocity
-- [[logs/2026-09-18]] — stage H2: SEQ entry is the box's REC soft-key, not SHIFT (N1 moved it; the arrow row still said SHIFT)
-- [[logs/2026-09-18]] — the 1-2-3-4 confirm on USB/FILE › PROJECT: arm on an encoder, four keys in order, any other key cancels (stage J1)
-- [[logs/2026-09-18]] — stage J2: the confirm run **twice** for SYSTEM › RESET (DDR-064), the browser's file ops as built (LIFT straight to `.trash/`, SHIFT+DROP for a new folder, the group undo's precedence) and the battery on HELP-hold
-- [[logs/2026-09-18]] — inspection: § Physical layout no longer calls the hotspot file off-axis (rectified and metric since 2026-09-10); § chromatic keys says SEQ entry is the REC soft-key, not SHIFT. DDR-054's SHIFT+STOP undo on SYNTH/DRUM is listed here and **not built** — `v1-spec-package.md` § Inspection 2026-09-18 item 5
-- [[logs/2026-10-14-08-46]] — "#819: word lists per kind; SHIFT+SYNTH/DRUM saves on ENC1's push or the red key; a patch's .seq takes an action noun"
-- [[logs/2026-10-14-09-52]] — "#820: SYNTH/DRUM FX browser gets a green SAVE THIS RACK row; tool names, ENC push or red key 1 saves to SAVED RACKS"

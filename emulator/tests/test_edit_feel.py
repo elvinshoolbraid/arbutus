@@ -1,4 +1,4 @@
-"""Editing-feel fixes from Elfy's first play session (2026-09-09).
+"""Editing-feel fixes from Elvin's first play session (2026-09-09).
 
 Marker tolerance, SHIFT+arrow snapping, and hearing what you enter on SEQ.
 """

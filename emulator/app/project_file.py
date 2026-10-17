@@ -297,7 +297,7 @@ def save(app, name: Optional[str] = None, copy: bool = False) -> Optional[str]:
     No player gesture calls this since D97 (#817): `ensure_open` does, for a
     session with no folder of its own (an old autosave, a first boot), and
     `copy` is what the phone's Duplicate will be. It means the project that
-    is open (Elfy's answer (a) on #157):
+    is open (Elvin's answer (a) on #157):
 
     * a project is open → `project.json` is rewritten in its folder, and no
       audio moves at all — the takes are already in that folder;

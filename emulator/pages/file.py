@@ -70,7 +70,7 @@ SUBPAGES = ("PROJECT", "MIDI", "USB", "SYSTEM")
 ACTIONS = ("NEW", "LOAD", "RENAME", "BOUNCE")
 #: D98 marks a turn-to-act cell `▸`. The font has no `▸` and `ui/font.py` is
 #: not this page's to edit (a hard rule): `›`, the nearest glyph it draws,
-#: until Elfy draws one (run's call, 2026-10-13; `ui-aesthetic.md` § 4).
+#: until Elvin draws one (run's call, 2026-10-13; `ui-aesthetic.md` § 4).
 TURN_MARK = "\u203a"
 #: what a turn right does, in the cell's value line
 ACT_VALUES = {"NEW": "PICK NAME", "LOAD": "PROJECTS", "RENAME": "PICK NAME",

@@ -80,7 +80,7 @@ arb_engine_desc make_desc() {
     d.honours_env = 0;
     d.latency_frames = 0;
     d.num_params = 5;
-    // [TBD-Elfy: the defaults are by ear and his. Chosen here: a 3.5 s plate,
+    // [TBD, Elvin's call: the defaults are by ear and his. Chosen here: a 3.5 s plate,
     // larger than the paper's, a little dark, a 20 ms predelay that keeps the
     // attack out of the wash -- the classic vocal plate.] The four that get
     // played come first; PREDELAY is set once.

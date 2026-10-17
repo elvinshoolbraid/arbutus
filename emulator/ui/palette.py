@@ -42,7 +42,7 @@ LIGHT: Dict[str, RGB] = {
     "ACCENT_BROWN": (122, 74, 32),      # shifted labels: --ink-soft (DDR-005/006)
     "DIM": (191, 139, 93),              # disabled / empty: brown 55 % into cap
     "RULE": (196, 148, 103),            # rules / separators: brown 50 % into cap
-    # the four knobs (§3.2), Elfy 2026-10-03
+    # the four knobs (§3.2), Elvin 2026-10-03
     "ENC1": (10, 69, 128),              # blue
     "ENC2": (27, 92, 34),               # the site's green
     "ENC3": (199, 44, 44),              # red

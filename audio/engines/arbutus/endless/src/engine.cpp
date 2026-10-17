@@ -19,7 +19,7 @@
 //    notes pressed together before the first release form one chord step, up
 //    ends entry. REST and UNDO are the Python's `>` and `<`. CLEAR is new and
 //    is the only one of the four that does anything outside entry.
-//    **[TBD-Elfy]** -- see README.md.
+//    **[TBD, Elvin's call]** -- see README.md.
 //
 // 2. **Steps fire sample-accurately.** The Python advances its clock once per
 //    audio block, so a step lands on a block boundary. §3.4 gives an event a

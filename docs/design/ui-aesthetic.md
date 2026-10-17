@@ -4,7 +4,7 @@ status: active
 related: [[screen-sketches]], [[design-decisions]], [[emulator-spec]]
 ---
 
-# UI Aesthetic Rules — Arbutus-1
+# UI Aesthetic Rules — Arbutus
 
 Hard constraints for every rendered frame. This file is the **screenshot grader's rubric**: a screen that breaks a rule here fails verification regardless of function.
 
@@ -16,7 +16,7 @@ Created 2026-09-08 from grill session.
 
 - 320 × 240 px, 4:3. Rendered 1:1 into a numpy RGB framebuffer. Emulator scales by integer factor only.
 - No alpha blending, no anti-aliasing, no gradients, no rounded corners, no drop shadows, no animation easing. Flat fills and 1 px rules only. Do not make it prettier than the hardware LCD will be.
-  *[TBD-Elfy] (2026-10-14, #935; the whole-system review of 2026-10-13, I12): D103 makes the companion app's `CPU UNHAPPY: OVERLOAD` flash after 6 s of continuous overload (`companion-app-spec.md` § 13) and says the app's warning follows the device's. This page is the device's and is not the app's, but if the device's own flag is ever to flash, this rule needs an exception line saying so. Where the boundary sits is Elvin's, desk meeting M5 (`docs/strategy/desk.md`); nothing here changes until he answers.*
+  *[TBD, Elvin's call] (2026-10-14, #935; the whole-system review of 2026-10-13, I12): D103 makes the companion app's `CPU UNHAPPY: OVERLOAD` flash after 6 s of continuous overload (`companion-app-spec.md` § 13) and says the app's warning follows the device's. This page is the device's and is not the app's, but if the device's own flag is ever to flash, this rule needs an exception line saying so. Where the boundary sits is Elvin's, desk meeting M5; nothing here changes until he answers.*
 - Everything pixel-grid aligned. No sub-pixel positions.
 
 ## 2. Type
@@ -37,7 +37,7 @@ Created 2026-09-08 from grill session.
 
 ## 3. Colour
 
-Rewritten 2026-10-03 (#334, Elfy pre-approved the colours): the screen wears **the website's
+Rewritten 2026-10-03 (#334, Elvin pre-approved the colours): the screen wears **the website's
 and the companion app's colours** — the site's beige `#fce0a7`, brown `#8c3c03` and green
 `#1b5c22`, and the shades `app/ios/Arbutus/Look/Theme.swift` (`Palette`) derives from them. A
 shade that is none of those is **two of them mixed**, the rule the site's stylesheet states
@@ -65,7 +65,7 @@ The emulator's `V` key and `--appearance` stand in for the phone.
 
 ### 3.2 Knob colours
 
-The four knob caps (Elfy, 2026-10-03, fixed). Used **only** for the dot, name and value of a
+The four knob caps (Elvin, 2026-10-03, fixed). Used **only** for the dot, name and value of a
 parameter a knob controls, and for text tied to that knob — never for a ground. Slot n
 renders in knob (n mod 4)'s colour.
 
@@ -90,7 +90,7 @@ the brown ground with its hue kept**: the app's own dark shades (`knobDarkHexes`
 | `SUBTLE` | sublines, secondary text | ink-soft `#7a4a20` | `darkSoft` `#eccb93` |
 | `ACCENT_BROWN` | shifted labels: the param bar while SHIFT is held, dual legends (DDR-005/006) | ink-soft `#7a4a20` | beige 70 % into brown `#daaf76` |
 | `GREEN` | slot identity / persistent state (DDR-007) | green `#1b5c22` | `darkGreenInk` `#a2ab72` |
-| `RED` | record armed / recording, warnings, the armed confirm line *[TBD-Elfy] (2026-10-14, #935, review I10): D98 also makes red **the one next input** (§ 4: a menu's commit key), a third meaning this row does not list; § 3.4 has only `PANEL` on `RED` for it. Whether red keeps three meanings is desk meeting M5's question* | bright red `#e0201b` | `#ff9480` |
+| `RED` | record armed / recording, warnings, the armed confirm line *[TBD, Elvin's call] (2026-10-14, #935, review I10): D98 also makes red **the one next input** (§ 4: a menu's commit key), a third meaning this row does not list; § 3.4 has only `PANEL` on `RED` for it. Whether red keeps three meanings is desk meeting M5's question* | bright red `#e0201b` | `#ff9480` |
 | `DIM` | disabled / empty slot, `—` | brown 55 % into cream `#bf8b5d` | beige 50 % into brown `#c48e55` |
 | `RULE` | rules, separators, boxes | brown 50 % into cream `#c49467` | beige 40 % into brown `#b97e45` |
 | `INVERT_BG` / `INVERT_FG` | active / selected cell | brown / cream | beige / brown |
@@ -102,7 +102,7 @@ the brown ground with its hue kept**: the app's own dark shades (`knobDarkHexes`
 | `REC_FILL` / `REC_WAVE` | behind the rolling take / its waveform | red 15 % into cream / `RED` | red 15 % into darkCard / `RED` |
 | `METER` / `METER_PEAK` | a meter's body / its peak hold | green 30 % into cream / brown | darkGreenInk 45 % into brown / beige |
 
-**Record red** is a bright red (Elfy: the clash with ENC3 "isn't super terrible, just make
+**Record red** is a bright red (Elvin: the clash with ENC3 "isn't super terrible, just make
 that one bright red"), clearly brighter than ENC3's `#c72c2c`; the app's `warning` is the same
 `#e0201b`. In dark mode it is lifted to read on brown, and kept coral (more saturated) so it is
 not ENC3's pink.
@@ -137,13 +137,13 @@ Exceptions, each a run's call of 2026-10-03:
 1. Dark `ACCENT_BROWN` on the brown ground is 3.76. The SHIFT labels show only while SHIFT is
    held since the one-row bar (#1231), on dark `SHIFT_HIGHLIGHT`, which
    is the brown ground, at 3.76 (#693). In the main area it
-   also marks a mute badge and a COMP label. Whether the colour changes is Elfy's (the
+   also marks a mute badge and a COMP label. Whether the colour changes is Elvin's (the
    play-test checklist, R25).
 2. Dark `GREEN` is the app's `darkGreenInk`, as #334 names it: 3.11 on the ground, 4.16 on
    the panel. Lifting it to 4.5 turns it grey-olive and loses the green.
-3. Record red: bright and readable pull apart. Light `#e0201b` is 4.11 (Elfy asked for bright);
+3. Record red: bright and readable pull apart. Light `#e0201b` is 4.11 (Elvin asked for bright);
    dark `#ff9480` is 3.55 on the ground, 4.73 on the panel where the strip says `RECORDING`.
-4. Light ENC4 `#ad5f00` is 4.09: Elfy's fixed value, kept.
+4. Light ENC4 `#ad5f00` is 4.09: Elvin's fixed value, kept.
 5. `DIM` is meant to recede: disabled and empty things, `—`. About as far below ink as the old
    grey was.
 6. Rules are separators, not information; at 3:1 the param grid's lines outweigh its text.
@@ -163,7 +163,7 @@ Exceptions, each a run's call of 2026-10-03:
 - Zone heights never change between pages or states (see `screen-sketches.md` § Layout). Empty strips render blank, not collapsed.
 - Overlays (HELP, hold-SPEED readout) draw over main only; header/strips stay.
 - Menus are full-page covers but keep the header.
-- **One next input is red** (Elfy, 2026-10-12, D98): a menu waiting for its commit draws that key's cell in the record red, so the path to finish is plain and the keys beside it read as cancel; a turn-to-act cell carries `▸`; a `SAVE THIS RACK`-style row above a browser's first folder is green (`control-inventory.md` § Menus). Elfy may draw a pixel glyph for `▸` later. *[TBD-Elfy] (2026-10-14, #935, review I11): the font has no `▸`, so the code draws `›` (`pages/file.py` `TURN_MARK`), which is also the header's breadcrumb separator (`USB/FILE › PROJECT`) on the same screen: one glyph with two meanings until a `▸` is drawn. The glyph is Elvin's (the `▸` he offered to draw, desk meeting M5); `ui/font.py` is not edited by a run.*
+- **One next input is red** (Elvin, 2026-10-12, D98): a menu waiting for its commit draws that key's cell in the record red, so the path to finish is plain and the keys beside it read as cancel; a turn-to-act cell carries `▸`; a `SAVE THIS RACK`-style row above a browser's first folder is green (`control-inventory.md` § Menus). Elvin may draw a pixel glyph for `▸` later. *[TBD, Elvin's call] (2026-10-14, #935, review I11): the font has no `▸`, so the code draws `›` (`pages/file.py` `TURN_MARK`), which is also the header's breadcrumb separator (`USB/FILE › PROJECT`) on the same screen: one glyph with two meanings until a `▸` is drawn. The glyph is Elvin's (the `▸` he offered to draw, desk meeting M5); `ui/font.py` is not edited by a run.*
 
 ## 5. Grader checklist
 
@@ -179,8 +179,3 @@ A screenshot passes if all hold:
 
 ---
 
-## Session History
-
-- [[logs/2026-09-10]] — §2 amended: font is proportional (per-glyph advance) with tabular digits, replacing the fixed-cell "1 px tracking" wording. Mechanism only; values still open. Live editor added: `emulator/run.sh --edit`.
-- [[logs/2026-10-03-22-08]] — #334: the site's/app's palette, light and dark, following the phone's `appearance`
-- [[logs/2026-10-14-15-53]] — #693: RESET keeps dark mode, a phone's mode applies in tick not mid-draw, SHIFT/clip contrast floors tested, § 3.4 fixed

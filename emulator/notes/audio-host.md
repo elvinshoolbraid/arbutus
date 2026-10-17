@@ -195,6 +195,6 @@ venv/bin/python tools/verify.py native-rack native-synth  # screenshots
 ```
 
 Screenshots from the `native-*` features go to `validation/ui/native-*/` and are
-**not promoted** — only Elfy promotes. `native: true` in a feature script is now
+**not promoted** — only Elvin promotes. `native: true` in a feature script is now
 a no-op, kept so the existing scripts still parse: every feature runs against
 the audio process.

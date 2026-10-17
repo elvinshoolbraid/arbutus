@@ -87,12 +87,12 @@ class DrumPage(SynthPage):
         the sound the v1 golden holds (`PROTOCOL.md` § env) — and SYNTH's
         slots stop at 2 s, so the page could not have shown the default it was
         given, let alone set it. The host clamps neither, so the ceiling is a
-        UI choice: 8 s of decay puts the default at mid-bar. `[TBD-Elfy]`
+        UI choice: 8 s of decay puts the default at mid-bar. `[TBD, Elvin's call]`
 
         SUS and REL exist and say so; they just do not turn. A blank cell
         would read as "not implemented yet"; named and locked, it reads as
         "a drum voice has no sustain", which is the fact DDR-053 is about.
-        `[TBD-Elfy]`: the greyed pair may want to be `—` instead.
+        `[TBD, Elvin's call]`: the greyed pair may want to be `—` instead.
         """
         super()._build_static_params()
         self.p_atk = Param("ATK", 0.0, 2.0, 0.0, StepType.LINEAR, 0.005,
@@ -302,7 +302,7 @@ class DrumPage(SynthPage):
 
         The synth envelope is a four-segment line across the whole box; this
         is a filled decay that ends where DEC ends, so the two are not the
-        same picture with different numbers. `[TBD-Elfy]`
+        same picture with different numbers. `[TBD, Elvin's call]`
         """
         x, y, w, h = rect
         self._header_line(fb, rect, "PAD ENVELOPE  A·D", self.pad_name())

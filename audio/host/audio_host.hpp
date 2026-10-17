@@ -161,7 +161,7 @@ struct Options {
     // file. `--tape-dir`.
     std::string tape_dir;
     // How much tape audio is resident, in **track-seconds** (`OS-11` → DDR-072:
-    // 120, ~46 MB, Elfy 2026-09-19 — down from the ticket's 240 "for much
+    // 120, ~46 MB, Elvin 2026-09-19 — down from the ticket's 240 "for much
     // better headroom for downgrading the compute unit"). It only bites with a
     // `--tape-dir`: with no medium on storage there is nowhere to fetch an
     // evicted range back from, so the pool stays unbounded and the tape is the

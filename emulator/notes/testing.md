@@ -135,15 +135,15 @@ venv/bin/python tools/verify.py synth-page --promote # baseline this run's shots
 ./run_tests.sh verify                               # unit tests, then --all --diff
 ```
 
-- Scripts: `.claude/skills/verify-arbutus/features/scripts/<feature>.yaml`
+- Scripts: the agent tooling (private)
   (events: `key`, `note`, `enc`+`delta`, `wait_blocks`, `sleep`, `flush`,
   `reload`, `shot`, `assert`).
 - Prose map, doctor, grading rules and the Opus grader prompt:
-  `.claude/skills/verify-arbutus/SKILL.md` + `features/README.md`.
+  the agent tooling (private) + `features/README.md`.
 - Evidence: `validation/ui/<feature>/`; baselines: `validation/ui/baseline/<feature>/`.
 - Each feature runs in its own scratch state dir, `state/verify-<feature>/`,
   wiped per run — never the user's `state/`.
 - Grading: baseline present → pixel diff must be 0; no baseline → an Opus
   subagent grades the PNG against `ui-aesthetic.md` §5 + `screen-sketches.md`,
-  and only Elfy promotes.
+  and only Elvin promotes.
 - Needs `pyyaml` in the venv (`venv/bin/pip install pyyaml`).

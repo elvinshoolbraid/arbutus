@@ -1,7 +1,7 @@
 """#334 — the screen's two palettes, and the phone choosing between them.
 
 ui-aesthetic.md § 3 is the spec: every role in both modes, the knob colours
-fixed by Elfy, the contrast floors in § 3.4. PROTOCOL.md § The phone's
+fixed by Elvin, the contrast floors in § 3.4. PROTOCOL.md § The phone's
 appearance is the message: the phone sends `appearance {mode}` to the audio
 process, which pushes it to the UI, which draws in that mode from the next
 frame and remembers it in the device's settings (light the first time).

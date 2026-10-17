@@ -44,7 +44,7 @@ host's, and only a *soft-key* event has a SHIFT flag). So the rotation is its
 own slot in the next SHIFT position, where SHIFT+turn would have put it anyway.
 Turning ROT is the same hand movement one detent to the right.
 
-## Soft-keys (§3.6) — `[TBD-Elfy]`
+## Soft-keys (§3.6) — `[TBD, Elvin's call]`
 
 | Key | Label | What it does |
 |---|---|---|

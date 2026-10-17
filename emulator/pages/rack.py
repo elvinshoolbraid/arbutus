@@ -4,7 +4,7 @@ Native mode only. The Python path's FX page (one `EffectChain`, four knobs) is
 untouched and is what `emulator/run.sh` with no flag still draws.
 
 Everything here is the spec's *behaviour*; every drawing and gesture choice is
-`[TBD-Elfy]` and is listed in `emulator/CLAUDE.md` § Native audio so Elfy can
+`[TBD, Elvin's call]` and is listed in `emulator/CLAUDE.md` § Native audio so Elvin can
 find it. The rules this file may not break:
 
 * the rack's state lives in the host. Every edit is a message and the page
@@ -16,14 +16,14 @@ find it. The rules this file may not break:
 * ranges are set by ear, with the target sitting at the value being edited
   (DDR-040).
 
-Chosen here, all `[TBD-Elfy]`:
+Chosen here, all `[TBD, Elvin's call]`:
 
 | Thing | Spec | Choice |
 |---|---|---|
 | tab indicator | §6.1 "required, its form is not specified" | a row of boxes under the header, current one filled; the empty next tab is a box with `+` |
 | one-engine hint | DDR-038 | a dim `›` at the right of the header rule — "more this way" |
-| copy-mode highlight | §6.3 `[TBD-Elfy]` | a ring around every turnable param cell (`Param.highlight`) |
-| range popup gesture | §6.4 `[TBD-Elfy]` | **SHIFT + DROP** on the master tab, on the macro last turned |
+| copy-mode highlight | §6.3 `[TBD, Elvin's call]` | a ring around every turnable param cell (`Param.highlight`) |
+| range popup gesture | §6.4 `[TBD, Elvin's call]` | **SHIFT + DROP** on the master tab, on the macro last turned |
 | range popup | §6.4 | a plain four-column overlay over the main area, with the live marker as a vertical rule in the LO..HI bar |
 | target stepping | §6.4 "‹ › steps through targets" | ‹ › while the popup is open |
 | the MOD rack's **K tab** | modulation-spec §3.2 "always present ... not counted in the four" (#68) | the same box in the same row, labelled `K`, one wider gap past the `+`; SHIFT+› reaches it from the last tab. Its page names the two outputs the way a modulator tab does and says `HOST SOURCE - NO PARAMS` |

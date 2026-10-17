@@ -326,8 +326,3 @@ stays as an ordinary stock sound. Its `level` is 0.5 because the Python
 oscillator divided its four-voice mix by four and `PolyHost` does not normalise
 at all.
 
-## Session History
-- [[logs/2026-09-22-15-26]] — cloud routine (#105): § Patterns now says how long the `$TMPDIR` scratch file lives — until the UI exits, and not past it
-- [[logs/2026-09-24-19-38]] — cloud routine (**#163**): § Projects gains `tape-N.peaks` beside a medium — 16 min/max pairs a range, a **cache and not content**, discarded on open if its frame count disagrees with the medium's header, and safe to delete or to leave out of a copy
-- [[logs/2026-09-24-23-13]] — cloud routine (#74, C1 step 9): § Projects gains the **live medium** beside `tape-N.peaks` — written in place a range at a time while it plays, a **4 KiB** header (`RIFF`/`WAVE`, `fmt `, `fact`, a `JUNK` pad, payload at byte 4096) **lagging the audio by one range** so a cut cannot leave a header claiming audio the card never took, a 44-byte `tape_save` file still opening, and a closed medium exact — so a Mac never sees a live header
-- [[logs/2026-10-16-08-50]] — BARK, our own synthesized drum kit; the public export's DRUM plays and its emulator suite runs 1033 OK

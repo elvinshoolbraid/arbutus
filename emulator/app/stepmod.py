@@ -3,7 +3,7 @@
 `modulation-spec.md` §3.2 said the values were "entered like an endless
 pattern: hold SHIFT, turn ENC1 for the value, › to step". Nothing in the
 emulator ever wrote one, so every stepmod ran the box's default ramp. The
-gesture is now **two ordinary encoder parameters** on the tab (Elfy,
+gesture is now **two ordinary encoder parameters** on the tab (Elvin,
 2026-09-18): STEP scrolls which step is selected and latches there, VALUE sets
 that step. No SHIFT-and-turn mode, no `›`, and no soft-keys — DDR-041 forbids
 those on a modulator.

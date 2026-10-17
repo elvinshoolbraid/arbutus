@@ -1,6 +1,6 @@
 # arbutus/plate
 
-A big, clean plate reverb (#930; Elfy's big idea of 2026-10-12, "like a plate
+A big, clean plate reverb (#930; Elvin's big idea of 2026-10-12, "like a plate
 reverb instead, longer max tail"). Jon Dattorro's figure-eight tank ("Effect
 Design, Part 1", JAES 1997): the input is band-limited, pre-delayed and smeared
 by four allpasses, then circulates through two cross-fed halves (a modulated
@@ -8,7 +8,7 @@ allpass, a delay, a damping lowpass, an allpass, a delay); each output is seven
 taps summed from all over the tank. That is what makes a plate a dense, even
 wash where `arbutus/reverb` (Schroeder's room, the emulator's) is a short room
 of discrete combs. The room stays as it is; whether the plate *replaces* it as
-the one stock reverb is Elfy's call by ear. `caps: audio_in, audio_out`.
+the one stock reverb is Elvin's call by ear. `caps: audio_in, audio_out`.
 `honours_env: false`.
 
 ## Parameters
@@ -21,7 +21,7 @@ the one stock reverb is Elfy's call by ear. `caps: audio_in, audio_out`.
 | 3 | `damp` | 0 … 1 | 0.35 | The tank's lowpass, 18 kHz at 0 to 1 kHz at 1, log: the highs die before the lows, the way a steel plate does. It also shortens the audible tail a little at long DECAY (DECAY 10 measures 8.7 s at DAMP 0.35). |
 | 4 | `predelay` | 0 … 250 ms | 20 ms | Keeps the attack out of the wash. Last, because it is set once, not played. Glides like SIZE. |
 
-[TBD-Elfy] Every default above is a by-ear guess (a classic 3.5 s vocal
+[TBD, Elvin's call] Every default above is a by-ear guess (a classic 3.5 s vocal
 plate); the comment at `make_desc()` says the same.
 
 ## How it is built, and where it leaves the paper
@@ -74,6 +74,3 @@ x86-64 without FMA; not yet checked against an arm64 build (#930).
 bench host (x86-64); the room is 4 µs. Not yet measured on the Pi or against
 `arbutus_os/load-budget.json`.
 
-## Session History
-
-- [[logs/2026-10-15-16-43]] — plate create() catches its rings' bad_alloc (ENGINE BROKEN, not an abort); SIZE/PRE moves tested

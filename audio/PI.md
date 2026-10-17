@@ -35,7 +35,7 @@ sudo apt update
 sudo apt install -y cmake ninja-build g++            # g++ 12+ for C++20
 g++ --version                                        # record it in the report
 
-cd ~/Arbutus-1 && git pull                           # or rsync from the Mac
+cd <your clone> && git pull                          # or rsync from the Mac
 cmake -S audio -B audio/build -G Ninja -DCMAKE_BUILD_TYPE=RelWithDebInfo
 cmake --build audio/build
 ctest --test-dir audio/build --output-on-failure
@@ -166,7 +166,7 @@ transport change with an auth question attached (§13.2).
    `colourbass.rack`, both written into the same place.
 4. `SCHED_FIFO` + `mlockall` implemented and the core isolated, with an xrun
    count before and after over a five-minute live run.
-5. A session log in `docs/logs/` saying which of those numbers surprised you,
+5. A session log in the private log folder saying which of those numbers surprised you,
    and `arbutus_os/` given its staleness banner — §11 says that happens when
    `arbutus-audio` first runs on the Pi, and this is that moment.
 

@@ -4,7 +4,7 @@ status: active
 related: [[engine-spec]], [[modulation-spec]], [[keyboard-matrix]], [[screen-sketches]]
 ---
 
-# Parameter Slot Framework — Arbutus-1
+# Parameter Slot Framework — Arbutus
 
 The contract between engine plugins and the UI. The UI renders whatever the current engine puts in these slots — it knows nothing about synthesis.
 
@@ -148,7 +148,3 @@ The FX page's master tab is a rack of ≤8 **macros** that follow this same 8-sl
 
 ---
 
-## Session History
-- [[logs/2026-03-27]] — doc created with UI spec scaffolding; 8-slot engine↔UI parameter contract defined
-- [[logs/2026-09-08]] — 2-row always-visible bar, fine-tune fallback, colour by position, open questions resolved
-- [[logs/2026-09-16]] — session 2: ABI 2 additions (format_param, per_note, per_voice, ghost marker, MOD copy mode)

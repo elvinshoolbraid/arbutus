@@ -1,11 +1,11 @@
 #!/bin/bash
-# P7 (#73) bench, run ON the CM4 from ~/Arbutus-1 (built): arbutus-audio as a
+# P7 (#73) bench, run ON the CM4 from a built clone (any path): arbutus-audio as a
 # transient unit with arbutus-audio.service's realtime properties (CPUAffinity 3,
 # LimitRTPRIO 95, LimitMEMLOCK infinity, Nice -10), one per block size, each
 # probed idle and under load by latency-probe.py. Stops arbutus.target for the
 # run (snd-dummy, core 3) and starts it again on exit. PRESSES=40 for a smoke run.
 set -u
-R=$HOME/Arbutus-1
+R=$(cd "$(dirname "$0")/../.." && pwd)   # the clone this script is in
 OUT=$HOME/p7-$(date -u +%Y%m%dT%H%M)
 mkdir -p "$OUT"
 sudo systemctl stop arbutus.target

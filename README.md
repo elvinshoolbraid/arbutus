@@ -1,6 +1,6 @@
-# Arbutus-1 — the software
+# Arbutus — the software
 
-Arbutus-1 is a pocket music instrument: a keyboard, synthesizer, sampler, sequencer and
+Arbutus is a pocket music instrument: a keyboard, synthesizer, sampler, sequencer and
 four-track tape recorder in one battery-powered box, built by Arbutus Audio. This repository
 is its software, and it is fully open source: the desktop emulator (the instrument's whole
 screen and controls, played from your keyboard, mouse or a MIDI controller), the audio
@@ -29,7 +29,7 @@ the companion app, needs the device runtime, which is not in this repository yet
 | `emulator/` | the UI: every page, key and screen of the instrument, drawn at 320×240. Start with `emulator/CLAUDE.md` (the folder's rules and layout) |
 | `audio/` | the audio process (`audio/host/`, its control protocol in `PROTOCOL.md`), the stock engines (`audio/engines/`), the stock sounds (`audio/library/`) and the engine SDK (`audio/sdk/`, MIT-licensed) |
 | `audio/sdk/template/` | a buildable engine and how to write one: the shortest way to add a sound |
-| `docs/design/` | the specs: `v1-spec-package.md` says which document is the authority on what. A link to a document not here points into the private design repo |
+| `docs/design/` | the specs: `v1-spec-package.md` says which document is the authority on what. A link to a document not here points into the private design repo. The specs cite their history: `#123` is a ticket, `D98` or `DDR-031` a design decision, `desk 49` or `R36` a question Elvin answered; those records are private, the decision itself is written where it is cited |
 
 Tests: `cd emulator && venv/bin/python -m unittest discover -s tests` and
 `ctest --test-dir audio/build`. Some fail here, and that is known: a few check files that

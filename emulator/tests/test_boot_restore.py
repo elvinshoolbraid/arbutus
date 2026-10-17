@@ -1,6 +1,6 @@
 """#624: what a boot restores has to be what the last session left.
 
-Two rows of the m-emu-app code review (`docs/logs/findings/2026-10-06-m-emu-app.md`):
+Two rows of the m-emu-app code review (a code review (private)):
 
 - **Row 3.** A boot that restores a page other than SYNTH or DRUM set the UI's
   active instrument from `project.json` and never told the audio process, so

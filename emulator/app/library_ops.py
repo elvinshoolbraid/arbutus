@@ -36,7 +36,7 @@ browsers both skip it (`audio/hostlib/library.cpp`, stage J2).
 
 **Stock content is a manifest, not a guess.** `<library>/stock.json` lists the
 items the instrument ships with; `audio/tools/mkstock.py` writes it. Nothing on
-disk distinguishes a patch Elfy recorded from one that came in the image — both
+disk distinguishes a patch Elvin recorded from one that came in the image — both
 are a `.patch` written by the same code — so the shipped list is the only
 honest answer. No manifest at all means nothing is stock, which is right for a
 library someone assembled themselves. The host reads the same file and is what

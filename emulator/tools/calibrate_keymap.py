@@ -105,7 +105,7 @@ def main(argv=None):
     scale = min(1.0, args.width / pw)
     win = (int(pw * scale), int(ph * scale))
     screen = pygame.display.set_mode(win)
-    pygame.display.set_caption("Arbutus-1 keymap calibrator")
+    pygame.display.set_caption("Arbutus keymap calibrator")
     view = pygame.transform.smoothscale(photo.convert(), win)
     font = pygame.font.SysFont("menlo", 18)
     big = pygame.font.SysFont("menlo", 30, bold=True)

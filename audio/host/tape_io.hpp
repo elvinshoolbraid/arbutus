@@ -76,7 +76,7 @@
 // its slot; when the free list is empty the audio thread's next range cannot be
 // made resident and `Tape::write` returns short, which the host turns into
 // `tape_full {reason:"stall"}` — the take becomes a clip of what was captured
-// and the transport keeps rolling. That is the order Elfy's "a frozen screen is
+// and the transport keeps rolling. That is the order Elvin's "a frozen screen is
 // not acceptable, more latency is" asks for.
 //
 // **The wanted set (step 5).** Step 2b's read-ahead was one range, asked for by
@@ -294,7 +294,7 @@ public:
     int64_t durable_frames(int t) const {
         return t >= 0 && t < Tape::kTracks ? durable_pub_[t].load(std::memory_order_relaxed) : 0;
     }
-    // § 3.7 reason 2's prevention, and Elfy's answer to § 7 question 4: REC is
+    // § 3.7 reason 2's prevention, and Elvin's answer to § 7 question 4: REC is
     // refused while the medium's filesystem has less than **twice the pool**
     // free (~92 MB at the default 120 track-seconds), so "the card is full"
     // happens before a take rather than in the middle of one. True means
@@ -328,7 +328,7 @@ public:
     const std::string& dir() const { return dir_; }
     // Point the tape at `dir`. Control thread, no take open; it flushes first.
     //
-    //   * `move` -- SAVE (Elfy's answer on #157, (a)): every medium of the
+    //   * `move` -- SAVE (Elvin's answer on #157, (a)): every medium of the
     //     current folder, and its sidecar, is **renamed** into `dir` and the
     //     take carries on there. A rename within one disk is instant however
     //     big the file is, so SAVE never copies audio (§ 3.3). The open handles

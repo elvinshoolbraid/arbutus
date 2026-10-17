@@ -27,7 +27,7 @@
 //
 // A range is **49,152 frames = 1.024 s = exactly 384 KiB = 96 pages**, so every
 // range is a whole number of memory pages and of any power-of-two cluster up to
-// 128 KiB (tape-streaming-design.md § 3.1, Elfy 2026-09-23: yes).
+// 128 KiB (tape-streaming-design.md § 3.1, Elvin 2026-09-23: yes).
 //
 // **Bounded or unbounded (C1 step 2b).** The pool has two modes and the choice
 // is one number handed to `init`:

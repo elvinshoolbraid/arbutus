@@ -43,7 +43,7 @@ class PygameDisplay(DisplayDriver):
         try:
             pygame.init()
             self.screen = pygame.display.set_mode((self.window_width, self.window_height))
-            pygame.display.set_caption("Arbutus-1 Emulator")
+            pygame.display.set_caption("Arbutus Emulator")
 
             # Create native-resolution surface for rendering
             self.native_surface = pygame.Surface((self.width, self.height))

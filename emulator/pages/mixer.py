@@ -18,7 +18,7 @@ Gestures (DDR-061, DDR-001):
 | SHIFT + `‹ ›` | the bank, on MIX |
 | SHIFT + MIXER, held | the signal-path screen |
 
-`[TBD-Elfy]` choices are listed in `emulator/notes/as-built.md` § F2.
+`[TBD, Elvin's call]` choices are listed in `emulator/notes/as-built.md` § F2.
 """
 
 import time

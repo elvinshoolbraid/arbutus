@@ -1,9 +1,10 @@
 # Licensing — which licence covers which folder
 
-The licences were chosen by Elfy in grill Q12 (2026-09-29); the table and the reasons are
-`docs/strategy/strategy.md` § 10 (*Open hardware and software … — which?*). The repository
-is private until about preorders (M7, 2026-10-15: the software opens sooner, as a clean public repo exported from this one by `tools/public-export/export.py`, whose `allow.txt` is what crosses, #1232), so this file settles what applies **when it opens**; the
-licence names are marked provisional there, and a change is made here and in § 10 together.
+The licences were chosen by Elvin on 2026-09-29. The design repository
+stays private until about preorders; the software opens sooner, as a public repo exported from
+it (M7, 2026-10-15; `tools/public-export/export.py`, whose `allow.txt` is what crosses, #1232).
+This file settles what applies to what is published; the licence names are provisional, and a
+change is made here and in the strategy's § 10 together.
 
 **The rule:** a file is under the licence of the nearest `LICENSE` file above it. The
 top-level `LICENSE` is the GNU GPL v3, applied as **GPL-3.0-or-later**; the folders below
@@ -21,7 +22,7 @@ section) whatever folder they sit in.
 **Not covered by any open licence — the board layouts.** The strategy publishes schematics
 and printable files "Framework's way", **not the full board layouts**. So the layouts are
 excluded from `hardware/LICENSE`: every `*.kicad_pcb` file and `hardware/layout/` (the
-placement and routing scripts and their output). They are all rights reserved until Elfy
+placement and routing scripts and their output). They are all rights reserved until Elvin
 decides otherwise, and are to be left out of the public repository when it opens.
 
 **Not yet in the repo:** the IO board's modular stub reference design
@@ -61,8 +62,3 @@ folder it is in:
 ours. A dependency installed by a package manager (the emulator's `pygame`, `numpy`; the
 app's system frameworks) is not in the repo and is not listed.
 
-## Session History
-
-- [[logs/2026-10-16-01-05]] — tools/public-export/ writes the public software repo (fresh history); the gate checks nothing private crosses
-- [[logs/2026-10-16-03-37]] — Stock sounds: all 12 are op1.fun uploads, none cleared (10 are Roland/Yamaha/NI underneath); a CC0/CC BY shortlist
-- [[logs/2026-10-16-08-50]] — BARK, our own synthesized drum kit; the public export's DRUM plays and its emulator suite runs 1033 OK

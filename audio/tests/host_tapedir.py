@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Where the media live: `tape_dir {dir, move}` (C1 step 3b, #157).
 
-Elfy's answer on #157 is (a): SAVE moves the tape files into the project folder
+Elvin's answer on #157 is (a): SAVE moves the tape files into the project folder
 and recording carries on there. This is the audio process's half, through the
 whole host on a real filesystem:
 

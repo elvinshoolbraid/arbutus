@@ -6,7 +6,7 @@ question is whether a player's gestures reach the audio process — not whether
 the methods behind them can be called.
 
 Screenshots land in `validation/ui/native/`. They are evidence, **not
-baselines**: only Elfy promotes (`emulator/notes/testing.md` § Verification harness).
+baselines**: only Elvin promotes (`emulator/notes/testing.md` § Verification harness).
 """
 
 import glob
@@ -260,7 +260,7 @@ class TestRack(NativeCase):
         self.key("LEFT", shift=True)
         self.key("DROP")
         self.enc(0, 1)
-        self.key("DROP", shift=True)            # [TBD-Elfy] the range gesture
+        self.key("DROP", shift=True)            # [TBD, Elvin's call] the range gesture
         self.assertEqual(rack.mode, "range")
         names = [s.name if s else None for s in self.app.pages["SYNTH"].slots()]
         self.assertEqual(names[:4], ["LO", "HI", "CURVE", "DEPTH"])

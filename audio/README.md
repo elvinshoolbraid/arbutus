@@ -1,4 +1,4 @@
-# audio/ — the C++ side of Arbutus-1
+# audio/ — the C++ side of Arbutus
 
 The firmware is a host; everything that makes sound is an **engine** — a box of
 compiled code behind a tiny C ABI, loadable at runtime, shareable as a file.
@@ -285,7 +285,7 @@ and § What the tape costs in RAM measures both modes.
 
 **Watts: not measured.** The CM4 has no power sensor and the IO board no meter;
 the ticket's idle / playing / scenario-2 × `performance` / `schedutil` table
-needs an inline USB or 12 V meter on the IO board's input — Elfy's hands.
+needs an inline USB or 12 V meter on the IO board's input — Elvin's hands.
 
 What it says: **the audio is not the constraint, the UI is.** The host's
 worst five minutes use a quarter of its isolated core, the tape and a gigabit
@@ -895,7 +895,7 @@ opposite of what step 2 inferred.
 **So the only lever left is § 3.3's sync cadence**, and it is a spec question
 rather than a code one: syncing every *N*th range instead of every range would
 divide the sync count by *N* and multiply what a power cut can lose by the same,
-and how much audio may be lost is Elfy's call. That is filed rather than
+and how much audio may be lost is Elvin's call. That is filed rather than
 chosen.
 
 **The lead is kept, on by default, and it is not kept on the strength of this
@@ -994,7 +994,7 @@ way — but it is a deviation and the fetch counts should be read with it in min
 
 **The follow-up is not in the tape.** Read-ahead cannot out-run a card that
 takes 150 ms to accept a second of audio; the lever is either the sync cadence
-(#159, Elfy's, since it spends the power-cut loss bound) or making the transfer
+(#159, Elvin's, since it spends the power-cut loss bound) or making the transfer
 yield — § 6 step 4's own `ioprio_set` question, and the "`arbutus-net` gets a
 ticket to sync in bounded chunks" that step 4 anticipated. Filed as **#161**.
 
@@ -1070,7 +1070,7 @@ are over 100 ms. What changed is the tail: the worst single commit falls from
 **4.6–5.3 s to 0.58–1.02 s**, and a range buys 1.024 s of cover, which is
 exactly why the lateness disappears at the same time as the seconds-long
 stalls do. The other lever is untouched and is § 3.3's sync cadence, **#159**,
-which is Elfy's because it spends the power-cut loss bound.
+which is Elvin's because it spends the power-cut loss bound.
 
 **One thing the control found on its own.** The last control cell's first run
 aborted in the probe's own seeding guard: `tracks [6] recorded almost nothing`,
@@ -1174,7 +1174,7 @@ asked is not the stopwatch but `state.tape.io.peaks.hit/miss` and
 decisions the design note left open.
 
 **What this does not say.** It is ext4 on the eMMC, not exFAT and not a microSD
-card (step 4 and C6b, both Elfy's) — a slower card makes the first row worse and
+card (step 4 and C6b, both Elvin's) — a slower card makes the first row worse and
 moves nothing else. The host is `--offline`, which is honest here because
 `clip_peaks`'s fetch is a `pread` on the **control** thread inside
 `TapeIo::fetch` either way and the transport is stopped, so read-ahead — four
@@ -1534,10 +1534,10 @@ phone transfer now share the card rather than one of them winning.
 **What is still not equal to a free card**: 6.4 s against 3.3 is a real cost,
 and the seed is slower than #165's (42–56 s against 37–39) on a run that moved
 15 % more data. The remaining lever is #159, the commit's sync cadence, which is
-Elfy's.
+Elvin's.
 
 **What this does not say.** It is ext4 on the eMMC, not exFAT and not a microSD
-card (step 4 and C6b, both Elfy's). Nothing passes `--tape-dir` on a device yet
+card (step 4 and C6b, both Elvin's). Nothing passes `--tape-dir` on a device yet
 (step 3b, #157), so this is what 3b switches on, not what an instrument does
 today. The UI's half of step 8 — the remap, the SAVE trigger and T9 — was #164
 and unbuilt when this ran, so the keep sets here are the rig's rather than a real
@@ -1664,7 +1664,7 @@ back to. `emulator/` is the UI — it draws, routes keys and owns the tape's cli
 algebra; every sample of sound is made here.
 
 `emulator/notes/audio-host.md` § Native audio becomes the architecture is the reference:
-what it replaced, what stays Python, the rack gestures, and every `[TBD-Elfy]`
+what it replaced, what stays Python, the rack gestures, and every `[TBD, Elvin's call]`
 drawing decision with the line that makes it.
 
 The §11 parity gate is retired — it compared the two audio paths and there is

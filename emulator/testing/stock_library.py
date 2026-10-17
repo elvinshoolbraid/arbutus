@@ -4,7 +4,7 @@ Playing the mock (`python3 -m arbutus_os.mock`) or the emulator writes into the
 checkout's own `audio/library/`: a `settings.json` (dark mode, MIDI channel 3),
 a project under `projects/`, new patches and samples, none of them tracked.
 A test that read that folder, or copied it whole, took the player's state for
-its own: 12 emulator tests and the `file-system` feature went red on Elfy's
+its own: 12 emulator tests and the `file-system` feature went red on Elvin's
 Mac clone (#851, 2026-10-12) on a commit a clean worktree passed.
 
 So nothing under `emulator/tests/` or `tools/verify.py` reads the folder

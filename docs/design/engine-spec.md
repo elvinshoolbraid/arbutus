@@ -5,13 +5,13 @@ related: [[control-inventory]], [[parameter-framework]], [[design-decisions]], [
 supersedes: [[engine-plugin-api]] (2026-04-22) in full; [[software-stack-v1]] §4 (DSP language), §7 (process model), §12 (plugin summary)
 ---
 
-# Engine, Rack & SDK Spec — Arbutus-1
+# Engine, Rack & SDK Spec — Arbutus
 
-Produced 2026-09-15 from a five-round grill (session log: `docs/logs/2026-09-15.md`).
+Produced 2026-09-15 from a five-round grill.
 This is the software half of the spec package; `hollyhock-demo-spec.md`, `control-inventory.md`,
 `screen-sketches.md` and `ui-aesthetic.md` are the 320×240 half and remain the authority on
 what the player sees. Where this document names a screen it names the *behaviour*; how the
-screen is drawn is Elfy's, and marked `[TBD-Elfy]`.
+screen is drawn is Elvin's, and marked `[TBD, Elvin's call]`.
 
 Facts are in the linked docs. This file is the contract.
 
@@ -64,7 +64,7 @@ Consequences, each decided in the grill and expanded below:
 | Single process, RT thread on core 3 | **Separate audio process**, UI talks to it over a socket | Crash isolation from third-party engines; no GIL negotiation; the same protocol serves the phone. |
 | 128-frame blocks | Host-declared rate, variable `frames ≤ max_block` | Device, emulator and tape bake may run different sizes against the same box. |
 | Plugins under `/opt/arbutus/plugins/<role>/*.so` | Boxes under `library/engines/<author>/<name>/` | Manifest + per-arch binaries + assets; the library is one tree. |
-| Trust: "all plugins trusted, V2 revisit" | Native code shared; **inspected at upload** (§10) | Elfy's call: efficiency over sandboxing; the burden moves to the site. |
+| Trust: "all plugins trusted, V2 revisit" | Native code shared; **inspected at upload** (§10) | Elvin's call: efficiency over sandboxing; the burden moves to the site. |
 
 `software-stack-v1.md` keeps its authority on kernel, ALSA, tape storage, memory budget and
 milestones; its §4, §7 and §12 carry a banner pointing here. `parameter-framework.md` stays the
@@ -103,7 +103,7 @@ one `ARB_ABI` and refuses any other (§7.4).
 #define ARB_ABI          1
 #define ARB_MAX_PARAMS   8
 #define ARB_MAX_SOFTKEYS 4
-#define ARB_MAX_BLOCK    2048        /* default; [TBD-Elfy] */
+#define ARB_MAX_BLOCK    2048        /* default; [TBD, Elvin's call] */
 
 /* ---- capabilities (engine.json "caps" and arb_engine_desc.caps) ---- */
 #define ARB_CAP_AUDIO_IN    (1u << 0)
@@ -136,7 +136,7 @@ typedef enum { ARB_CURVE_LIN = 0, ARB_CURVE_LOG } arb_curve;
 
 typedef struct {
     char           id[16];      /* stable snake_case; never renamed once shipped   */
-    char           name[8];     /* screen label, UPPERCASE; length [TBD-Elfy]      */
+    char           name[8];     /* screen label, UPPERCASE; length [TBD, Elvin's call]      */
     arb_param_type type;
     arb_curve      curve;       /* mapping of normalised 0..1 onto min..max         */
     float          min, max, def;
@@ -167,7 +167,7 @@ typedef struct {
     uint32_t sample_rate;
     uint32_t max_block;
     double   tempo_bpm;
-    uint32_t ppqn;              /* clock ticks per quarter; default 24 [TBD-Elfy] */
+    uint32_t ppqn;              /* clock ticks per quarter; default 24 [TBD, Elvin's call] */
     uint8_t  playing;
     int64_t  song_frame;        /* transport position                          */
     /* ENV page (DDR: per-voice, never over the mixed output)                  */
@@ -240,7 +240,7 @@ any new input mechanism. Slots 4–7 left empty fall back to fine-tune of 0–3 
 An engine with `ARB_CAP_SEQUENCER` may declare ≤4 labelled soft-keys. In the SEQ slot the host
 maps them to physical **1–4** (and SHIFT+1–4 via `flags` bit 0), draws the labels on the
 bottom strip, and answers HELP-hold from the same declaration. No other engine type ever
-receives them — 1–4 are subpage keys everywhere else (DDR-041). Label length `[TBD-Elfy]`.
+receives them — 1–4 are subpage keys everywhere else (DDR-041). Label length `[TBD, Elvin's call]`.
 
 ### 3.7 Realtime rules
 
@@ -284,7 +284,7 @@ at load and refuses on mismatch — the one duplication in the system, made unab
 
 ### 3.9 Box packaging
 
-**Decided 2026-10-12 (Elfy, D106): one place for every engine.** The stock boxes are copied
+**Decided 2026-10-12 (Elvin, D106): one place for every engine.** The stock boxes are copied
 from the firmware slot to `/data`'s `engines/` on first boot (the `stock/` seeding's rule) and
 from then on are ordinary installed boxes: one search path, listed, uninstallable, reinstalled
 from the Community's Stock section. A firmware update updates a stock box that is still
@@ -303,7 +303,7 @@ copies are what the app and the browser show, move, organise and remove, exactly
 ones. *The answering session's call:* the answer is remembered for that box's exact contents,
 so a box asks once, not at every boot, and asks again when it changes.
 
-*Review's call, 2026-10-14 (R39, D125; was `[TBD-Elfy]` from #935 and the whole-system review's I14 and G4): the search order.* **The card's copy wins whenever it is there; the firmware slot's stock box is a fallback only while the card is away (USB storage mode) or its copy is missing and was not uninstalled. An engine the owner uninstalled never comes back from the slot (item 2 above; RESET restores it). Trust follows the signature, not the folder (desk 49): a stock box changed on the card is no longer Arbutus's by its hash, so it asks once like any unsigned box, and a firmware update leaves it alone. The shadowing rule below goes with #840.** Why: D106's one place and Elvin's "stock engines can stay in firmware if it makes it easy" together, owners in control (an edit of theirs is never overwritten), and the slot covers G4's restart during an export. The record of the question as it stood:
+*Review's call, 2026-10-14 (R39, D125; was `[TBD, Elvin's call]` from #935 and the whole-system review's I14 and G4): the search order.* **The card's copy wins whenever it is there; the firmware slot's stock box is a fallback only while the card is away (USB storage mode) or its copy is missing and was not uninstalled. An engine the owner uninstalled never comes back from the slot (item 2 above; RESET restores it). Trust follows the signature, not the folder (desk 49): a stock box changed on the card is no longer Arbutus's by its hash, so it asks once like any unsigned box, and a firmware update leaves it alone. The shadowing rule below goes with #840.** Why: D106's one place and Elvin's "stock engines can stay in firmware if it makes it easy" together, owners in control (an edit of theirs is never overwritten), and the slot covers G4's restart during an export. The record of the question as it stood:
 Today the audio host is given two roots, the firmware slot's `boxes` first and `/data` last
 (`arbutus_os/services/arbutus-audio.service`), and `audio/CLAUDE.md` § Defaults gives the
 reason: a box in the player's library cannot shadow (be found before, and so replace) a
@@ -368,7 +368,7 @@ library/engines/<author>/<name>/
   assets/            (optional: wavetables, IRs, sample banks)
 ```
 
-Packed for transport as `<author>-<name>-<version>.arbox` (extension `[TBD-Elfy]`). Missing
+Packed for transport as `<author>-<name>-<version>.arbox` (extension `[TBD, Elvin's call]`). Missing
 architecture for the running host → refuse with "no build for this device" (§7.4).
 
 **As built (D5, #26, 2026-09-19):** the container is **not** a zip — it is
@@ -422,7 +422,7 @@ musical keys ──► [SEQ] ──► [ENGINE] ──► [FX rack] ──► in
 - **Sidechain** is the one cross-slot input (§6.6): a rack engine with `ARB_CAP_SIDECHAIN` gets
   `side[]` from a host-level source — tape 1–4 or the mic/line input. Not another instrument's
   bus: only one instrument plays at a time.
-- Mixer-page FX (`MIXER › FX`) is the same rack mechanism on the master bus. `[TBD-Elfy]` whether
+- Mixer-page FX (`MIXER › FX`) is the same rack mechanism on the master bus. `[TBD, Elvin's call]` whether
   it ships in v1 or the slot stays a single engine.
 
 ---
@@ -441,7 +441,7 @@ player discovers the rack exists (DDR-038). ≤8 engines per rack; the CPU flag 
 | 1..n | one engine each | that engine's own params, editable directly |
 
 Navigation: **SHIFT + ‹ ›** moves between tabs on the FX subpage (`control-inventory.md`, arrow
-table). The strip shows the tab position and the tab's name. Drawing `[TBD-Elfy]`; the
+table). The strip shows the tab position and the tab's name. Drawing `[TBD, Elvin's call]`; the
 tab-count indicator on the master page is required, its form is not specified here.
 
 ### 6.2 Master page and macros
@@ -467,19 +467,19 @@ strip reads `TURN A PARAM TO COPY ITS ADDRESS`. Turn one → the address is lift
 tab, press **DROP** → *paste* mode, strip reads `TURN A KNOB TO PASTE`, turn a macro slot →
 bound with `lo=0, hi=1, lin, depth=1`. Drop again onto the same slot from another lifted
 address → **multi-assign**. LIFT with nothing followed by DROP = cancel (mirrors DDR-013).
-HELP-hold on either page explains the mode. Highlight and copy `[TBD-Elfy]`.
+HELP-hold on either page explains the mode. Highlight and copy `[TBD, Elvin's call]`.
 
 ### 6.4 Range — set by ear (DDR-040)
 
-On the master tab, a gesture on a bound slot `[TBD-Elfy]` opens the range popup for that
+On the master tab, a gesture on a bound slot `[TBD, Elvin's call]` opens the range popup for that
 binding (one popup per target; ‹ › steps through targets of a multi-assigned macro). The four
 encoders become **LO · HI · CURVE · DEPTH**. While LO or HI is being turned, the target
-parameter *is at that value* — you hear the bound — and a live marker (red, per Elfy) shows
+parameter *is at that value* — you hear the bound — and a live marker (red, per Elvin) shows
 where the current macro position lands within [lo, hi]. Close = confirm.
 
 ### 6.5 (cut: parallel groups)
 
-Cut from v1 (Elfy, 2026-10-02, desk 5; removed from the code by #273, 2026-10-04): tabs run in
+Cut from v1 (Elvin, 2026-10-02, desk 5; removed from the code by #273, 2026-10-04): tabs run in
 series only, and a box that wants parallel paths codes them inside itself. A rack file that
 still carries the old `"parallel"` key loads as flat tabs; the key is ignored and never written.
 The number is kept so §6.6 and §6.7 keep theirs.
@@ -487,7 +487,7 @@ The number is kept so §6.6 and §6.7 keep theirs.
 ### 6.6 Sidechain source
 
 An engine tab whose engine declares `ARB_CAP_SIDECHAIN` shows a source selector — cannibalising
-one of the engine's unused slots if it has one, otherwise `[TBD-Elfy]`. Sources: `tape:1..4`,
+one of the engine's unused slots if it has one, otherwise `[TBD, Elvin's call]`. Sources: `tape:1..4`,
 `input` (mic / line, auto-detected). Stored on the rack (§6.7), not on the engine.
 
 ### 6.7 Rack file
@@ -527,7 +527,7 @@ DDR-049's master/node A/B state survives slot and patch recall.
 ### 6.8 The CPU flag (DDR-042)
 
 No cost estimate, ever. The audio process counts xruns; when they exceed a threshold in a
-window `[TBD-Elfy: N in M s]` the host raises a flag the UI shows as
+window `[TBD, Elvin's call: N in M s]` the host raises a flag the UI shows as
 `CPU UNHAPPY: OVERLOAD` (D103, Play date 1, 2026-10-12: the app's words too; it replaced
 `CPU NO HAPPY — EFFECT TOO BIG`, #843) until the rack changes. Measured per-engine
 costs are available offline from `arbutus-run --bench` (§9.3) for authors who care.
@@ -577,7 +577,7 @@ extended to pads).
 
 A file that cannot load says exactly why, and loads nothing:
 
-| Condition | Message (copy `[TBD-Elfy]`) |
+| Condition | Message (copy `[TBD, Elvin's call]`) |
 |---|---|
 | `requires` names an engine not in the library | `NEEDS ENGINE arbutus/formant` |
 | Engine present but `< min_version` | `NEEDS arbutus/formant ≥ 1.2` |
@@ -738,7 +738,7 @@ what stays a later SDK convenience is a cross-build an outside engine author can
   Stock engines are rewritten against the SDK. The library is regenerated against §7.
 - **Kept:** the UI, pages, chrome, look editor, `verify.py`, the driver seams, the goldens (as §9.4).
 - **`arbutus_os/`** gets a staleness banner when `arbutus-audio` first runs on the Pi, not before.
-- **Order of work** (Elfy's token window; sized in the grill as 2–4k lines for host + SDK):
+- **Order of work** (Elvin's token window; sized in the grill as 2–4k lines for host + SDK):
   1. `sdk/include/arbutus_engine.h`, `poly.hpp`, template, `arbutus-run` — an engine builds and
      tests with no host.
   2. `arbutus-audio` on the Mac: pipeline, rack, loader, protocol; Python goldens replayed through it.
@@ -751,7 +751,7 @@ what stays a later SDK convenience is a cross-build an outside engine author can
 
 - A rack holds ≤ 8 engines; tabs are flat and run in series; no rack inside a rack.
 - The host supports exactly one `ARB_ABI`.
-- Engines report `latency_frames`; the host does not compensate in v1 (Elfy: let latency happen).
+- Engines report `latency_frames`; the host does not compensate in v1 (Elvin: let latency happen).
 - No engine ever receives command keys except sequencer soft-keys (§3.6).
 - Existing `.patch`, `library/fx`, and drum-kit folders are not migrated; regenerated.
 - The phone renders racks, patches and kits read-only for browsing; it never edits one.
@@ -763,7 +763,7 @@ what stays a later SDK convenience is a cross-build an outside engine author can
 
 ## 13. Unresolved questions
 
-1. `[TBD-Elfy]` screen behaviours flagged above: tab indicator on the master page; LIFT/DROP
+1. `[TBD, Elvin's call]` screen behaviours flagged above: tab indicator on the master page; LIFT/DROP
    highlight; the gesture that opens the range popup;
    sidechain selector when an engine has all 8 slots used; CPU-flag copy and thresholds;
    param `name` and soft-key label lengths; `ppqn`; `.arbox` name; whether MIXER › FX is a rack in v1.
@@ -778,7 +778,7 @@ what stays a later SDK convenience is a cross-build an outside engine author can
 ## 14. As built (2026-09-15/16) — where the implementation settled the spec
 
 Stages 1–4a of §11 were built by four sequential agents; each reported the
-`[TBD-Elfy]` items it consumed and every deviation. This section records the
+`[TBD, Elvin's call]` items it consumed and every deviation. This section records the
 facts that now differ from or sharpen the text above. **Where §3.2's header
 listing and `audio/sdk/include/arbutus_engine.h` disagree, the header is
 authoritative** — the listing was a sketch; the header is pinned by
@@ -863,7 +863,7 @@ has no pattern asset yet). The SEQ slot arms on the instrument active at arm
 time (DDR-034 not followed natively — `softkey` carries no instrument).
 Stage 4b (the Pi) is unbuilt: `audio/PI.md`.
 
-### Still Elfy's — by ear
+### Still Elvin's — by ear
 Unison spread; mono-return retrigger; live-vs-snapshotted release; exp curve
 steepness; depth-about-centre vs about-lo; xrun threshold; SHIFT+DROP as the
 range gesture; FX opening tab; ENGINE-page scope replacement; native take
@@ -874,7 +874,7 @@ default; drum DECAY default; CLEAR as the 4th soft-key; `name[8]`.
 
 ## 15. ABI 2 and the v1 additions (2026-09-16)
 
-Decided in the OP-1 gap grill (`docs/logs/2026-09-16.md` session 2; audit in
+Decided in the OP-1 gap grill (the 2026-09-16 session log (private) session 2; audit in
 `op1-gap-audit.md`). ABI 1 has shipped to nobody, so this is the one cheap moment to bump
 it cleanly instead of growing `_reserved`: **`ARB_ABI` becomes 2**, `load_asset` moves out of
 the reserved bytes into a real field, and every reserved size is recomputed with padding
@@ -1023,7 +1023,7 @@ keys ──► [SEQ] ──► [ENGINE] ──► [FX rack] ──► instrument
 
 ### 15.6 Protocol additions (`proto` 1)
 
-**Retitled 2026-09-19 (#62, Elfy 2026-09-18): there is no `proto` 2.** Every
+**Retitled 2026-09-19 (#62, Elvin 2026-09-18): there is no `proto` 2.** Every
 row below is a *compatible addition* — a message the host did not serve before,
 or a field on one it did — and the host, `PROTOCOL.md` and the emulator have
 always served them as `proto` 1. A `proto` bump is for a change that breaks an
@@ -1048,7 +1048,7 @@ a protocol one (§15.10).
 
 #### 15.6.1 v1.5, not v1 (#62)
 
-Moved out of the table above by Elfy's 2026-09-18 decision, beside
+Moved out of the table above by Elvin's 2026-09-18 decision, beside
 `arbutus/midi`. None of the three is a breaking change either, so they will
 also arrive as `proto` 1:
 
@@ -1115,7 +1115,7 @@ long a `process()` call is (§15.7 rule 8).
 
 ### 15.9 Unresolved (added)
 
-- `name[8]` was kept in ABI 2 (widening is free now — Elfy: say if 8 is too short before
+- `name[8]` was kept in ABI 2 (widening is free now — Elvin: say if 8 is too short before
   the header is cut).
 - Whether `set_voice_mod` should also carry a curve.
 - `ARB_MAX_OUTPUTS` = 4 is the MOD-page decision (`modulation-spec.md` §2), not a DSP limit.
@@ -1140,7 +1140,7 @@ glide is mono/legato only, linear in semitones; `pitch_st` is ramped across each
 `host.pitch`, `env.glide` and `env.detune` are served targets. Engines not on PolyHost may
 read `pitch_st` directly. Details and defaults: `audio/CLAUDE.md`, `sdk/template/README.md`.
 
-**Pre-release ABI rule (Elfy).** ABI 2 has not shipped outside the repo, so a struct does
+**Pre-release ABI rule (Elvin).** ABI 2 has not shipped outside the repo, so a struct does
 not grow by appending into `_reserved`: new fields go in as named fields in their logical
 place, the layout is recomputed with padding accounted for, every offset is re-pinned in
 `audio/tests/abi_layout.h`, and every box is rebuilt. `ARB_ABI` stays 2 until something has
@@ -1464,26 +1464,3 @@ deviations; the settings document's format is in `audio/library/README.md`
 
 ---
 
-## Session History
-- [[logs/2026-09-15]] — doc created from the five-round engine/rack/SDK grill; supersedes
-  `engine-plugin-api.md`; DDR-038…044 added; control-inventory arrows/SEQ/FX-rack rows added.
-- [[logs/2026-09-16]] — §14 added: how stages 1–4a settled the ABI (`load_asset`), PolyHost, rack, protocol and engines; header now authoritative over §3.2's listing.
-- [[logs/2026-09-17]] — §15.13: F1 as built — per-track EQ, the master rack, the MASTER strip, mute/solo
-- [[logs/2026-09-17]] — §15.14: H1 as built — arp / pattern / euclid, endless's GATE, PATTERN and ties, the `pattern` asset
-- [[logs/2026-09-17]] — §15.15: I1 as built — `va`, `string`, `wavetable`, `dbox`, the wavetable asset and the fileless kit pad
-- [[logs/2026-09-18]] — §15.16: I2 as built — `delay`, `chorus`, `crusher`, `drive`, `eq3`; the tempo reaching an effect and the first box with latency
-- [[logs/2026-09-18]] — §15.17: H2 as built — `load_engine` carries content, the SEQ row from the descriptor, the whole TEMPO page
-- [[logs/2026-09-16]] — session 2: §15 added — ABI 2 (`ctl_out`, `format_param`, `set_note_param`, `set_voice_mod`, CC/BEND, `motion[]`), live-input, per-pad, per-instrument SEQ, 8 tracks, overdub-only, per-track EQ, master rack, proto 2, block 128
-- [[logs/2026-09-17]] — stage G as-built: §15.2's live input arrives on the ENGINE slot's `side[]`, SOURCE is mirrored, and `resample` also drops the instrument bus, the click and the monitor
-- [[logs/2026-09-18]] — §15.18: J2 as built — the box scan skips dot-prefixed folders (`.trash/`, `.originals/`) and `rescan` gets its first coverage; the v1 spec package is built
-- [[logs/2026-09-18]] — audit Q1 (#31): as-built corrections and audit notes; findings in `docs/design/audit-2026-09-18.md`
-- [[logs/2026-09-19-11-39]] — cloud routine (D5, #26): §3.9's "zipped" corrected — a `.arbox` is `device-os-spec.md` § 10.1's container (a tar with `kind: box`), so a box and a firmware update are verified and installed by one code path; the manifest's `id` is the `<author>/<name>` it lands in
-- [[logs/2026-09-23-00-14]] — bench routine (S15, #56): **§15.7 gains rule 8** — an engine's output does not depend on the block size. It is rule 4's determinism applied to rule 2's "any `frames ≤ max_block`", and it had lived only in `audio/tests/ragged.sh`'s header comment — where a broken exit status meant nobody was checking it, and `arbutus/va` and `arbutus/wavetable` broke it by 16 and 60 dBFS undetected. §15.8 also says explicitly that `modulation-spec.md` §7's "one value per block" is about **modulators**, which the host drives, and is not a licence for an engine's own state — the sentence both boxes' comments cited as justification for reading their envelope once per `process()` call. The SDK's answer is `arb::kCtrlStep` in `sdk/poly.hpp`
-- [[logs/2026-10-03-19-04]] — bench routine (#273): § 6.5 parallel groups cut to a tombstone; § 6.1 MIX row, § 6.7 example, § 12, § 13 and the § 8.2 message list lose them
-- [[logs/2026-10-13-01-20]] — #633: the 2026-10-06 sweep's spec drift amended in 10 docs (dated lines); D_AVDD's code comment split to #863
-- [[logs/2026-10-13-09-04]] — pattern publishes its length via a relaxed atomic each block; format_param reads it; a TSAN test, red on two mutants
-- [[logs/2026-10-14-06-26]] — Stock engines copied to the card and kept in step, the slot a fallback, the last of a kind refuses; the rest is #1064
-- [[logs/2026-10-14-15-56]] — Closed bake: card as root, slot as fallback, so an uninstalled engine refuses; last_engine a 409 and the app's sentence
-- [[logs/2026-10-14-20-27]] — A missing engine's patches show NEEDS <ENGINE>; an unsigned card box asks RUN · CANCEL, kept per contents
-- [[logs/2026-10-15-12-23]] — unsigned-box question before FILE › LOAD, a slot recall and RACKS; CANCEL keeps what was open; rest is #1205
-- [[logs/2026-10-15-17-39]] — the M7 voice call ingested (OP-1 mod scene: answers, tickets #1230–#1235)

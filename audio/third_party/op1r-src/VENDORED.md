@@ -56,6 +56,3 @@ under the MIT License, whose notice is kept here:
 > OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
 > DEALINGS IN THE SOFTWARE.
 
-## Session History
-
-- [[logs/2026-10-16-06-05]] — #1255: OP1R-VERB's page is op1r's Kali reverb screen, rasterised once, 88-93 % pixel-identical to op1r's preview

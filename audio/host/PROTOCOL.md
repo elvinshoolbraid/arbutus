@@ -1034,7 +1034,7 @@ slot, because it has to give a real answer and it is not competing every block.
 A block in which some track wanted a piece of tape the card had not delivered —
 that track plays silence for those frames and the clip's other frames in the
 block still sound — is counted once, whichever tracks were late, and pushed on
-the **same window and the same flag rule as `xrun`** (`[TBD-Elfy: N in M s]`,
+the **same window and the same flag rule as `xrun`** (`[TBD, Elvin's call: N in M s]`,
 3 in 2 s). One alarm rule, one slot on the screen, two sets of words:
 
 ```json
@@ -1043,7 +1043,7 @@ the **same window and the same flag rule as `xrun`** (`[TBD-Elfy: N in M s]`,
 
 `count` is the window's, `total` the session's, `tracks` the eight-bit mask
 since the last push (bit *t* = track *t*). The UI draws
-**`HARD DRIVE SLOW`** where it draws `CPU NO HAPPY` (Elfy, design § 7 question
+**`HARD DRIVE SLOW`** where it draws `CPU NO HAPPY` (Elvin, design § 7 question
 2 — not the note's own `TAPE LATE`). A **scrub** over a piece the card has not
 delivered is silent and **not** counted: the fetch it asks for still happens,
 so the next grain there sounds, but dragging a cursor across a tape is not the
@@ -1063,7 +1063,7 @@ is the medium's own end (today the `--tape-seconds` capacity, far under the WAV
 format's 10,922 ranges — before step 7 this stopped the take growing and said
 nothing at all); `disk` is storage refusing a commit for want of space. The UI
 says **`CARD STALLED`** for the first and **`TAPE FULL`** for the other two
-(Elfy, § 7 question 3), because the player's next action differs.
+(Elvin, § 7 question 3), because the player's next action differs.
 
 A `disk` take is cut back to the **committed prefix** — the ranges the card
 really took — because the slots the pool still holds are evicted soon and would
@@ -1096,7 +1096,7 @@ save-as-copy gets out.
 ### `tape_dir` — where the media live (C1 step 3b, #157)
 
 With `--tape-dir` the eight media are `<dir>/tape-1.wav … tape-8.wav` (and their
-`.peaks` sidecars), and `tape_dir` moves the tape to another folder. Elfy's
+`.peaks` sidecars), and `tape_dir` moves the tape to another folder. Elvin's
 answer on #157 is that **SAVE moves the tape files into the project folder and
 recording carries on there**, and SAVE means "save the project I have open", so
 the folder the tape lives in *is* the open project:
@@ -1445,7 +1445,7 @@ v1's fixed value, so the sound does not move. `comp_times` (#933) is
 frame's but runs once a block, so the 5 ms attack and COMP REL run ~64x their
 labels at the device's 64-frame block) or `"labelled"` (the envelope steps on
 a 32-frame grid with each step's own coefficient, so attack and release are
-the label at every block size); anything else is `bad_request`. It is Elfy's
+the label at every block size); anything else is `bad_request`. It is Elvin's
 A/B (play-queue P3), not a project setting: it is not saved. `drive` 0..1 is a soft clipper
 (0 = bypass) and `drive_tone` 0..1 tilts what reaches it around 700 Hz
 (0 = only the lows, 1 = only the highs, 0.5 = flat). `bal` −1..+1 is a
@@ -1539,7 +1539,7 @@ a spare track, ride a macro.
 `xrun` is pushed whenever the count inside the current window rises. `count` is
 xruns in the last `window_s` seconds, `total` since start, and `flag` is the
 host's own verdict — true at **3 in 2 s**, the default for §6.8's
-`[TBD-Elfy: N in M s]`. That flag is what the UI draws as `CPU NO HAPPY`.
+`[TBD, Elvin's call: N in M s]`. That flag is what the UI draws as `CPU NO HAPPY`.
 The state document's `xrun` carries the same `total` (#626), so a client that
 connects to a host already running can count its own run's xruns as the last
 push's `total` minus the state's `total` when it began (`xrun-watch.py` does).
@@ -1866,23 +1866,3 @@ S seconds, which is how the live smoke test runs unattended.
 
 ---
 
-## Session History
-- [[logs/2026-10-03-19-04]] — bench routine (#273): `set_parallel` removed; a rack's old `parallel` key loads flat
-- [[logs/2026-09-25-01-19]] — cloud routine (**#167**): the `tape_compact` section gains the paragraph saying its three promises — the `started` reply, a fresh client's `hello`, and PLAY cancelling — were true only on paper until the copy stopped holding the tape's lock across the card. Nothing on the wire changed
-- [[logs/2026-09-24-09-19]] — cloud routine (#74, C1 step 8): **`tape_compact`** — the medium is append-only, so this is how its dead audio comes back. The keep set is the **UI's** (its clips, its lift buffer, its one-level undo record — the host has never seen the last two), and it is **two messages**: the request replies `started` and the map arrives as a push, because a 2 × ruler medium is ~7 s of copying and SAVE must not wait for one. `state.tape.tracks[t].dead_frames` is the trigger and can only over-report
-- [[logs/2026-09-24-01-18]] — cloud routine (#99): § Playing gains the multi-client transport rule — the transport is the host's and a client holds a mirror, sending `transport` only for a change it made and adopting on a **change** in the pushed document rather than on its value. Written here rather than in the emulator because A2's app is the next client
-- [[logs/2026-09-23-19-24]] — cloud routine (#74, C1 step 2a): `--tape-dir` and `state.tape.io` documented — the write-behind, the 4 KiB lagging header, `commit_us`, and what `null` means
-- [[logs/2026-09-24-00-05]] — bench routine (#74, C1 step 3a): `state.tape.io.repair`, and the sentence a reader needs — **the head of a track comes from its file's header, never from the file's length**. A file longer than its claim is a cut mid-take and is truncated back; one shorter is clamped to the whole frames that are there; one under our name that is **not one of our media** is refused and left alone, and that track simply has no medium. § *What is not built yet* now says plainly that **nothing passes `--tape-dir`**, so the device and the emulator still run the RAM tape
-- [[logs/2026-09-24-07-26]] — cloud routine (#74, C1 step 6): `tape_edit` is computed and written **one range at a time**, and the two things that changes at the wire are written down — a source reading the destination track past its `used_frames` is silence, and the reply's `len` is what really landed (a short edit rather than a claim on frames the medium has not got)
-- [[logs/2026-09-24-19-38]] — cloud routine (**#163**): `clip_peaks` gains **`source`** (`sidecar` / `audio`), and `state.tape.io` gains `peaks {on, bins_per_range, bin_frames, ranges, hit, miss}`. The numbers are the same either way — the sidecar is a cache — so what a client should take from it is the resolution: ask for one bin per pixel you will draw
-- [[logs/2026-10-03-07-15]] — cloud routine (**#157**): § `tape_dir` — where the media live, `move` for SAVE and open-in-place for LOAD; `tape_save` onto the medium's own path replies `in_place`
-- [[logs/2026-10-04-15-34]] — mac routine (**#484**): § `tape_dir` — `exists` covers all sixteen names and any entry (a dangling symlink), renames never replace, `move_split` for a failed rollback, any spelling of the current folder moves nothing
-- [[logs/2026-10-03-22-08]] — #334: the site's/app's palette, light and dark, following the phone's `appearance`
-- [[logs/2026-10-05-08-55]] — bench-2 routine (**#74**): § State — the push waits for a burst of requests to settle (8 ms, 50 ms at most); a reply never waits behind it
-- [[logs/2026-10-09-05-17]] — #638 steps 1-4: keys_matrix.hpp, keys_reader state machine, the key ring, arb-keys and --keys; offline-proved
-- [[logs/2026-10-11-15-13]] — #591: a take's end claims only its durable prefix; shared ranges wanted at nearest use; renames dir-synced
-- [[logs/2026-10-12-14-03]] — arbutus-audio's starting tape folder is /run/arbutus/tape-start; a restart on an unmounted /data creates nothing there
-- [[logs/2026-10-13-06-35]] — Live stream: live {on}, situation doc as merge patches (<=20/s), note/capture/project/track actions, frames, schema
-- [[logs/2026-10-14-14-30]] — BOUNCE renders as a host job (chunked, file at the end, bounce push); a played key asks CANCEL BOUNCE TO PLAY?
-- [[logs/2026-10-15-08-21]] — Library New folder: host library mkdir op (refuses taken, missing parent, dot, engines/), app ⋯ and heading entry
-- [[logs/2026-10-15-11-35]] — project.new set by NEW alone; a situation request no longer floods subscribers; digest cache evicts oldest-first

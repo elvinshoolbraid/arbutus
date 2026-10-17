@@ -4,7 +4,7 @@ status: active
 related: [[control-inventory]], [[screen-sketches]], [[design-decisions]], [[emulator-spec]]
 ---
 
-# Tape + Sequencer Workflow — Arbutus-1
+# Tape + Sequencer Workflow — Arbutus
 
 Tape model, clip model, transport, sequencer run model, state transitions, acceptance traces.
 Rewritten 2026-09-08. §1 rewritten 2026-09-11 when live sampling came into scope (DDR-036).
@@ -34,11 +34,11 @@ Samples come from `audio/library/synth/sampler/` WAVs too, loaded via the engine
 
 ## 2. Tape model
 
-- **8 tracks** in two banks of four (DDR-060), stereo, 48 kHz float32; 8 min each on the device (`--tape-seconds`, the host's default) — **moved to storage 2026-09-19 (Elfy, C1 #74): one-second chunks per track streamed by a tape I/O thread, the ruler 8 min with no take limit and no lift limit, a 240 track-second RAM window over it (`device-os-spec.md` § 3.3, OS-11)**; **the emulator asks for 2 min** (`app/native_audio.py` `tape_seconds`, `app/tape.py` `TRACK_SECONDS` — carried from the Python demo, recorded `[TBD-Elfy]` in `emulator/notes/as-built.md` § Audit Q1). TRACK shows one bank; **SHIFT+1–4 flips bank and selects**, plain 1–4 select within the shown bank. A bank glyph appears once bank B holds a clip `[TBD-Elfy]`. The model is always 8-wide; the mixer, loop and recording are 8-aware.
+- **8 tracks** in two banks of four (DDR-060), stereo, 48 kHz float32; 8 min each on the device (`--tape-seconds`, the host's default) — **moved to storage 2026-09-19 (Elvin, C1 #74): one-second chunks per track streamed by a tape I/O thread, the ruler 8 min with no take limit and no lift limit, a 240 track-second RAM window over it (`device-os-spec.md` § 3.3, OS-11)**; **the emulator asks for 2 min** (`app/native_audio.py` `tape_seconds`, `app/tape.py` `TRACK_SECONDS` — carried from the Python demo, recorded `[TBD, Elvin's call]` in `emulator/notes/as-built.md` § Audit Q1). TRACK shows one bank; **SHIFT+1–4 flips bank and selects**, plain 1–4 select within the shown bank. A bank glyph appears once bank B holds a clip `[TBD, Elvin's call]`. The model is always 8-wide; the mixer, loop and recording are 8-aware.
 - Time display: ruler ticks from the **zoom-dependent ladder** (§2.3) + mm:ss at right.
 - Tape speed: TRACK ENC3 = the **song** speed, one control with BPM while `LINK` is on (DDR-059); the SPEED key = a **clip** effect (DDR-010). Speed and pitch coupled everywhere (DDR-017); never a stretch.
 - Selected track persists across pages. Recording level (ENC4) is drawn as a tick on the playhead at all times, not only while armed.
-  *Audit Q1, 2026-09-18 — not built as written:* the playhead carries the **input peak** as a foot, and only while armed or rolling (`docs/logs/2026-09-12.md` § 2, `pages/track.py` `_render_cursor`); nothing draws ENC4's value. `screen-sketches.md` § TRACK carries both sentences. Spec beats code; issue to follow (`docs/design/audit-2026-09-18.md`).
+  *Audit Q1, 2026-09-18 — not built as written:* the playhead carries the **input peak** as a foot, and only while armed or rolling (the 2026-09-12 session log (private) § 2, `pages/track.py` `_render_cursor`); nothing draws ENC4's value. `screen-sketches.md` § TRACK carries both sentences. Spec beats code; issue to follow (`docs/design/audit-2026-09-18.md`).
 
 ### 2.1 Clip model
 
@@ -90,7 +90,7 @@ ever the varispeed, so with LINK on it moved the tape and left BPM behind; it no
 the tape follows on the host's link factor rather than on a second speed. The varispeed is
 still there under SHIFT (the fixed ×0.25…4 steps), because SPEED multiplies on top of LINK
 and is a clip effect, not a tempo. What ENC3's cell *reads* while LINK is on — the BPM, or
-the resulting speed ratio — is `[TBD-Elfy]` (`emulator/CLAUDE.md` § TRACK); the build takes
+the resulting speed ratio — is `[TBD, Elvin's call]` (`emulator/CLAUDE.md` § TRACK); the build takes
 the BPM, matching what the knob moves.
 
 ### 2.2 Transport
@@ -160,16 +160,3 @@ Tape → instrument: LIFT (or LIFT ALL) on TRACK, DROP on SYNTH › ENGINE (samp
 
 ---
 
-## Session History
-- [[logs/2026-03-27]] — scaffold
-- [[logs/2026-04-26]] — REWIND flip decision (superseded: REV key now)
-- [[logs/2026-09-08]] — rewrite: clip model, transport, endless run model, transitions, traces
-- [[logs/2026-09-11]] — §1 rewritten: sampling is in scope and lives on INPUT (arm → transient → trim → SYNTH)
-- [[logs/2026-09-11]] — record gesture gains REC + note (snaps to the nearest bar)
-- [[logs/2026-09-16]] — session 2: 8 tracks, overdub-only (DDR-056), lift undo groups, merge drop, drop-on-instrument, tick ladder + LINK (§2.3), STOP+‹ ›, per-instrument sequencers, GATE/PATTERN/tied notes, mixdown trace §5.4, sampling round trip §6
-- [[logs/2026-09-17]] — stage E2 built §2/§2.1/§2.3's UI half; §2.3 gains the as-built note on the sub-bar rungs
-- [[logs/2026-09-17]] — stage G as-built: §1 gains SOURCE on slot 4, §5.4 says what the resample bus actually subtracts
-- [[logs/2026-09-18]] — inspection: §1's sample folder is `audio/library/synth/sampler/` (not the deleted `emulator/library/`); §3's endless entry is the box's REC soft-key, not SHIFT (since N1). §3's "each instrument owns a sequencer" is half built — `v1-spec-package.md` § Inspection 2026-09-18 item 6
-- [[logs/2026-09-18]] — audit Q1 (#31): as-built corrections and audit notes; findings in `docs/design/audit-2026-09-18.md`
-- [[logs/2026-09-19]] — session 2 (compute downsizing): the tape **moves to storage** — one-second chunks, a tape I/O thread, the ruler 8 min with no take limit, a 240 track-second RAM window (`device-os-spec.md` § 3.3, OS-11); C1 (#74) builds it
-- [[logs/2026-09-24-13-14]] — cloud routine (#69): § 2.3 gains its *as built* paragraph — "turning either moves both" is true of both knobs now, and what ENC3's cell reads while LINK is on is `[TBD-Elfy]`

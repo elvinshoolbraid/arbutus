@@ -1,6 +1,6 @@
 # Desktop Emulator — ArbutusOS
 
-320×240 pixel-perfect emulator of the Arbutus-1. Runs on Mac/Linux/Windows
+320×240 pixel-perfect emulator of the Arbutus. Runs on Mac/Linux/Windows
 without hardware. The v1 spec package is built here; nothing in this folder is a
 placeholder.
 
@@ -30,7 +30,7 @@ This file is the folder's rules: what every edit here needs. The rest is in `not
 | touching how the UI talks to `arbutus-audio`: the rack, the modules, live input; or asking why there is no Python audio | `notes/audio-host.md` |
 | touching autosave, `state/`, project or pattern files | `notes/state-and-files.md` |
 | writing or running tests, moving a baseline, using the harness | `notes/testing.md` |
-| changing how a page draws or what a gesture does, or gathering choices for Elfy's play test | `notes/ui-choices.md`: a choice no spec settles goes there, `[TBD-Elfy]` if it is his, else *run's call* |
+| changing how a page draws or what a gesture does, or gathering choices for Elvin's play test | `notes/ui-choices.md`: a choice no spec settles goes there, `[TBD, Elvin's call]` if it is his, else *run's call* |
 | asking why something is the way it is (a ticket, a stage, a function) | grep `notes/as-built.md`; never read it whole |
 | finishing a ticket with as-built detail | append a `## #<n> — …` section to `notes/as-built.md`, never to this file |
 
@@ -164,13 +164,12 @@ cleanly (exit code 0) and `--screenshot PATH` writes the final window.
 - Clip edits go through the pure functions in `app/tape.py`; `Tape` only
   snapshots for undo and stores the result. Never mutate a clip list in a page.
 - Tape keys follow DDR-001/002: **hold performs, tap (while stopped) commits.**
-- **The trust boundary**: the emulator's screens are unverified by Elfy until he plays them (the play
+- **The trust boundary**: the emulator's screens are unverified by Elvin until he plays them (the play
   queue); where its UI code and the spec disagree, the spec wins.
 - **The verification harness**: priority is **screenshot diffing**, not
   audio assertions. Audio is comparatively easy to get right; the UI aesthetic has to match
   the creative vision precisely, so the harness must capture pixels. The harness is the
-  `verify-arbutus` skill; it runs after every UI change (a launched run has no skills, #1004:
-  it reads `.claude/skills/verify-arbutus/SKILL.md` as a file).
+  `verify-arbutus` skill; it runs after every UI change.
 
 ## Parity with hardware
 

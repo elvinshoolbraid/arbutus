@@ -2,7 +2,7 @@
 """#626: the bench and client tools in audio/tools/ say what they measured.
 
 The code review of m-audio-tools found four that did not, none of them under
-any test (`docs/logs/findings/2026-10-06-m-audio-tools.md`):
+any test (a code review (private)):
 
   row 2  `arbutus-ctl.py --follow` died with a TimeoutError traceback the first
          time the host was quiet for --timeout seconds;

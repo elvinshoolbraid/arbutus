@@ -77,6 +77,3 @@ Whether that sounds wrong is the play-queue question.
   preview settings it matches `reverb_preview.png` (box-filtered to 1×); the rack draws it on
   this box's tab only, and not in copy mode.
 
-## Session History
-
-- [[logs/2026-10-16-06-05]] — #1255: OP1R-VERB's page is op1r's Kali reverb screen, rasterised once, 88-93 % pixel-identical to op1r's preview

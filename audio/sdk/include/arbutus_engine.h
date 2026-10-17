@@ -1,11 +1,11 @@
-/* arbutus_engine.h — Arbutus-1 engine ABI, version 2.
+/* arbutus_engine.h — Arbutus engine ABI, version 2.
  *
  * The contract is docs/design/engine-spec.md §3, with §15 the ABI 2 delta; this
  * file is that contract in code and wins wherever the prose disagrees (§14). C
  * at the boundary so a box can be written in anything; what is inside the box
  * is the author's business.
  *
- * The pre-release rule (Elfy, 2026-09-17). ABI 2 has not shipped outside this
+ * The pre-release rule (Elvin, 2026-09-17). ABI 2 has not shipped outside this
  * repo, so a struct does not grow by appending into _reserved: a new field goes
  * in its logical place as a named field, the layout is recomputed with no
  * implicit padding, every offset is re-pinned in tests/abi_layout.h (C and
@@ -32,7 +32,7 @@ extern "C" {
 #define ARB_MAX_SOFTKEYS 4
 #define ARB_MAX_ASSETS   3           /* asset keys one engine may declare (§3.2) */
 #define ARB_MAX_OUTPUTS  4           /* modulator control outputs; the MOD page's number, not a DSP limit (§15.9) */
-#define ARB_MAX_BLOCK    2048        /* default; [TBD-Elfy] */
+#define ARB_MAX_BLOCK    2048        /* default; [TBD, Elvin's call] */
 
 /* The two entry points are the only symbols a box must export; everything else
  * is hidden so two boxes with the same helper name cannot collide at dlopen. */
@@ -85,7 +85,7 @@ typedef enum { ARB_CURVE_LIN = 0, ARB_CURVE_LOG } arb_curve;
 
 typedef struct {
     char           id[16];      /* stable snake_case; never renamed once shipped   */
-    char           name[8];     /* screen label, UPPERCASE; length [TBD-Elfy]      */
+    char           name[8];     /* screen label, UPPERCASE; length [TBD, Elvin's call]      */
     arb_param_type type;
     arb_curve      curve;       /* mapping of normalised 0..1 onto min..max         */
     float          min, max, def;
@@ -138,7 +138,7 @@ typedef struct {
     uint32_t max_block;
     double   tempo_bpm;
     int64_t  song_frame;        /* transport position                          */
-    uint32_t ppqn;              /* clock ticks per quarter; default 24 [TBD-Elfy] */
+    uint32_t ppqn;              /* clock ticks per quarter; default 24 [TBD, Elvin's call] */
     uint32_t rng_seed;          /* engines seed from here; determinism for goldens */
     /* ENV page (DDR: per-voice, never over the mixed output)                  */
     float    env_a, env_d, env_s, env_r;   /* s, s, 0..1, s                    */

@@ -35,7 +35,7 @@ key that accepts the browser does not immediately toggle the engine it loaded.
 
 `test_mod_rack.py` drives all gestures against the real offline host. The
 `mod-routing` verify feature captures output-copy, target-paste, route master,
-ghost, range and both bypass states. See the `[TBD-Elfy]` table above for the
+ghost, range and both bypass states. See the `[TBD, Elvin's call]` table above for the
 chosen glyphs and the explicit LO/HI audition deviation.
 
 ## E2 — the tape UI
@@ -365,7 +365,7 @@ does now too (stage J2, `audio/hostlib/library.cpp`). It is gitignored by the
 root `.trash/` rule that was already there for the Obsidian vault.
 
 **Stock content is a manifest, not a guess.** Nothing on disk distinguishes a
-patch Elfy promoted from one that shipped — both are a `.patch` written by the
+patch Elvin promoted from one that shipped — both are a `.patch` written by the
 same code — so `<library>/stock.json` lists what came in the image and
 `audio/tools/mkstock.py` writes it. **Add stock content to the library and
 rerun that tool**, or the new item is liftable. No manifest at all means
@@ -420,8 +420,7 @@ nothing left in the build for it to be about.
 
 ## Inspection 2026-09-18 — the seams between the stages
 
-The whole-system pass after Track S finished (`docs/logs/2026-09-18.md`,
-session 6). Every stage's own suite held; what it found was at the joints,
+The whole-system pass after Track S finished. Every stage's own suite held; what it found was at the joints,
 and all of it was one thing: **the one sequencer up here and the host's SEQ
 slot per instrument disagreeing about what was loaded where.** Spec gaps it
 could not fix are `docs/design/v1-spec-package.md` § Inspection 2026-09-18.
@@ -854,9 +853,9 @@ holding a number a different box will use.
 
 | # | Spec | What was done | Where |
 |---|---|---|---|
-| 74 | #53: "say why in the ticker on the first turn (`NO ENV · dbox` or similar; wording is `[TBD-Elfy]`)" | `NO ENV · <box>`, named the way the ENGINE header names it (`NO ENV · LIVE-INPUT`), short form `NO ENV`, as a `App.flash` on **every** turn of a dead cell rather than only the first — the flash is a 3 s window and re-arming it is what a second turn should do. The SHIFT row (MODE / GLIDE / DETUNE / BEND) is voice policy and stays live on both pages | `pages/synth.py` `NO_ENV_TICKER`, `on_encoder` |
+| 74 | #53: "say why in the ticker on the first turn (`NO ENV · dbox` or similar; wording is `[TBD, Elvin's call]`)" | `NO ENV · <box>`, named the way the ENGINE header names it (`NO ENV · LIVE-INPUT`), short form `NO ENV`, as a `App.flash` on **every** turn of a dead cell rather than only the first — the flash is a 3 s window and re-arming it is what a second turn should do. The SHIFT row (MODE / GLIDE / DETUNE / BEND) is voice policy and stays live on both pages | `pages/synth.py` `NO_ENV_TICKER`, `on_encoder` |
 | 75 | #53: "draw the four cells **and the curve** dim" | the curve keeps its shape and goes `palette.DIM`, with a small `NO ENV` inside the box's top-left corner. The shape is still the block the page would send, so drawing it is honest; drawing it in the encoder colour was not. Both renderers do it — `_render_env`'s four-segment ADSR and `_render_ad`'s filled AD | `pages/synth.py` `_render_env`, `pages/drum.py` `_render_ad` |
-| 76 | not in the spec | **the knob bar under a dimmed cell is still drawn in the encoder colour.** `ui/frame.py` dims the dot, the name and the value and not the bar, which has been true of every `dimmed` cell since DDR-053 (TEMPO under MIDI clock, DRUM's SUS/REL, FILE's locked rows). Left alone deliberately: changing it is a one-line edit in a shared renderer that moves those pages' pixels too, and it is Elfy's call whether a dead cell should lose its bar | `ui/frame.py` `_draw_param_cell` |
+| 76 | not in the spec | **the knob bar under a dimmed cell is still drawn in the encoder colour.** `ui/frame.py` dims the dot, the name and the value and not the bar, which has been true of every `dimmed` cell since DDR-053 (TEMPO under MIDI clock, DRUM's SUS/REL, FILE's locked rows). Left alone deliberately: changing it is a one-line edit in a shared renderer that moves those pages' pixels too, and it is Elvin's call whether a dead cell should lose its bar | `ui/frame.py` `_draw_param_cell` |
 
 **538 emulator tests** (532 before): 3 in `test_synth_boxes.py` (`dbox` dim and
 inert, a turn that moves nothing and says why, and `arbutus/drum` on the same
@@ -1012,11 +1011,11 @@ opened and closed without moving records nothing at all.
 
 | # | Spec | What was done | Where |
 |---|---|---|---|
-| 77 | DDR-054 does not say what a press with nothing to undo does | `NOTHING TO UNDO` in the dynamic strip. The tape's undo says nothing when it has nothing, because on TRACK the clip list is on screen and you can see that nothing moved; here the sound would simply not change, which reads as a dead key. `[TBD-Elfy]` | `pages/synth.py` `undo_edit` |
+| 77 | DDR-054 does not say what a press with nothing to undo does | `NOTHING TO UNDO` in the dynamic strip. The tape's undo says nothing when it has nothing, because on TRACK the clip list is on screen and you can see that nothing moved; here the sound would simply not change, which reads as a dead key. `[TBD, Elvin's call]` | `pages/synth.py` `undo_edit` |
 | 78 | `tape-sampling-workflow.md` § Gestures: "on SYNTH/DRUM it undoes the last edit there **instead**" | the page owns the gesture whether or not it has an entry — there is **no fall-through to the tape** on those two pages, and the page *under* an open browser owns it too (`app.pages[page_id]`, not `current_page`), after the browser's own lift group. Falling through would mean the first SHIFT+STOP after arriving on SYNTH silently spends the tape's one level, which is the bug this ticket is about seen from the other side | `app/app.py` `_transport` |
-| 79 | not in the spec | **the transport does not stop.** The tape-undo branch sends `STOP` to the host on its way out; this one returns early, like the browser's lift-group branch. The page said "undo", not "stop", and stopping playback to undo an envelope tweak is a surprise you can only find on stage. `[TBD-Elfy]` | `app/app.py` `_transport` |
+| 79 | not in the spec | **the transport does not stop.** The tape-undo branch sends `STOP` to the host on its way out; this one returns early, like the browser's lift-group branch. The page said "undo", not "stop", and stopping playback to undo an envelope tweak is a surprise you can only find on stage. `[TBD, Elvin's call]` | `app/app.py` `_transport` |
 | 80 | not in the spec | **undo restores the sound, not the view.** `restore` is a slot recall and carries the subpage with it, which is right when a whole slot arrives and wrong here: you undo a turn while looking at the page you turned it on. DRUM's pad is not restored either — it follows `instrument.last_note` and heals itself | `pages/synth.py` `_restore_edit` |
-| 81 | DDR-054 lists "a run of turns on one param, a module swap, or a patch load" | ~~the octave is an edit too~~ — **the octave is not an edit** (#152, Elfy 2026-09-23, overruling this session's call). It is a performance gesture like the bend, so a move records no step and SHIFT+STOP after one undoes whatever was edited before it. It still *rides in the page's snapshot*, which is the other half: a move calls `EditUndo.amend(octave=…)` on the entry already open, so that undo puts the sound back and leaves the octave where the player put it. A patch load is unaffected — the octave it carried is part of that sound and comes back with it | `pages/synth.py` `on_key`, `app/edit_undo.py` `amend` |
+| 81 | DDR-054 lists "a run of turns on one param, a module swap, or a patch load" | ~~the octave is an edit too~~ — **the octave is not an edit** (#152, Elvin 2026-09-23, overruling this session's call). It is a performance gesture like the bend, so a move records no step and SHIFT+STOP after one undoes whatever was edited before it. It still *rides in the page's snapshot*, which is the other half: a move calls `EditUndo.amend(octave=…)` on the entry already open, so that undo puts the sound back and leaves the octave where the player put it. A patch load is unaffected — the octave it carried is part of that sound and comes back with it | `pages/synth.py` `on_key`, `app/edit_undo.py` `amend` |
 
 **581 emulator tests** (560 before) and **33 verify features** (32 before).
 `tests/test_edit_undo.py` is 8 unit tests on the holder and 17 against a running
@@ -1107,7 +1106,7 @@ untouched.
 `modulation-spec.md` §3.2 said a stepmod's values were "entered like an endless
 pattern: hold SHIFT, turn ENC1 for the value, › to step". Nothing in `emulator/`
 ever wrote one, so every stepmod on the device ran the box's default ramp. The
-gesture is now Elfy's (ticket #60, 2026-09-18): **two encoder parameters**, not a
+gesture is now Elvin's (ticket #60, 2026-09-18): **two encoder parameters**, not a
 mode. §3.2.1 of the spec is the as-built note; this is what it cost here.
 
 **The decision the ticket asked for: STEP and VALUE are the UI's parameters, not
@@ -1461,7 +1460,7 @@ That is T9, and it is a UI test by § 4's own table.
 
 § 3.8's **other** trigger, the head passing *k* × ruler, is deliberately not
 built: a medium cannot exceed the ruler, so *k* can only be 1 and the state it
-watches for does not exist (**#168**, Elfy's). The dead-fraction trigger on SAVE
+watches for does not exist (**#168**, Elvin's). The dead-fraction trigger on SAVE
 survives either answer to #168 — #168's own option 1 keeps it by name — which is
 why that one was built and this one was not. Nothing here decides #168.
 
@@ -1591,8 +1590,8 @@ them a pixel, and every fix was seen red against the old code first (#56).
 What the audit read and found consistent — DDR-055's gestures as the host's `library {op}`
 with only the gesture layer here, the README's three formats field for field, `project_file`'s
 save order and S13's apply order, `next_name` across the tree, `SlotStore`'s six letters — is
-the audit's § Obs-5. The 82 `[TBD-Elfy]` entries in this file's tables are pointed at, as one
-block, from `docs/design/v1-spec-package.md` § `[TBD-Elfy]`, which is now the one list.
+the audit's § Obs-5. The 82 `[TBD, Elvin's call]` entries in this file's tables are pointed at, as one
+block, from `docs/design/v1-spec-package.md` § `[TBD, Elvin's call]`, which is now the one list.
 
 **711 emulator tests** (703 before). No pixel changed, no baseline promoted; `ui/palette.py`
 and `ui/font.py` untouched.
@@ -1653,7 +1652,7 @@ mutated red.
 
 ## #297 — the tape lives in the open project (C1 step 3b, the UI half, 2026-10-03)
 
-Elfy's answer on #157 was **(a)**: SAVE moves the tape files into the project
+Elvin's answer on #157 was **(a)**: SAVE moves the tape files into the project
 folder and recording carries on there, and SAVE means "save the project I have
 open". The audio process's half (`tape_dir {dir, move}`) landed with #157; this
 is the half that decides which folder.
@@ -1711,7 +1710,7 @@ copies (`ProjectStore._on_storage`, `on_storage` since #1017), so a project stil
 
 ### #410 — three ways it lost a take, closed (2026-10-03)
 
-Found by the t297 code review (`docs/logs/findings/2026-10-03-t297.md` 1, 2, 3, 7).
+Found by the t297 code review.
 Before #297 a project held its own copy, so its document and its audio could not
 drift apart; now they are the same files.
 
@@ -1751,7 +1750,7 @@ deletes its aside).
 
 ### #411 — the working files follow the tape; a refused folder change moves nothing (2026-10-04)
 
-Found by the t297 code review (`docs/logs/findings/2026-10-03-t297.md` 4, 5, 6).
+Found by the t297 code review.
 
 - **Both working files at once when the tape changes folders.**
   `ProjectStore.commit()` (`save_project()` + `save_audio(force=True)`) runs at
@@ -1889,7 +1888,7 @@ mid-session; close the window and run `--phone` again.
 
 ## #334 — the site's and the app's colours, light and dark (2026-10-03)
 
-`ui-aesthetic.md` § 3 was rewritten and `ui/palette.py` with it, on Elfy's
+`ui-aesthetic.md` § 3 was rewritten and `ui/palette.py` with it, on Elvin's
 pre-approval (2026-10-03): **his standing exemption from the hard rule on
 `palette.py` and the screenshot baselines, for this ticket only.** The screen
 wears the website's beige, brown and green and the shades the app derives from
@@ -1938,7 +1937,7 @@ without the hook. No pixel, no baseline; `ui/palette.py` and `ui/font.py` untouc
 
 ## #817 — always saved: NEW makes the project, the autosave writes into it, SAVE goes (2026-10-13)
 
-D97 (Elfy, Play date 1's grill; `device-os-spec.md` § 7.3 *Decided 2026-10-12*). Tests:
+D97 (Elvin, Play date 1's grill; `device-os-spec.md` § 7.3 *Decided 2026-10-12*). Tests:
 `tests/test_always_saved.py` (16, each seen red on the old code and by a mutation of the new).
 
 - **A project is always open.** `project_file.new` makes `projects/<date>/<PROJ_n>/` and opens
@@ -2005,7 +2004,7 @@ D99's UI half (`device-os-spec.md` § 7.3's #821 note has the device's).
   and then plays; `...` for the spec's `…` (no glyph, and the font is not a run's to edit);
   a trash holding no project folder asks `TRASH · <size> · EMPTY TRASH?`; the words for the
   two jobs the spec names none for, `RESTORING FROM PHONE...` and `DUPLICATING PROJECT · HOLD
-  TIGHT`. Shots graded by the run: `docs/logs/assets/821-*.png`.
+  TIGHT`. Shots graded by the run: screenshots (private).
 - Tests: `tests/test_project_moves_ui.py` (18, each guard seen red by `tools/mutate.sh`).
 
 ## #818 — menus: FILE › PROJECT acts on the turn, the name menu, the red key (2026-10-13)
@@ -2193,54 +2192,6 @@ never a made-up number (battery.py's rule).
 - Tests: `tests/test_save_rack.py`, 9 (the sound check reads a crusher's level step, which
   does not depend on the oscillator's start phase; a slot change does move the phase).
 
-## Session History
-- [[logs/2026-10-05-00-50]] — bench-2 (#413): § D17 — the map built only when something moved it; 170 → 10 µs a CM4 frame idle
-- [[logs/2026-10-03-22-46]] — mac-2 routine (**#412**): § D17 — a > 64-action tick in chunks, the strip's label always empty, `_strip` gone
-- [[logs/2026-10-03-20-07]] — bench routine (**#410**): § #410 — the saved document follows a compaction, the first boot over an old autosave keeps the live tape, a cut conversion keeps its aside
-- [[logs/2026-10-03-13-29]] — #331: `--attach`/`--share`/`--state-dir`/`--library`, `run.sh --phone`
-- [[logs/2026-10-03-10-47]] — mac routine (**#291**): `tests/test_lessons.py`, every Learn lesson played through the D17 feed; § D17 notes the map-before-actions order and HELP's silent turns
-- [[logs/2026-10-03-08-55]] — mac routine (**#297**): § #297 — the tape lives in the open project; STOP and SAVE copy no audio, save-as-copy on SHIFT+ENC3, LOAD opens in place, old projects converted on first open, the open project's folder refuses to move
-- [[logs/2026-10-03-05-11]] — cloud routine (**#276**): § D17 — `app/ui_feed.py`, the element map and the actions for the phone, flushed once a tick through `NativeAudio.publish`
-- [[logs/2026-09-25-13-36]] — cloud routine (**audit Q3, #31**): new § Audit Q3 — `App.usb_exported` becomes a real attribute that pauses the whole working-state autosave while `/data` is in a computer's hands (it wrote into the bare mount point on the OS partition); a refused write (`/data` full or read-only) is a line and a retry instead of an exception out of `App.tick`; the browser skips a Mac's `._name.patch` files. 711 emulator tests (703 before), no pixel, no baseline
-- [[logs/2026-09-25-11-18]] — cloud routine (**#176**): **row 64's `POWER-OFF` is read by something at last.** The setting has been stored and drawn since J2 and nothing anywhere read it, so a player who set a 10-minute auto-off got silence. The App now carries the *rule* — `note_input` / `idle_seconds` / `idle_power_off_due`, `device-os-spec.md` § 7.2 row 3 — because every fact it is made of but one is this App's: the idle clock (**a key or an encoder and nothing else** — not a render, not a sequencer step playing to nobody), the transport rolling, a take recording, a count-in. The exception, "no client on the network sockets", is another process's listener and arrives as an argument. **Nothing here powers anything off**: `arbutus_os/main.py`'s new `PowerPump` is what sends `poweroff`, and it is also what sets `app.powering_off` and puts `SAVING — LOW BATTERY` / `POWERING OFF` on the strip — tickers rather than screens of their own, which is what every other device-level sentence this UI says already is. 10 new tests in `tests/test_idle_power_off.py`, against a throwaway library copy; no page, no pixel and no baseline moved
-- [[logs/2026-09-25-09-13]] — cloud routine (#174): `App.goto()` raises on an id that is not a page instead of returning silently — two tests, no pixel, 693 emulator tests (691 before). § #174 above is why a guard is worth it on a path production never takes
-- [[logs/2026-09-23-15-12]] — cloud routine (#152): the `‹ ›` octave stops being an undo step and `EditUndo.amend` arrives with it — an undo entry is the page's snapshot, and the snapshot carries the octave, so dropping the push alone would have made the *previous* edit's undo snap the octave back. § S12 entry 81 above is struck and rewritten. 626 emulator tests (622 before), no pixel, no baseline
-- [[logs/2026-09-20-05-28]] — cloud routine (#125, L3): `Page.claims_note_keys()` and `DrumPage`'s override — two lines, no pixel, 522 emulator tests before and after. § L3 above is why they exist
-- [[logs/2026-09-20-07-19]] — cloud routine (#128): `decode_note` + `MidiSnapshot` split out of `MidiIn.handle`, and the velocity curve out of `Settings` as `shape_velocity` — so the device's rtmidi thread can decode a note without reading a document the tick is writing. One implementation, both threads; 529 emulator tests (522 before), no pixel, no baseline. § #128 above is why
-- [[logs/2026-09-22-15-26]] — cloud routine (#105): the two scratch files this folder left in `/tmp` — `NativeOfflineAudio`'s render directory (`block.wav` up to 226 MB, `cleanup()` a no-op) and an entered pattern's `arbutus-pattern-<inst>-<pid>.json`. § #105 above is why one is a `weakref.finalize` on the object and the other an `atexit` hook. 532 emulator tests (529 before), no pixel, no baseline
-- [[logs/2026-09-22-17-09]] — cloud routine (S11, #53): the ENV page goes dim and inert on a box that declares `honours_env: false`. § S11 above is why the values are kept rather than blanked, and why the knob bar under a dimmed cell was left alone
-- [[logs/2026-09-22-19-19]] — cloud routine (#95): `App.open_project` and the `open_project` key in `persist.snapshot()` — the id of the saved project the working state came from, so `arbutus-net` can tell whether the project a phone asked to bounce is the one the instrument has open. § #95 above is why `project_file.save`/`load`/`new` own it rather than the FILE page, and why `rewalk` does not. 556 emulator tests (538 before), no pixel, no baseline
-- [[logs/2026-09-22-20-18]] — bench routine (#62 item 3): `app/library_ops.py` sends `library {op}` for every move and keeps only the gesture layer. § #62 item 3 above is why always-delegate stopped being a decision, why `FOLDER-NN`, `free_name` and the undo group stay here, and what the rewiring found about which `--library` root is the writable one. 560 emulator tests (556 before), no pixel, no baseline
-- [[logs/2026-09-22-21-14]] — cloud routine (S12, #58): DDR-054's one-step undo on SYNTH/DRUM, spec'd since the design decisions and never built. § S12 above is the mechanism (`app/edit_undo.py`, a snapshot of the page's own DDR-029 document), what counts as an edit and what does not, and the four `[TBD-Elfy]`s — chiefly that on those two pages the gesture never reaches the tape's undo and never stops the transport. 581 emulator tests (560 before), 33 verify features, no pixel, no baseline
-- [[logs/2026-09-22-22-16]] — bench routine (S13, #59): one sequencer per instrument, `App.sequencers`, and `App.sequencer` as the active one's. § S13 above is why that property makes the change small, why a sequencer's instrument is fixed at construction, why `restore` ignores the snapshot's `instrument` key, and the two things the second sequencer exposed in `project_file`. 587 emulator tests (581 before), 34 verify features, no baseline
-- [[logs/2026-09-22-23-27]] — cloud routine (S14, #60): the stepmod entry gesture — `STEP`/`VALUE` as UI-side pseudo-params on the MOD tab, `app/stepmod.py` as the document, `app/scratch.py` as #105's rule in one place, and one host change so content can reach a MOD tab that already exists. § S14 above is why the two parameters are the UI's and not the box's, why the push is one a frame in `tick`, and where a promoted pattern lives. 598 emulator tests (587 before), 35 verify features, no baseline
-- [[logs/2026-09-23-01-16]] — cloud routine (C5b, #98): C5's five render levers land in `ui/draw.py`, `pages/input.py` and `app/native_audio.py`, with `testing/render_reference.py` holding the code they replaced so the "pixel-identical" claim can still be falsified. § C5b above is why the text mask cache is dropped by the editor rather than keyed on `font.dirty()`, why both caches need no palette invalidation, and why `waveform`'s cache carries a generation counter. 622 emulator tests (598 before), 3.13x on the local A/B, every page's frame identical, no baseline
-- [[logs/2026-09-24-01-18]] — cloud routine (#99): `App._adopt_host_transport`, `_playhead_seen` and `Tape.follow` — the transport is the host's and this UI holds a mirror. § #99 above is why adoption is edge-triggered on the host's document rather than value-driven, why a frame the UI changed the transport on is the UI's, why a roll adopted from the host is never a take, and why a remote stop leaves the playhead where the host left it. 639 emulator tests (636 before), no pixel, no baseline
-- [[logs/2026-09-24-13-14]] — cloud routine (#69): TRACK's ENC3 routed to `App.set_bpm` while `LINK` is on, and the cell that reads `BPM` when it is. § #69 above is why the varispeed stayed on SHIFT, why `LINK` is read from the TEMPO page rather than copied, and why the MIDI-master lock is drawn as well as enforced. 661 emulator tests (657 before), no pixel, no baseline
-- [[logs/2026-09-24-19-38]] — cloud routine (**#163**): `_clip_wave`'s zoomed-out branch bounds `bins` by the clip's own pixel width — `span`, not the visible width, so the `_peaks` key stays geometry and a jump still asks for nothing. It asked for `ceil(len / 256)` bins (33,750 into a ~300 px lane on the CM4) and drew one in a hundred; **no shot moved**, 0 differing pixels across 42 screenshots. It is also what makes the host's peaks sidecar reachable — that answers only at or below one bin per 3072 frames. **662 emulator tests** (661 before), no pixel changed, no baseline promoted
-- [[logs/2026-09-25-03-40]] — cloud routine (**#169**): `TrackPage._prefetch_peaks` sends one `clip_peaks` for the whole bank and the draw path reads the cache unchanged, so a redraw is one round trip where it was one per clip. § #169 above is why the geometry had to come out of `_clip_wave` (it was the cache key already), why a refused batch changes nothing, and why the rolling take is not in it. The ticket's other half — two decimal places on the numbers — **halves the bytes and moves 8 of 309 shots by 2–4 px**, so it was not landed (#172). **687 emulator tests** (686 before), no pixel changed, no baseline promoted
-- [[logs/2026-09-25-07-16]] — cloud routine (**#173**): no UI code changed and the point is that none had to — `persist.snapshot()`'s **`page`** is now the app's *current page* row (`GET /status` reads it off the file, `device-os-spec.md` § 9.11), so a key this folder used to own alone is a contract with `arbutus-net`. `tests/test_project_file.TestPageInTheSnapshot` is the guard that says so: the key is present, follows `goto`, reaches the file, and is the page **behind** a menu rather than the menu (`App.page_id`). Two-second staleness is deliberate — writing the document on every page change would make a key press a file write
-- [[logs/2026-10-03-22-08]] — #334: the site's/app's palette, light and dark, following the phone's `appearance`
-- [[logs/2026-10-04-04-37]] — mac routine (**#303**): § #303 — `ProjectStore.park`/`unpark`, REC refused while exported, the park folder swept
-- [[logs/2026-10-05-07-06]] — bench routine (**#517**): § #517 — a spawned host ends with its parent (`PR_SET_PDEATHSIG`)
-- [[logs/2026-10-08-21-06]] — emulator/CLAUDE.md 227 KB -> 15 KB index + emulator/notes/ leaves, verbatim; splitdoc.py; context-splits.md
-- [[logs/2026-10-09-05-48]] — #624: boot sends the restored instrument, slot recall persists, project.json timer skips unchanged snapshots
-- [[logs/2026-10-12-23-26]] — Always saved (D97): NEW and boot open a project folder, the autosave keeps it current, SAVE gone, untouched NEW deleted
-- [[logs/2026-10-13-00-45]] — #851: tests and verify features copy the library's git-tracked files, never a player's settings or projects
-- [[logs/2026-10-13-01-13]] — D99 device half: checksum, Range, verified delete, duplicate, any-project bounce, held keys, open project, low disk
-- [[logs/2026-10-13-02-22]] — FILE › PROJECT acts on the turn; one name menu (places), one red key under the knob, push or red key commits
-- [[logs/2026-10-13-05-05]] — #874: boot reads project.json's active instrument before the slot pages restore; DRUM's SEQ bank stays off SYNTH
-- [[logs/2026-10-13-06-32]] — "#876: browser ops, undo and the tape DROP refused from STORAGE's park; a refused settings write kept dirty and retried"
-- [[logs/2026-10-13-06-35]] — Live stream: live {on}, situation doc as merge patches (<=20/s), note/capture/project/track actions, frames, schema
-- [[logs/2026-10-13-15-19]] — SHIFT+STOP off SYNTH/DRUM undoes and returns; power-off line beats a prompt; a turn answers LATER then turns
-- [[logs/2026-10-14-05-25]] — #843: the instrument's CPU warning now reads CPU UNHAPPY: OVERLOAD, as the app does; #819 parked behind #854
-- [[logs/2026-10-14-08-45]] — Emulator tape = host 480 s: NativeAudio passes no --tape-seconds, TRACK_SECONDS checked by a test; ladder +32/16 bars
-- [[logs/2026-10-14-08-46]] — "#819: word lists per kind; SHIFT+SYNTH/DRUM saves on ENC1's push or the red key; a patch's .seq takes an action noun"
-- [[logs/2026-10-14-14-30]] — BOUNCE renders as a host job (chunked, file at the end, bounce push); a played key asks CANCEL BOUNCE TO PLAY?
-- [[logs/2026-10-14-15-28]] — #632's first half: MIXER's stale cells, loop framing, TRACK's waveform cache; the rest split to #1123
-- [[logs/2026-10-14-19-25]] — #1134: undo after a browse carries a pending LIFT back; cancelled lifts end with their browse; 4 rows tested
-- [[logs/2026-10-15-07-48]] — arbutus_os/ and emulator/ CLAUDE.md lose 1235 words of history to their as-built files; V0.1 lines marked
-
 ## #920 — BOUNCE as a job: CANCEL BOUNCE TO PLAY? (2026-10-14)
 
 D98's second half (`screen-sketches.md` § FILE › PROJECT). FILE › BOUNCE sends
@@ -2322,7 +2273,7 @@ comparison restored is red on it.
 
 ## #629 — `run.sh --phone`: the host's own clock, the caller's `--root`, the mock's record (2026-10-14)
 
-From the code review of #331 (`docs/logs/findings/2026-10-06-t331.md`, rows 1–4).
+From the code review of #331.
 
 - **An attached window reads `offline` off the host.** `main.py --attach` takes it from the
   host's `state` (`"offline"`, which `hello` and `state` carry) and ignores `--offline`;
@@ -2459,7 +2410,7 @@ Verbatim, headings unchanged, so an old `emulator/CLAUDE.md` § citation finds t
 
 ### The phases (that file's intro)
 
-320×240 pixel-perfect emulator of the Arbutus-1. Runs on Mac/Linux/Windows
+320×240 pixel-perfect emulator of the Arbutus. Runs on Mac/Linux/Windows
 without hardware. **Phase 1** = UI framework + SYNTH page. **Phase 2a** adds
 DRUM, the 4-track tape (TRACK), and MIXER. **Phase 2b** adds the sequencer
 (SEQ + endless engine), TEMPO with tap tempo and the metronome, HELP (page +
@@ -2489,7 +2440,7 @@ Generated by `tools/ops/splitdoc.py`; a section added since lives where its auth
 - `notes/state-and-files.md`: Sequencer pattern files; Persistence
 - `notes/testing.md`: Tests; Verification harness (phase 4)
 - `notes/as-built.md`: N3a review; N3b; E2; F2; G; I2; H2; J1; J2; Inspection 2026-09-18; Audit Q1; P3; P5; P6; D6; D5b; D3/D4's UI half; L3; #128; #105; S11; #95; #62 item 3; S12; S13; S14; C5b; #99; #68; #69; #164; #169; #174; Audit Q3; D17; #297; #303; As the mock device's UI (#331, 2026-10-03); #334; #517; Session History
-- `notes/ui-choices.md`: Native audio becomes the architecture › `[TBD-Elfy]`; E2 › `[TBD-Elfy]`; F2 › `[TBD-Elfy]`; G › `[TBD-Elfy]`; H2 › `[TBD-Elfy]`; J1 › `[TBD-Elfy]`; J2 › `[TBD-Elfy]`; Audit Q1 › `[TBD-Elfy]`; D5b › `[TBD-Elfy]`; S14 › `[TBD-Elfy]`; #69 › `[TBD-Elfy]`; #297 › `[TBD-Elfy]`; #334 › Run's calls, 2026-10-03
+- `notes/ui-choices.md`: Native audio becomes the architecture › `[TBD, Elvin's call]`; E2 › `[TBD, Elvin's call]`; F2 › `[TBD, Elvin's call]`; G › `[TBD, Elvin's call]`; H2 › `[TBD, Elvin's call]`; J1 › `[TBD, Elvin's call]`; J2 › `[TBD, Elvin's call]`; Audit Q1 › `[TBD, Elvin's call]`; D5b › `[TBD, Elvin's call]`; S14 › `[TBD, Elvin's call]`; #69 › `[TBD, Elvin's call]`; #297 › `[TBD, Elvin's call]`; #334 › Run's calls, 2026-10-03
 
 ### Layout › the deleted `core/`
 
@@ -2500,7 +2451,7 @@ verified. Do not resurrect that structure.
 
 The old rule (no per-sample Python loops; vectorise everything; the biquad is
 the most expensive item in the graph) is history now — it is written up in
-`docs/logs/2026-09-10.md` and it is why the C++ boxes could be checked against
+the 2026-09-10 session log (private) and it is why the C++ boxes could be checked against
 the Python at all. The Python voice goldens it produced live on as `audio/tests/
 golden/python/*.npy`, replayed against the C++ DSP cores by `ctest -R
 voice_goldens`: the last thing the deleted engines are still doing is holding
@@ -2518,7 +2469,7 @@ the gate for every voice at once: a note still in its release was pulled to
 zero and then dragged back up by the next note's attack — a volume jump on the
 fading note, and old tails "riding along" with each new one. Under the
 sequencer, which releases the step then fires the next, it happened every step
-(found in Elfy's second play session, 2026-09-11).
+(found in Elvin's second play session, 2026-09-11).
 `audio/tests/test_poly.cpp` pins the contract now.
 
 Stealing is `PolyHost`'s: idle voice first, then the quietest voice already in
@@ -2548,7 +2499,7 @@ its `row`. `ui/frame.py` `_draw_params` draws slots 0–3, or 4–7 on `SHIFT_HI
 did); the cell's contents sit 1 px under the bar's top rule. `app/ui_feed.py`'s element map
 names only the four cells on screen, and SHIFT now triggers a remap. DDR-032 amended (the
 run's call on the wording; the decision is Elvin's M7 Decision 17). Shots:
-`docs/logs/assets/1231-*.png`, made by a scratch verify script (SYNTH › ENV, MIXER, TEMPO,
+screenshots (private), made by a scratch verify script (SYNTH › ENV, MIXER, TEMPO,
 SHIFT up and held); play-queue P4.
 
 ## #1255 — OP1R-VERB's page is op1r's own reverb screen

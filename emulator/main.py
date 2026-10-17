@@ -326,7 +326,7 @@ def main(argv=None):
     fb = np.zeros((240, 320, 3), dtype=np.uint8)
 
     chrome = None
-    win = Window("Arbutus-1 — ArbutusOS", (640, 480), hidden=True)
+    win = Window("Arbutus — ArbutusOS", (640, 480), hidden=True)
     if args.zoom_only:
         scale = max(1, int(args.scale or 3))
         zoom_scale = scale + 1

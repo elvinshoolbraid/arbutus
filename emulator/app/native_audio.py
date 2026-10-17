@@ -75,7 +75,7 @@ STATEFUL = frozenset((
     "host_param"))
 
 #: §6.8 / DDR-042; the *placement* is the dynamic strip, which is where every
-#: other non-universal status goes (DDR-031). The words are D103's (Elfy, Play
+#: other non-universal status goes (DDR-031). The words are D103's (Elvin, Play
 #: date 1, #843): `CPU UNHAPPY: OVERLOAD`, the same as the app's Status, which
 #: replaced the spec's `CPU NO HAPPY — EFFECT TOO BIG`. The short form keeps
 #: the app's first two words (run's call, 2026-10-14).
@@ -84,7 +84,7 @@ XRUN_SHORT = "CPU UNHAPPY"
 XRUN_FLASH_S = 3.0
 
 #: C1 step 7 (`tape-streaming-design.md` § 3.7): the card did not deliver a
-#: piece of tape in time and a track played silence for that moment. **Elfy's
+#: piece of tape in time and a track played silence for that moment. **Elvin's
 #: words, § 7 question 2 answered 2026-09-23: `HARD DRIVE SLOW`, not the
 #: note's own `TAPE LATE`** — and in the slot `CPU UNHAPPY` uses, on the same
 #: "3 in 2 s" rule, which is why both read their flag off the push rather than
@@ -92,7 +92,7 @@ XRUN_FLASH_S = 3.0
 LATE_LONG = "HARD DRIVE SLOW — TAPE PLAYED SILENCE"
 LATE_SHORT = "HARD DRIVE SLOW"
 
-#: The three ways a take ends early (§ 3.7), in **two** words — Elfy, § 7
+#: The three ways a take ends early (§ 3.7), in **two** words — Elvin, § 7
 #: question 3: the player's next action differs. `TAPE FULL` means delete
 #: something (`disk`) or the medium is at its end (`format`); `CARD STALLED`
 #: means the card stopped answering and it is worth trying again.

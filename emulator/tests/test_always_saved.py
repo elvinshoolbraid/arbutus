@@ -1,6 +1,6 @@
 """D97 (#817): the instrument is always saved, and there is no SAVE.
 
-Elfy's call in Play date 1's grill (`device-os-spec.md` § 7.3, *Decided
+Elvin's call in Play date 1's grill (`device-os-spec.md` § 7.3, *Decided
 2026-10-12*): NEW makes the project's folder at once, the autosave writes the
 open project's document into that folder, SAVE goes, and a project nothing
 was done to since NEW is deleted when it is left (NEW, LOAD, power-off). An

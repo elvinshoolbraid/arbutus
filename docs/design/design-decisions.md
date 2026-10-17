@@ -1,4 +1,4 @@
-# Arbutus-1 — Design Decisions Record
+# Arbutus — Design Decisions Record
 
 **Status:** Living document. Companion to `screen-sketches.md`, `control-inventory.md`, `tape-sampling-workflow.md` (no YAML spec exists).
 **Purpose:** Captures the *rules and rationale* behind the interface. The YAML
@@ -296,7 +296,7 @@ happens in the app.
 tax on every save. Naming is a phone job.
 
 **Amended 2026-10-03 (#157 → #297):** **the first SAVE of a session invents
-the name**, not every SAVE. Elfy's answer (a) on #157 made SAVE mean "save the
+the name**, not every SAVE. Elvin's answer (a) on #157 made SAVE mean "save the
 project I have open": the tape is written into the open project's own folder
 as it is recorded, so a later SAVE rewrites that project's `project.json` and
 copies no audio, and the first SAVE of a session never saved or loaded makes
@@ -634,7 +634,7 @@ only renamed it, which was invisible while the only item carried no content.
 
 ## J. Modulation, tape, mixer, system (2026-09-16)
 
-Rules from the OP-1 gap grill (`docs/logs/2026-09-16.md` session 2; audit in
+Rules from the OP-1 gap grill (the 2026-09-16 session log (private) session 2; audit in
 `op1-gap-audit.md`). Contracts: `modulation-spec.md`, `engine-spec.md` §15,
 `tape-sampling-workflow.md`, `companion-app-spec.md`.
 
@@ -668,7 +668,7 @@ vibrato you want to shift with the filter you are also sweeping.
 aim-anywhere envelope is a separate `envelope` box, drawn differently.
 
 **Why:** The OP-1's Element LFO with "envelope" as its source welds the two, so a
-pluck's filter envelope and its amp envelope cannot differ — Elfy's most-felt
+pluck's filter envelope and its amp envelope cannot differ — Elvin's most-felt
 limitation. A per-voice envelope also cannot honestly be exposed as a global
 value.
 
@@ -745,7 +745,7 @@ under the same key breaks that sentence. The loaded patch is still in its folder
 *As built 2026-09-22 (S12, #58), amended 2026-09-23 (#152):* one step is a run
 of turns on one cell, a turn on an FX or MOD cell, a MOD route pasted onto a
 target, **each browser opened on the page** (a whole browse, not each pick), and
-DRUM's pad copy or a tape drop. **The `‹ ›` octave is not one of them** (Elfy,
+DRUM's pad copy or a tape drop. **The `‹ ›` octave is not one of them** (Elvin,
 #152): like the SHIFT+`‹ ›` bend and a note, it is something the player does to
 perform, not to the sound, so it records no step — and because the octave rides
 in the page's snapshot, a move also moves the step already held on with it, so
@@ -877,7 +877,7 @@ screen and a partial-forget gesture for a device with one owner.
 unpacked into the copy not in use and a pointer is flipped; a copy that fails
 to boot cleanly twice is flipped back. The Pi bootloader's two-partition
 trial-boot is not used in v1 and is the later mechanism for an OS-level update.
-`OS-4`, Elfy 2026-09-19.
+`OS-4`, Elvin 2026-09-19.
 
 **Why:** An update is tens of megabytes and installs in seconds from the phone
 with no extra reboot; the partition method makes every update a gigabyte to
@@ -889,9 +889,9 @@ fix the rare kernel bug, which v1 handles by a reflash.
 running the repo's install script (`OS-5` option (a), `arbutus_os/install.sh`).
 A pre-built custom image (the Pi Foundation's image builder) comes when the
 first P3 needs a flash that is not a sit-down install session; a from-source
-minimal Linux is a post-v1 aspiration Elfy finds "even more interesting" for
+minimal Linux is a post-v1 aspiration Elvin finds "even more interesting" for
 production. **A release image has no SSH login**; development images do.
-Elfy 2026-09-19.
+Elvin 2026-09-19.
 
 **Why:** (a) exists, is reproducible and needs no toolchain. Note for the
 aspiration: a from-source build is still Linux on a kernel — "an OS with
@@ -905,7 +905,7 @@ there on the stock kernel.
 exports that partition as it is (`OS-6` option (a), `device-os-spec.md` § 3.1,
 § 11.1). The mitigations for its missing journal are part of the rule: every
 writer is temp-file-then-rename, the autosave (DDR-070) bounds the loss, and
-`fsck.exfat` runs each time USB mode ends or the cable is pulled. Elfy
+`fsck.exfat` runs each time USB mode ends or the cable is pulled. Elvin
 2026-09-19.
 
 **Why:** Every Mac, Windows and Linux machine reads it, there is one copy of a
@@ -924,12 +924,12 @@ a time, and its equivalent of the rename is a two-part commit: `pwrite` the rang
 Because `fdatasync` orders nothing, the lag is what makes the file safe — the
 header can never claim audio a commit did not land — and the host repairs the file
 from that header on open, never from its length. The loss bound on a cut is about
-two seconds of the take instead of one (Elfy, `tape-streaming-design.md` § 7 q6);
+two seconds of the take instead of one (Elvin, `tape-streaming-design.md` § 7 q6);
 `fsck.exfat` after USB mode still applies, and a medium the instrument has closed
 is exact. The measured cost on the bench eMMC is a 12.0 ms median commit, 93–95 %
 of it inside the `fdatasync` (#158) — and 84–90 ms under a 700 MB phone transfer
 with #161's bounded write-behind window in place. The sync cadence itself, which
-is what spends this loss bound, is **#159**, Elfy's.
+is what spends this loss bound, is **#159**, Elvin's.
 
 ### DDR-069 — Low battery: save and power off at 5 %, and that point reads 0 %
 
@@ -939,10 +939,10 @@ saves the project and powers off in order (`device-os-spec.md` § 7.2, § 7.4).
 **The percentage shown to the player calls that cut-off 0 %**: the displayed
 value is the measured charge rescaled over [cut-off, full], so the readout
 never shows a number and then switches off; the 15 % low-battery ticker is a
-displayed 15 %. `OS-7`, Elfy 2026-09-19; H7 (#4) may still move the electrical
+displayed 15 %. `OS-7`, Elvin 2026-09-19; H7 (#4) may still move the electrical
 figures, and the display rule follows them.
 
-**Why:** Elfy: "whatever we're choosing to turn the device off at should count
+**Why:** Elvin: "whatever we're choosing to turn the device off at should count
 as zero." The 9.9 V figure sits well above the protector's 7.5 V cut so software
 always acts first. With D1's voltage-only gauge the measured percentage is a
 voltage → charge curve that reads low under load; an early power-off was
@@ -958,7 +958,7 @@ the tape itself streams to the card as it records (DDR-072, `device-os-spec.md`
 § 3.3), the rolling save is for the **project document** (clip list, slot state,
 mixer) and for the **take in progress**, which it writes as a provisional clip so
 that audio already on the card is not left unreferenced by a power cut. `OS-8`,
-Elfy 2026-09-19 (the 2 min is his number, given tentatively: "it should probably
+Elvin 2026-09-19 (the 2 min is his number, given tentatively: "it should probably
 be like every two minutes if that's the case").
 
 **Why:** The document is kilobytes, so 2 min costs nothing; the loss on a cut
@@ -969,14 +969,14 @@ becomes the pool's unflushed seconds of audio plus at most 2 min of edits.
 **Rule:** On P3 the ATmega keyboard controller is wired to the CM4's UART5 on
 GPIO12 (TX) and GPIO13 (RX), enabled with `dtoverlay=uart5`; the Bluetooth
 controller keeps UART0 in the Pi's factory configuration. GPIO14/15 become the
-spare pair on test pads. `OS-9` option (b), Elfy 2026-09-19: "do the schematic
+spare pair on test pads. `OS-9` option (b), Elvin 2026-09-19: "do the schematic
 change if it's already planned" — it was the documented fallback and the two
 pins were kept free for it (`io-map.md` § P3).
 
 **Why:** The alternative was a `config.txt` line moving Bluetooth to the mini
 UART with a pinned core clock, "usually fine" but a constraint on the radio D4
 has yet to test. This leaves the radio untouched at the cost of the I2C5/PWM
-escape hatch. (Elfy's stated reason — no reboot on a mode change — belonged to
+escape hatch. (Elvin's stated reason — no reboot on a mode change — belonged to
 `OS-10`; neither option here involved one. Recorded so the decision is judged
 on its own merits, and it holds on them.)
 
@@ -987,10 +987,10 @@ neither half of this rule's premise holds there. On the Zero board the ATmega is
 GPIO14 (TX) and GPIO15 (RX), `/dev/ttyAMA0`, with `dtoverlay=disable-bt` giving that UART to
 the header; the home of that fact is `device-os-spec.md` § 6.2 and § 6.2.1.
 
-### DDR-073 — Elfy's releases are signed; anyone else's install behind a prompt
+### DDR-073 — Elvin's releases are signed; anyone else's install behind a prompt
 
 **Rule:** A `.fw` update or `.arbox` engine pack may carry an ed25519 signature
-over its manifest. Elfy's own releases do, with one key: the public half is baked
+over its manifest. Elvin's own releases do, with one key: the public half is baked
 into the image, the private half lives on his Mac and never in the repo, and
 `mkfw.sh` signs. A file with a valid signature by that key installs with no
 prompt. A file with **no** signature, or one by an unknown key, is **not
@@ -998,15 +998,15 @@ refused**: it installs after an on-device confirmation that names the risk
 (`UNSIGNED UPDATE — INSTALL ANYWAY?`, DDR-064's double-confirm shape). A file
 whose signature claims the baked-in key and does not verify is refused — that is
 a forgery, not a choice. The companion app's catalogue is the vetted channel,
-vetted by Elfy's review procedure; a player who loads a file from anywhere else
-has been told, on the device, what that means. `OS-3`, Elfy 2026-09-19
+vetted by Elvin's review procedure; a player who loads a file from anywhere else
+has been told, on the device, what that means. `OS-3`, Elvin 2026-09-19
 (`device-os-spec.md` § 10.1). **Built the same day by D5 (#26)**; § 10.6 is the
 table as built, including the case this rule does not name — a signature on a
 device with *no* baked-in key to check it against (a bench CM4, an image built
 from the repo) takes the prompt rather than the refusal, or every real release
 would be uninstallable on exactly the machines that test them.
 
-**Why:** Elfy wants the instrument open source and the player independent —
+**Why:** Elvin wants the instrument open source and the player independent —
 "there's a certain level of responsibility I'm willing to put onto users in
 order for them to have a more independent experience" — and asked whether a key
 was still a good idea. It is, for one reason that has nothing to do with
@@ -1025,8 +1025,8 @@ file grows, the ruler grows, the outermost zoom follows — bounded only by the
 WAV format's 4 GB (~2.9 h per track) and free space, both said on screen. The
 pool, the tape audio resident in RAM across all tracks, is **120 track-seconds**
 (~46 MB), a flag so play-testing can move it. If a live-growing ruler proves hard
-in C1 (#74), the fallback Elfy named is a per-project tape-length setting with
-8 min as its default. `OS-11`, Elfy 2026-09-19; the medium (the project's own
+in C1 (#74), the fallback Elvin named is a per-project tape-length setting with
+8 min as its default. `OS-11`, Elvin 2026-09-19; the medium (the project's own
 per-track WAV, written in place) was decided the same week and is in
 `master-plan.md` § Decisions so far.
 
@@ -1043,10 +1043,10 @@ table is sized from the ruler at `init`, so a medium cannot exceed it (measured,
 #165) — a take that reaches the end of the tape ends with `TAPE FULL`
 (`tape_full {reason:"format"}`, C1 step 7) rather than extending it. Whether the
 ruler should grow, and what that means for a range table already allocated, is
-**#168** and is Elfy's; the pool's 120 track-seconds are built exactly as written
+**#168** and is Elvin's; the pool's 120 track-seconds are built exactly as written
 here (117 ranges = 46.0 MB, `--tape-pool-seconds`).
 
-**Amended 2026-09-29 (Elfy, #168): the fallback is the rule.** The ruler does not grow.
+**Amended 2026-09-29 (Elvin, #168): the fallback is the rule.** The ruler does not grow.
 Each project has its own tape length, 8 min by default, set before recording (a project
 setting plus a FILE › SYSTEM row); a take that reaches the end ends with `TAPE FULL`, as
 built.
@@ -1073,9 +1073,9 @@ node is written.
    inheriting TE's palette because it looked right.
 5. **Navy** — see DDR-007. Held in reserve for encoder-parameter linkage.
    Not for the lookalike demo model.
-6. ~~**Parallel groups in the FX rack**~~ — **closed: cut from v1** (Elfy,
+6. ~~**Parallel groups in the FX rack**~~ — **closed: cut from v1** (Elvin,
    2026-10-02, desk 5; removed from the code by #273). Was: under playtest
-   2026-09-16. Elfy leans toward cutting them in favour of "parallelism lives
+   2026-09-16. Elvin leans toward cutting them in favour of "parallelism lives
    inside a box" unless tab navigation and macro-binding across a group prove
    simple. Decide after playing the native rack.
 7. **Mute vs solo** — both kept (DDR-061); revisit if SHIFT+1–4 mute within a
@@ -1116,22 +1116,9 @@ new.
 6. **When a control's meaning is supplied by context, the display must state
    the current meaning.** (DDR-022, DDR-024)
 7. **Inherited constraints from reference devices must be re-justified, not
-   assumed.** The OP-1's design frequently solves a problem Arbutus-1 doesn't
+   assumed.** The OP-1's design frequently solves a problem Arbutus doesn't
    have. (DDR-018, DDR-010)
 8. **Spend a color only when it encodes a real distinction.** (DDR-007)
 
 ---
 
-## Session History
-- [[logs/2026-09-23-15-12]] — cloud routine (#152): **DDR-054 gains its as-built note** (it had none) — what one step is, and Elfy's call that the `‹ ›` octave is not one of them, with the half that follows from an undo entry being the page's whole snapshot
-- [[logs/2026-09-11]] — DDR-036 (sampling waits for the transient) and DDR-037 (library items may carry content) added
-- [[logs/2026-09-16]] — session 2: DDR-045…064 (section J: modulation, tape, mixer, system); DDR-012/016/034 amended; H1 closed, H6–7 added
-- [[logs/2026-09-18]] — stage J2 as built: § H7 answered by the host (solo wins, gate on the mix only); § H8 (battery telemetry — no pin measures charge, a P3 schematic decision) and § H9 (MIDI out — wants a device-side timer, not a UI thread) added as open questions rather than left as silent gaps. DDR-021, DDR-055 and DDR-064 are all built; their as-built shape is in `control-inventory.md` and `screen-sketches.md`
-- [[logs/2026-09-18]] — audit Q1 (#31): as-built corrections and audit notes; findings in `docs/design/audit-2026-09-18.md`
-- [[logs/2026-09-18-23-29]] — DDR-065 (OS-1 ports 7401/7402, OS-2 one token per device) — Elfy's answers, unblocking D2 (#23)
-- [[logs/2026-09-19-10-37]] — (second exchange) **DDR-073**: Elfy signs his own releases; unsigned or unknown-key files install behind an on-device prompt; a forged signature is refused
-- [[logs/2026-09-19-10-37]] — **DDR-066…072** (Elfy's E6 batch-1 answers): two app slots; stock image + install script, no SSH in a release; exFAT; 5 % / 9.9 V shown as 0 %; autosave every 2 min while rolling with a provisional clip; the ATmega on UART5; the tape grows past 8 min and 120 track-seconds live in RAM. § H8 (battery telemetry) is answered by work-order D1 (ADS1115)
-- [[logs/2026-09-19-11-39]] — cloud routine (D5, #26): DDR-073 **built** — the rule is unchanged; § 10.6 adds the one case it does not name (a signature on a device with no baked-in key prompts rather than refusing) and the manifest's optional `key` field, without which "unknown signer" and "corrupted release" cannot be told apart
-- [[logs/2026-09-24-23-13]] — cloud routine (#74, C1 step 9): **DDR-068** gains an *as built* — the tape medium is the one exception to temp-then-rename, because a rename-based medium is the ~737 MB copy on SAVE that DDR-072 rejects, and the two-part commit with its lagging header is its equivalent; **DDR-072** gains two arithmetic notes that change no rule — the format's ceiling is **3.1 h** a track, and the **ruler does not grow** (a range table is sized from it at `init`, #165), so whether it should is **#168**
-- [[logs/2026-10-03-08-55]] — mac routine (**#297**): DDR-020 amended — the first SAVE of a session names the project; SAVE after that is the open project; SHIFT+ENC3 saves a copy
-- [[logs/2026-10-15-23-38]] — one-row param bar (SHIFT swaps in slots 4-7), main zone 160 px; DDR-032 amended; demo shots, play-queue P4

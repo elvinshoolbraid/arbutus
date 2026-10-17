@@ -5,7 +5,7 @@ The aim-anywhere envelope (`modulation-spec.md` §3.2, DDR-047). A
 instrument, pointed at whatever a route names. `caps: modulator, events_in,
 sidechain` (events for NOTE, the sidechain for GATE-IN; the source is the tab's
 `sidechain` setting, §4). The UI draws its page smaller and in a different style
-than the amp ENV page (`[TBD-Elfy]`) — nothing here depends on that.
+than the amp ENV page (`[TBD, Elvin's call]`) — nothing here depends on that.
 
 ## Outputs
 

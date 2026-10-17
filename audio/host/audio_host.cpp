@@ -122,7 +122,7 @@ constexpr float kSpeedMin = 0.25f, kSpeedMax = 4.0f;
 // since #52 the same code, counting on Linux/glibc as well as on macOS.
 using arb::rt::live_blocks;
 
-constexpr double kXrunWindowS = 2.0;   // §6.8 [TBD-Elfy: N in M s]; 3 in 2 s
+constexpr double kXrunWindowS = 2.0;   // §6.8 [TBD, Elvin's call: N in M s]; 3 in 2 s
 constexpr int kXrunFlagCount = 3;
 
 const char* env_mode_name(int m) {
@@ -597,7 +597,7 @@ bool AudioHost::init(const Options& o, std::string& err) {
     hb_.sample_rate = opt_.sr;
     hb_.max_block = opt_.max_block;
     hb_.tempo_bpm = tempo_;
-    hb_.ppqn = 24;                      // §3.3 default; [TBD-Elfy]
+    hb_.ppqn = 24;                      // §3.3 default; [TBD, Elvin's call]
     hb_.playing = 0;
     hb_.song_frame = 0;
     hb_.env_a = inst_[0].env_a;
@@ -1518,7 +1518,7 @@ void AudioHost::render_block(const float* in_l, const float* in_r, float* out_l,
             a_scrub_pos_ = tr.at(grain - 1) + 1.0;
             a_scrub_left_ -= int64_t(grain);
         }
-        // Elfy, design § 7 question 2: a scrub over a piece the card has not
+        // Elvin, design § 7 question 2: a scrub over a piece the card has not
         // delivered is **silent and uncounted**. The ask `render_track` made
         // stands — the next grain over that spot sounds — but dragging a
         // cursor across a tape is not the instrument being late.
@@ -1625,7 +1625,7 @@ void AudioHost::render_block(const float* in_l, const float* in_r, float* out_l,
             // The pool has become all write queue — a card that stopped answering.
             // The take ends where it stopped and the transport keeps rolling
             // (`tape_full {reason:"stall"}`): a frozen screen is not acceptable,
-            // more latency is (Elfy, #74).
+            // more latency is (Elvin, #74).
             if (stalled) {
                 a_tape_stall_.fetch_add(1, std::memory_order_relaxed);
                 end_take();
@@ -1823,7 +1823,7 @@ void AudioHost::render_block(const float* in_l, const float* in_r, float* out_l,
     // labelled 5 ms attack and COMP REL run ~64x slow at the device's block.
     // `comp_times: "labelled"` steps the envelope on a 32-frame grid with
     // each step's own coefficient, exp(-m/(sr*tc)), so the label is the time;
-    // the default stays today's until Elfy picks (#15: a sound is his).
+    // the default stays today's until Elvin picks (#15: a sound is his).
     if (a_comp_ > 0.001f) {
         const float thr = 1.0f - 0.85f * a_comp_;
         const float ratio = 1.0f + 7.0f * a_comp_;
@@ -2071,7 +2071,7 @@ void AudioHost::poll() {
     }
     // `tape_late` (C1 step 7, § 3.7): the card did not deliver a piece of tape
     // in time and a track played silence for those frames. The same window and
-    // the same 3-in-2-s flag as `xrun` on purpose — Elfy's § 7 answer put the
+    // the same 3-in-2-s flag as `xrun` on purpose — Elvin's § 7 answer put the
     // words in the slot `CPU NO HAPPY` uses, and one alarm rule is what makes
     // that honest. `tracks` is the mask since the last push, taken with an
     // exchange so nothing is counted twice.
@@ -2089,7 +2089,7 @@ void AudioHost::poll() {
     }
     // The three ways a take ends early (§ 3.7), each its own push because the
     // player's next action differs and the UI says two different things
-    // (Elfy, § 7 question 3: `TAPE FULL` / `CARD STALLED`). One push per
+    // (Elvin, § 7 question 3: `TAPE FULL` / `CARD STALLED`). One push per
     // occurrence, beside `xrun`'s, and `commit_take` above has already turned
     // what was captured into a clip.
     const int64_t stalls = a_tape_stall_.load(std::memory_order_relaxed);
@@ -3414,7 +3414,7 @@ json AudioHost::tape_compact(const json& msg, std::string& code, std::string& er
 // ---------------------------------------------------------------------------
 // where the media live (C1 step 3b, #157): `tape_dir {dir, move}`
 // ---------------------------------------------------------------------------
-// Elfy's answer on #157 is (a): SAVE **moves** the tape files into the project
+// Elvin's answer on #157 is (a): SAVE **moves** the tape files into the project
 // folder and recording carries on there, and SAVE means "save the project I
 // have open". This is the audio process's half of that. `move` is SAVE's
 // rename; without it this is LOAD's open-in-place, which replaces `tape_load`'s
@@ -4635,7 +4635,7 @@ json AudioHost::handle(const json& msg) {
         // medium is claimed here -- a track costs nothing until it is recorded.
         if (on && !tape_.ensure(t))
             return reply_err(msg, "tape_full", "TAPE FULL", "no memory for track " + std::to_string(t));
-        // § 3.7 reason 2's prevention (Elfy, § 7 question 4: yes): a card with
+        // § 3.7 reason 2's prevention (Elvin, § 7 question 4: yes): a card with
         // less than twice the pool free is refused **before** the take rather
         // than ending one halfway through, which is the failure the player
         // cannot undo. No medium on storage, or a filesystem that will not
@@ -4748,7 +4748,7 @@ json AudioHost::handle(const json& msg) {
             comp_rel_ = std::clamp(getf(msg, "comp_rel", 0.120f), 0.02f, 1.0f);
             send(kMixCompRel, comp_rel_);
         }
-        // #933, the A/B for Elfy: "block" (today's, the default) or "labelled".
+        // #933, the A/B for Elvin: "block" (today's, the default) or "labelled".
         if (msg.contains("comp_times")) {
             const std::string ct = msg.value("comp_times", std::string("block"));
             if (ct != "block" && ct != "labelled")

@@ -1,7 +1,7 @@
 """#1123 (the pages half of #632's rest): a refusing card, the 1-2-3-4
 confirm, HELP's copy, a value past its range.
 
-The findings are `docs/logs/findings/2026-10-06-m-emu-pages.md` risk 11,
+The findings are a code review (private) risk 11,
 spec 9 and spec 10, and `2026-10-06-m-emu-ui-drivers.md` row 6.
 """
 

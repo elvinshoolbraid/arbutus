@@ -1,6 +1,6 @@
 """#1123 (the tape half of #632's rest): undo, the scrub grain, LIFT ALL, refresh.
 
-The findings are `docs/logs/findings/2026-10-06-m-emu-app.md` rows 5, 6, 11
+The findings are a code review (private) rows 5, 6, 11
 and risk 9. Pure `Tape` geometry and a stub socket: no audio process needed.
 """
 

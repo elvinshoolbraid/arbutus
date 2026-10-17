@@ -191,7 +191,7 @@ class ChromeView:
     """Photo backdrop + framebuffer + pressed-key outlines.
 
     ``photo_scale`` maps photo pixels to window pixels. If the photo has an
-    alpha channel (Elfy's future PNG with a hole cut for the LCD) the
+    alpha channel (Elvin's future PNG with a hole cut for the LCD) the
     framebuffer is drawn *under* it; otherwise it is drawn *over* the LCD rect.
 
     Every measurement here is in **device** pixels. ``device`` is how many of

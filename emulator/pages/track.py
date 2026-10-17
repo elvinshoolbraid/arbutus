@@ -397,7 +397,7 @@ class TrackPage(Page):
         """`A` / `B` in the ruler's gutter — only once bank B holds a clip.
 
         DDR-060 reveals bank B on use, so a first session is four lanes with
-        nothing extra on screen. `[TBD-Elfy]`: the form is one letter in the
+        nothing extra on screen. `[TBD, Elvin's call]`: the form is one letter in the
         gutter under lane 4, in the selected track's encoder colour — the only
         column on this page that is never tape.
         """
